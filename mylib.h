@@ -14,3 +14,7 @@ using std::setprecision;
 using std::string;
 using std::copy;
 using std::swap;
+using std::isdigit;
+using std::min;
+using std::numeric_limits;
+using std::streamsize;
