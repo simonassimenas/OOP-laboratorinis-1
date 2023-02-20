@@ -3,6 +3,7 @@
 #include <iomanip>
 #include <string>
 #include <algorithm>
+#include <ctime>
 
 using std::cout;
 using std::cin;

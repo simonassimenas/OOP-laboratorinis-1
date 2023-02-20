@@ -11,16 +11,22 @@ void spausd(studentas &temp, bool vidMed);
 double skaicVid(int *paz_mas, int paz_sk);
 double skaicMed(int *paz_mas, int paz_sk);
 bool isNumber(const string& str);
+void output_template();
 
 int main() {
-    int irasai = 0; // paz_sk = 0;
+    srand(time(NULL));
+
+    int irasai = 0;
     bool vidMed;
 
     cout << "Iveskite irasu skaiciu:\n";
     cin >> irasai;
-
-    // cout << "Iveskite namu darbu skaiciu:\n";
-    // cin >> paz_sk;
+    while(irasai < 1) {
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cout << "Iveskite teigiama skaiciu:\n";
+        cin >> irasai;
+    }
 
     cout << "Skaiciuosime vidurki(1) ar mediana(0)?\n";
     cin>>vidMed;
@@ -36,6 +42,7 @@ int main() {
 
     for(int i=0; i<irasai; i++) pild(grupe[i]);
 
+    output_template();
     for(int i=0; i<irasai; i++) spausd(grupe[i], vidMed);
 
     delete [] grupe;
@@ -58,43 +65,72 @@ void pild(studentas &temp) {
         cin >> temp.pavarde;
     }
 
-    //generavimui pazymiu pries tai reiketu nurodyti ju skaiciu
-    
-    cout << "Iveskite pazymius. Tam kad sustabdyti ivedima parasykite 33:\n";
+    bool rankinis;
+    cout << "Rankinis pazymiu ivedimas(1) arba atsitiktinis generavimas(0)?\n";
+    cin >> rankinis;
+    while(!cin) {
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cout << "Iveskite 1 arba 0:\n";
+        cin >> rankinis;
+    }
 
-    int talpa = 5;
-    int* nd_mas = new int [talpa];
-    int nd_skaicius = 0;
+    if(rankinis) {
 
-    do {
-        cin >> nd_mas[nd_skaicius];
+        cout << "Iveskite pazymius. Tam kad sustabdyti ivedima parasykite 33:\n";
 
-        if(nd_mas[nd_skaicius] == 33) break;
+        int talpa = 1;
+        int* nd_mas = new int [talpa];
+        int nd_skaicius = 0;
 
-        while(!cin || nd_mas[nd_skaicius]<0 || nd_mas[nd_skaicius]>10) {
-            cin.clear();
-            cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-            cout << "Iveskite skaiciu 10-baleje sistemoje:\n";
+        do {
             cin >> nd_mas[nd_skaicius];
-        }
-        nd_skaicius++;
 
-        if (nd_skaicius == talpa) {
-            talpa *= 2;
-            int* naujas_mas = new int[talpa];
-            for (int i = 0; i < nd_skaicius; i++) {
-                naujas_mas[i] = nd_mas[i];
+            if(nd_mas[nd_skaicius] == 33) break;
+
+            while(!cin || nd_mas[nd_skaicius]<0 || nd_mas[nd_skaicius]>10) {
+                cin.clear();
+                cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                cout << "Iveskite skaiciu 10-baleje sistemoje:\n";
+                cin >> nd_mas[nd_skaicius];
             }
-            delete[] nd_mas;
-            nd_mas = naujas_mas;
+            nd_skaicius++;
+
+            if (nd_skaicius == talpa) {
+                talpa *= 2;
+                int* naujas_mas = new int[talpa];
+                for (int i = 0; i < nd_skaicius; i++) {
+                    naujas_mas[i] = nd_mas[i];
+                }
+                delete[] nd_mas;
+                nd_mas = naujas_mas;
+            }
+        } while(cin.eofbit);
+
+        temp.vid = skaicVid(nd_mas, nd_skaicius);
+        temp.med = skaicMed(nd_mas, nd_skaicius);
+
+        cout<<"Iveskite egzamino paz.:\n";
+        cin>>temp.egz;
+    }
+
+    else {
+        int nd_skaicius;
+
+        cout << "Iveskite pazymiu skaiciu:\n";
+        cin >> nd_skaicius;
+
+        int nd_mas[nd_skaicius];
+
+        for(int i=0; i<nd_skaicius; i++) {
+            nd_mas[i] = rand() % 11;
         }
-    } while(cin.eofbit);
 
-    temp.vid = skaicVid(nd_mas, nd_skaicius);
-    temp.med = skaicMed(nd_mas, nd_skaicius);
+        temp.vid = skaicVid(nd_mas, nd_skaicius);
+        temp.med = skaicMed(nd_mas, nd_skaicius);
 
-    cout<<"Iveskite egzamino paz.:\n";
-    cin>>temp.egz;
+        temp.egz = rand() % 11;
+    }
 
     cout<<"---Duomenys irasyti---\n";
 }
@@ -106,10 +142,6 @@ void spausd(studentas &temp, bool vidMed) {
         cout << setw(3) << setprecision(3) << 0.6*temp.egz + 0.4*temp.vid << endl;
     else
         cout << setw(3) << setprecision(3) << 0.6*temp.egz + 0.4*temp.med << endl;
-}
-
-void genPaz(studentas &temp) {
-
 }
 
 double skaicVid(int *paz_mas, int paz_sk) {
@@ -138,4 +170,10 @@ bool isNumber(const string& str) {
         if (isdigit(c) == 0) return false;
     }
     return true;
+}
+
+void output_template() {
+    cout << setw(15) << left << "\nVardas" << setw(20) << left << "Pavarde" <<
+    setw(24) << left << "Galutinis(Vid.) / Galutinis (Med.)\n";
+    cout << "--------------------------------------------------------------------\n";
 }
