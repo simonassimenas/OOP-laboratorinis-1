@@ -3,7 +3,9 @@
 #include <iomanip>
 #include <string>
 #include <algorithm>
+#include <limits>
 #include <ctime>
+#include <vector>
 
 using std::cout;
 using std::cin;
@@ -19,3 +21,4 @@ using std::isdigit;
 using std::min;
 using std::numeric_limits;
 using std::streamsize;
+using std::vector;

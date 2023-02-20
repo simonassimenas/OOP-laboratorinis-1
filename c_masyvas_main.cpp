@@ -16,12 +16,11 @@ void output_template();
 int main() {
     srand(time(NULL));
 
-    vector<studentas> grupe;
-
     int irasai = 0;
     bool vidMed;
+    studentas *grupe;
 
-    cout << "Iveskite irasu skaiciu:\n";                    //turi but dinaminiskai studentai ir su c masyvu
+    cout << "Iveskite irasu skaiciu:\n";
     cin >> irasai;
     while(irasai < 1) {
         cin.clear();
@@ -39,14 +38,14 @@ int main() {
         cin >> vidMed;
     }
 
-    grupe.resize(irasai);
+    grupe = new studentas[irasai];
 
     for(int i=0; i<irasai; i++) pild(grupe[i]);
 
     output_template();
     for(int i=0; i<irasai; i++) spausd(grupe[i], vidMed);
 
-    grupe.clear();
+    delete [] grupe;
 }
 
 
@@ -76,56 +75,62 @@ void pild(studentas &temp) {
         cin >> rankinis;
     }
 
-    vector<int> nd_vec;
-    int resSpace = 16;
-    nd_vec.reserve(resSpace);
-    int inputOrNum;
-
     if(rankinis) {
 
         cout << "Iveskite pazymius. Tam kad sustabdyti ivedima parasykite 33:\n";
 
+        int talpa = 1;
+        int* nd_mas = new int [talpa];
+        int nd_skaicius = 0;
+
         do {
-            cin >> inputOrNum;
-            if(inputOrNum == 33) break;
-            
-            while(!cin || inputOrNum<0 || inputOrNum>10) {
+            cin >> nd_mas[nd_skaicius];
+
+            if(nd_mas[nd_skaicius] == 33) break;
+
+            while(!cin || nd_mas[nd_skaicius]<0 || nd_mas[nd_skaicius]>10) {
                 cin.clear();
                 cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
                 cout << "Iveskite skaiciu 10-baleje sistemoje:\n";
-                cin >> inputOrNum;
+                cin >> nd_mas[nd_skaicius];
             }
+            nd_skaicius++;
 
-            if(nd_vec.size() == nd_vec.capacity()) nd_vec.reserve(resSpace*2);
-
-            nd_vec.push_back(inputOrNum);
-
+            if (nd_skaicius == talpa) {
+                talpa *= 2;
+                int* naujas_mas = new int[talpa];
+                for (int i = 0; i < nd_skaicius; i++) {
+                    naujas_mas[i] = nd_mas[i];
+                }
+                delete[] nd_mas;
+                nd_mas = naujas_mas;
+            }
         } while(cin.eofbit);
 
-        nd_vec.shrink_to_fit();
+        temp.vid = skaicVid(nd_mas, nd_skaicius);
+        temp.med = skaicMed(nd_mas, nd_skaicius);
 
         cout<<"Iveskite egzamino paz.:\n";
         cin>>temp.egz;
     }
 
     else {
+        int nd_skaicius;
+
         cout << "Iveskite pazymiu skaiciu:\n";
-        cin >> inputOrNum;
-        int tempNum;
+        cin >> nd_skaicius;
 
-        nd_vec.resize(inputOrNum);
+        int nd_mas[nd_skaicius];
 
-        for(int i=0; i<inputOrNum; i++) {
-            tempNum = rand() % 11;
-            nd_vec.push_back(tempNum); 
+        for(int i=0; i<nd_skaicius; i++) {
+            nd_mas[i] = rand() % 11;
         }
+
+        temp.vid = skaicVid(nd_mas, nd_skaicius);
+        temp.med = skaicMed(nd_mas, nd_skaicius);
+
         temp.egz = rand() % 11;
     }
-
-    temp.vid = skaicVid(&nd_vec[0], nd_vec.size());
-    temp.med = skaicMed(&nd_vec[0], nd_vec.size());
-
-    nd_vec.clear();
 
     cout<<"---Duomenys irasyti---\n";
 }
@@ -134,12 +139,12 @@ void spausd(studentas &temp, bool vidMed) {
     cout << setw(15) << left << temp.vardas << setw(20) << left << temp.pavarde;
 
     if(vidMed)
-        cout << setw(4) << setprecision(3) << 0.6*temp.egz + 0.4*temp.vid << "\n";
+        cout << setw(3) << setprecision(3) << 0.6*temp.egz + 0.4*temp.vid << endl;
     else
-        cout << "                   " << setw(4) << setprecision(3) << 0.6*temp.egz + 0.4*temp.med << "\n";
+        cout << setw(3) << setprecision(3) << 0.6*temp.egz + 0.4*temp.med << endl;
 }
 
-double skaicVid(int *paz_mas, int paz_sk) {     //ar cia turetu buti const vector<int>?
+double skaicVid(int *paz_mas, int paz_sk) {
     double result = 0;
     for(int i=0; i<paz_sk; i++) {
         result += paz_mas[i];
@@ -147,8 +152,8 @@ double skaicVid(int *paz_mas, int paz_sk) {     //ar cia turetu buti const vecto
     return result/paz_sk;
 }
 
-double skaicMed(int *paz_mas, int paz_sk) {      //ar cia turetu buti const vector<int>?
-    for(int i=0; i<paz_sk-1; i++) {             //pakeist kad butu naudojamas sort su vektoriumi
+double skaicMed(int *paz_mas, int paz_sk) {
+    for(int i=0; i<paz_sk-1; i++) {
         for(int j=0; j<paz_sk-i-1; j++) {
             swap(paz_mas[j], paz_mas[j+1]);
         }
