@@ -8,8 +8,8 @@ struct studentas {
 
 void pild(studentas &temp);
 void spausd(studentas &temp, bool vidMed);
-double skaicVid(int *paz_mas, int paz_sk);
-double skaicMed(int *paz_mas, int paz_sk);
+double skaicVid(vector<int> &paz_vec);
+double skaicMed(vector<int> &paz_vec);
 bool isNumber(const string& str);
 void output_template();
 
@@ -18,17 +18,11 @@ int main() {
 
     vector<studentas> grupe;
 
-    int irasai = 0;
-    bool vidMed;
+    bool vidMed, pildyti;
+    int talpa = 16;
+    int studSk = 0;
 
-    cout << "Iveskite irasu skaiciu:\n";                    //turi but dinaminiskai studentai ir su c masyvu
-    cin >> irasai;
-    while(irasai < 1) {
-        cin.clear();
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
-        cout << "Iveskite teigiama skaiciu:\n";
-        cin >> irasai;
-    }
+    grupe.reserve(talpa);
 
     cout << "Skaiciuosime vidurki(1) ar mediana(0)?\n";
     cin>>vidMed;
@@ -39,12 +33,36 @@ int main() {
         cin >> vidMed;
     }
 
-    grupe.resize(irasai);
+    cout << "Ar norite pildyti irasa? (1 - Taip, 0 - Ne)\n";
+    cin >> pildyti;
 
-    for(int i=0; i<irasai; i++) pild(grupe[i]);
+    while(pildyti) {
+        while(!cin) {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Iveskite 1 arba 0:\n";
+            cin >> pildyti;
+        }
+
+        if(grupe.size() == grupe.capacity()) grupe.reserve(talpa*2);
+
+        grupe.push_back(studentas());
+        pild(grupe[studSk]);
+        studSk++;
+
+        cout << "Ar norite pildyti dar viena irasa? (1 - Taip, 0 - Ne)\n";
+        cin >> pildyti;
+        while(!cin) {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Iveskite 1 arba 0:\n";
+            cin >> pildyti;
+        }
+    }
+    grupe.shrink_to_fit();
 
     output_template();
-    for(int i=0; i<irasai; i++) spausd(grupe[i], vidMed);
+    for(int i=0; i<studSk; i++) spausd(grupe[i], vidMed);
 
     grupe.clear();
 }
@@ -122,8 +140,8 @@ void pild(studentas &temp) {
         temp.egz = rand() % 11;
     }
 
-    temp.vid = skaicVid(&nd_vec[0], nd_vec.size());
-    temp.med = skaicMed(&nd_vec[0], nd_vec.size());
+    temp.vid = skaicVid(nd_vec);
+    temp.med = skaicMed(nd_vec);
 
     nd_vec.clear();
 
@@ -139,25 +157,24 @@ void spausd(studentas &temp, bool vidMed) {
         cout << "                   " << setw(4) << setprecision(3) << 0.6*temp.egz + 0.4*temp.med << "\n";
 }
 
-double skaicVid(int *paz_mas, int paz_sk) {     //ar cia turetu buti const vector<int>?
-    double result = 0;
-    for(int i=0; i<paz_sk; i++) {
-        result += paz_mas[i];
-    }
-    return result/paz_sk;
+double skaicVid(vector<int> &paz_vec) {
+    double sum = 0;
+    for(auto& i : paz_vec) sum += i;
+
+    return sum/paz_vec.size();
 }
 
-double skaicMed(int *paz_mas, int paz_sk) {      //ar cia turetu buti const vector<int>?
-    for(int i=0; i<paz_sk-1; i++) {             //pakeist kad butu naudojamas sort su vektoriumi
-        for(int j=0; j<paz_sk-i-1; j++) {
-            swap(paz_mas[j], paz_mas[j+1]);
-        }
-    }
+double skaicMed(vector<int> &paz_vec) {
+    sort(paz_vec.begin(), paz_vec.end());
 
-    if(paz_sk%2 == 0)
-        return double((paz_mas[paz_sk/2] + paz_mas[paz_sk+1]) / 2);
-    else
-        return double((paz_mas[paz_sk/2-1] + paz_mas[paz_sk/2]) / 2);
+    size_t size = paz_vec.size();
+
+    if (size % 2 == 0) {
+      return double((paz_vec[size/2 - 1] + paz_vec[size/2]) / 2);
+    }
+    else {
+      return double(paz_vec[size / 2]);
+    }
 }
 
 bool isNumber(const string& str) {

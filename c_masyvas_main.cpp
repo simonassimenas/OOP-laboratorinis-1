@@ -16,18 +16,10 @@ void output_template();
 int main() {
     srand(time(NULL));
 
-    int irasai = 0;
-    bool vidMed;
-    studentas *grupe;
-
-    cout << "Iveskite irasu skaiciu:\n";
-    cin >> irasai;
-    while(irasai < 1) {
-        cin.clear();
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
-        cout << "Iveskite teigiama skaiciu:\n";
-        cin >> irasai;
-    }
+    bool vidMed, pildyti;
+    int talpa = 1;
+    int studSk = 0;
+    studentas *grupe = new studentas[talpa];
 
     cout << "Skaiciuosime vidurki(1) ar mediana(0)?\n";
     cin>>vidMed;
@@ -38,12 +30,48 @@ int main() {
         cin >> vidMed;
     }
 
-    grupe = new studentas[irasai];
+    cout << "Ar norite pildyti irasa? (1 - Taip, 0 - Ne)\n";
+    cin >> pildyti;
+    while(!cin) {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Iveskite 1 arba 0:\n";
+            cin >> pildyti;
+    }
 
-    for(int i=0; i<irasai; i++) pild(grupe[i]);
+    while(pildyti) {
+        while(!cin) {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Iveskite 1 arba 0:\n";
+            cin >> pildyti;
+        }
+
+        if(studSk == talpa) {
+            talpa += 1;
+            studentas* temp_grupe = new studentas[talpa];
+            for (int i = 0; i < studSk; i++) {
+                temp_grupe[i] = grupe[i];
+            }
+            delete[] grupe;
+            grupe = temp_grupe;
+        }
+
+        pild(grupe[studSk]);
+        studSk++;
+
+        cout << "Ar norite pildyti dar viena irasa? (1 - Taip, 0 - Ne)\n";
+        cin >> pildyti;
+        while(!cin) {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Iveskite 1 arba 0:\n";
+            cin >> pildyti;
+        }
+    }
 
     output_template();
-    for(int i=0; i<irasai; i++) spausd(grupe[i], vidMed);
+    for(int i=0; i<studSk; i++) spausd(grupe[i], vidMed);
 
     delete [] grupe;
 }
@@ -159,10 +187,10 @@ double skaicMed(int *paz_mas, int paz_sk) {
         }
     }
 
-    if(paz_sk%2 == 0)
-        return double((paz_mas[paz_sk/2] + paz_mas[paz_sk+1]) / 2);
+    if(paz_sk % 2 == 0)
+        return double((paz_mas[paz_sk/2 - 1] + paz_mas[paz_sk/2]) / 2);
     else
-        return double((paz_mas[paz_sk/2-1] + paz_mas[paz_sk/2]) / 2);
+        return double(paz_mas[paz_sk / 2]);
 }
 
 bool isNumber(const string& str) {
