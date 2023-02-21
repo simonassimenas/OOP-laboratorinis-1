@@ -17,10 +17,10 @@ int main() {
     srand(time(NULL));
 
     vector<studentas> grupe;
+    studentas laikinas;
 
     bool vidMed, pildyti;
     int talpa = 16;
-    int studSk = 0;
 
     grupe.reserve(talpa);
 
@@ -46,9 +46,8 @@ int main() {
 
         if(grupe.size() == grupe.capacity()) grupe.reserve(talpa*2);
 
-        grupe.push_back(studentas());
-        pild(grupe[studSk]);
-        studSk++;
+        pild(laikinas);
+        grupe.push_back(laikinas);
 
         cout << "Ar norite pildyti dar viena irasa? (1 - Taip, 0 - Ne)\n";
         cin >> pildyti;
@@ -62,7 +61,7 @@ int main() {
     grupe.shrink_to_fit();
 
     output_template();
-    for(int i=0; i<studSk; i++) spausd(grupe[i], vidMed);
+    for(int i=0; i<grupe.size(); i++) spausd(grupe[i], vidMed);
 
     grupe.clear();
 }
@@ -161,7 +160,7 @@ double skaicVid(vector<int> &paz_vec) {
     double sum = 0;
     for(auto& i : paz_vec) sum += i;
 
-    return sum/paz_vec.size();
+    return double(sum / paz_vec.size());
 }
 
 double skaicMed(vector<int> &paz_vec) {

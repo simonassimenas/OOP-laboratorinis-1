@@ -173,11 +173,11 @@ void spausd(studentas &temp, bool vidMed) {
 }
 
 double skaicVid(int *paz_mas, int paz_sk) {
-    double result = 0;
+    double sum = 0;
     for(int i=0; i<paz_sk; i++) {
-        result += paz_mas[i];
+        sum += paz_mas[i];
     }
-    return result/paz_sk;
+    return double(sum / paz_sk);
 }
 
 double skaicMed(int *paz_mas, int paz_sk) {
