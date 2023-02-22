@@ -34,6 +34,12 @@ int main() {
 
     cout << "Ar norite pildyti irasa? (1 - Taip, 0 - Ne)\n";
     cin >> pildyti;
+    while(!cin) {
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cout << "Iveskite 1 arba 0:\n";
+        cin >> pildyti;
+    }
 
     while(pildyti) {
         while(!cin) {
@@ -83,7 +89,7 @@ void pild(studentas &temp) {
     }
 
     bool rankinis;
-    cout << "Rankinis pazymiu ivedimas(1) arba atsitiktinis generavimas(0)?\n";
+    cout << "Rankinis pazymiu ivedimas(1) arba automatinis generavimas(0)?\n";
     cin >> rankinis;
     while(!cin) {
         cin.clear();
@@ -124,7 +130,7 @@ void pild(studentas &temp) {
     }
 
     else {
-        cout << "Iveskite pazymiu skaiciu:\n";
+        cout << "Iveskite pazymiu skaiciu (egzamino pazymys neieina i nurodyta skaiciu):\n";
         cin >> inputOrNum;
         int tempNum;
 

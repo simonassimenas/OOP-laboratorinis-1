@@ -94,7 +94,7 @@ void pild(studentas &temp) {
     }
 
     bool rankinis;
-    cout << "Rankinis pazymiu ivedimas(1) arba atsitiktinis generavimas(0)?\n";
+    cout << "Rankinis pazymiu ivedimas(1) arba automatinis generavimas(0)?\n";
     cin >> rankinis;
     while(!cin) {
         cin.clear();
@@ -144,7 +144,7 @@ void pild(studentas &temp) {
     else {
         int nd_skaicius;
 
-        cout << "Iveskite pazymiu skaiciu:\n";
+        cout << "Iveskite pazymiu skaiciu (egzamino pazymys neieina i nurodyta skaiciu):\n";
         cin >> nd_skaicius;
 
         int nd_mas[nd_skaicius];
