@@ -8,12 +8,12 @@
 
 Galutinis balas skaičiuojamas dvejais būdais:
 1. Pasitelkiant namų darbų pažymių vidurkį.
-  GalutinisVid = 0.4 * vidurkis + 0.6 * egzaminas
-  ![CodeCogsEqn](https://user-images.githubusercontent.com/116019627/220766715-8a46ad0d-f470-46d2-bc3c-42a8ba354050.png)
+  > GalutinisVid = 0.4 * vidurkis + 0.6 * egzaminas
+  >>![CodeCogsEqn](https://user-images.githubusercontent.com/116019627/220766715-8a46ad0d-f470-46d2-bc3c-42a8ba354050.png)
 
 2. Pasitelkiant namų darbų pažymių vidurkį medianą.
-  GalutinisVid = 0.4 * mediana + 0.6 * egzaminas
-  ![CodeCogsEqn-2](https://user-images.githubusercontent.com/116019627/220768370-a02e423c-92d2-4747-945d-c0f46beee986.png)
+  > GalutinisMed = 0.4 * mediana + 0.6 * egzaminas
+  >>![CodeCogsEqn-2](https://user-images.githubusercontent.com/116019627/220768370-a02e423c-92d2-4747-945d-c0f46beee986.png)
 
 
 Apskaičiavus gautinius įvestų studentų balus, programa išspausdinus studentų vardus, pavardes bei galutinius balus, kurie apskaičiuoti pasitelkiant vidurkį arba medianą.
