@@ -132,6 +132,12 @@ void pild(studentas &temp) {
     else {
         cout << "Iveskite pazymiu skaiciu (egzamino pazymys neieina i nurodyta skaiciu):\n";
         cin >> inputOrNum;
+        while(!cin || inputOrNum<1) {
+            cin.clear();
+            cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            cout << "Iveskite skaiciu 10-baleje sistemoje:\n";
+            cin >> inputOrNum;
+        }
         int tempNum;
 
         nd_vec.resize(inputOrNum);
