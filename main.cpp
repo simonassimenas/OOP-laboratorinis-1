@@ -140,8 +140,6 @@ void pild(studentas &temp) {
         }
         int tempNum;
 
-        nd_vec.resize(inputOrNum);
-
         for(int i=0; i<inputOrNum; i++) {
             tempNum = randomSkaicius();
             nd_vec.push_back(tempNum); 
