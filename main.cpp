@@ -144,7 +144,7 @@ void pild(studentas &temp) {
             tempNum = randomSkaicius();
             nd_vec.push_back(tempNum); 
         }
-        temp.egz = rand() % 11;
+        temp.egz = randomSkaicius();
     }
 
     temp.vid = skaicVid(nd_vec);
