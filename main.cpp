@@ -11,11 +11,10 @@ void spausd(studentas &temp, bool vidMed);
 double skaicVid(vector<int> &paz_vec);
 double skaicMed(vector<int> &paz_vec);
 bool isNumber(const string& str);
+int randomSkaicius();
 void output_template();
 
 int main() {
-    srand(time(NULL));
-
     vector<studentas> grupe;
     studentas laikinas;
 
@@ -99,7 +98,6 @@ void pild(studentas &temp) {
     int inputOrNum;
 
     if(rankinis) {
-
         cout << "Iveskite pazymius. Tam kad sustabdyti ivedima parasykite 33:\n";
 
         do {
@@ -133,7 +131,7 @@ void pild(studentas &temp) {
         nd_vec.resize(inputOrNum);
 
         for(int i=0; i<inputOrNum; i++) {
-            tempNum = rand() % 11;
+            tempNum = randomSkaicius();
             nd_vec.push_back(tempNum); 
         }
         temp.egz = rand() % 11;
@@ -181,6 +179,14 @@ bool isNumber(const string& str) {
         if (isdigit(c) == 0) return false;
     }
     return true;
+}
+
+int randomSkaicius() {
+    random_device rd;
+    mt19937_64 mt(static_cast<long unsigned int> (rd()));
+    uniform_int_distribution<int> dist(0, 10);
+
+    return int(dist(mt));
 }
 
 void output_template() {

@@ -4,8 +4,9 @@
 #include <string>
 #include <algorithm>
 #include <limits>
-#include <ctime>
 #include <vector>
+#include <random>
+#include <chrono>
 
 using std::cout;
 using std::cin;
@@ -24,3 +25,6 @@ using std::streamsize;
 using std::vector;
 using std::size_t;
 using std::sort;
+using std::random_device;
+using std::mt19937_64;
+using std::uniform_int_distribution;

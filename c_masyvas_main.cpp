@@ -11,11 +11,10 @@ void spausd(studentas &temp, bool vidMed);
 double skaicVid(int *paz_mas, int paz_sk);
 double skaicMed(int *paz_mas, int paz_sk);
 bool isNumber(const string& str);
+int randomSkaicius();
 void output_template();
 
 int main() {
-    srand(time(NULL));
-
     bool vidMed, pildyti;
     int talpa = 1;
     int studSk = 0;
@@ -58,7 +57,6 @@ int main() {
         }
 
         pild(grupe[studSk]);
-        studSk++;
 
         cout << "Ar norite pildyti dar viena irasa? (1 - Taip, 0 - Ne)\n";
         cin >> pildyti;
@@ -68,6 +66,8 @@ int main() {
             cout << "Iveskite 1 arba 0:\n";
             cin >> pildyti;
         }
+
+        studSk++;
     }
 
     output_template();
@@ -104,7 +104,6 @@ void pild(studentas &temp) {
     }
 
     if(rankinis) {
-
         cout << "Iveskite pazymius. Tam kad sustabdyti ivedima parasykite 33:\n";
 
         int talpa = 1;
@@ -151,7 +150,7 @@ void pild(studentas &temp) {
         int nd_mas[nd_skaicius];
 
         for(int i=0; i<nd_skaicius; i++) {
-            nd_mas[i] = rand() % 11;
+            nd_mas[i] = randomSkaicius();
         }
 
         temp.vid = skaicVid(nd_mas, nd_skaicius);
@@ -198,6 +197,14 @@ bool isNumber(const string& str) {
         if (isdigit(c) == 0) return false;
     }
     return true;
+}
+
+int randomSkaicius() {
+    random_device rd;
+    mt19937_64 mt(static_cast<long unsigned int> (rd()));
+    uniform_int_distribution<int> dist(0, 10);
+
+    return int(dist(mt));
 }
 
 void output_template() {
