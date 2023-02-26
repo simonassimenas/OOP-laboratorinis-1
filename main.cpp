@@ -1,121 +1,172 @@
 #include "mylib.h"
+#include "addFunctions.h"
 
-struct studentas {
-    string vardas = "", pavarde = "";
-    double vid = 0, med = 0;
-    int egz = 0;
-};
 
+void failoSkaitymas(vector<studentas> &grupe);
+void failoIrasymas(vector<studentas> &grupe);
+void naudotojoIvestis(vector<studentas> &grupe);
 void pild(studentas &temp);
-void spausd(studentas &temp, bool vidMed);
-double skaicVid(vector<int> &paz_vec);
-double skaicMed(vector<int> &paz_vec);
-bool isNumber(const string& str);
-int randomSkaicius();
-void output_template();
+
 
 int main() {
     vector<studentas> grupe;
-    studentas laikinas;
 
-    bool vidMed, pildyti;
+    cout << "Skaitysite is failo(1) ar pildysite patys(0)?\n";
+    bool skaitymas = getBoolInput();
+
+    if(skaitymas) {
+        auto pradzia = std::chrono::high_resolution_clock::now();
+        failoSkaitymas(grupe);
+        auto pabaigaSkait = std::chrono::high_resolution_clock::now();
+
+        failoIrasymas(grupe);
+        auto pabaiga = std::chrono::high_resolution_clock::now();
+
+        std::chrono::duration<double> diffSkait = pabaigaSkait - pradzia;
+        std::chrono::duration<double> diff = pabaiga - pradzia;
+
+        cout << "\nSkaitymas truko " << diffSkait.count() << " s\n";
+        cout << "Viskas truko " << diff.count() << " s\n";
+    }
+    else {
+        naudotojoIvestis(grupe);
+    }
+
+    grupe.clear();
+}
+
+void failoSkaitymas(vector<studentas> &grupe) {                //turi veikt greiciau
+    const string filename = "studentai1000000.txt";          //duoti failo ivedima ir path
+    ifstream fin(filename);
+
+    if (!fin.is_open()) {
+        cout << "Nepavyko atverti failo" << filename << "skaitymui.\n";
+    }
+    else {
+        cout << "Failas skaitomas...\n";
+
+        int talpa = 1000000;
+        grupe.reserve(talpa);
+
+        studentas laikinas;
+        int pazymys;
+        string line;
+        getline(fin, line);
+
+        while (getline(fin, line)) {
+            if(grupe.size() == grupe.capacity()) grupe.reserve(talpa*2);
+
+            stringstream ss(line);
+            ss >> laikinas.vardas >> laikinas.pavarde;
+
+            vector<int> paz_vec;
+            while (ss >> pazymys) {
+                paz_vec.push_back(pazymys);
+            }
+
+            int egz = paz_vec.back();
+            paz_vec.pop_back();
+
+            laikinas.galutinisVid = 0.4 * skaicVid(paz_vec) + 0.6 * egz;
+            laikinas.galutinisMed = 0.4 * skaicMed(paz_vec) + 0.6 * egz;
+
+            paz_vec.clear();
+
+            grupe.push_back(laikinas);
+        }
+        grupe.shrink_to_fit();
+        fin.close();
+
+        cout << "Duomenys nuskaityti\n";
+    }
+}
+
+void failoIrasymas(vector<studentas> &grupe) {
+    const string filename = "kursiokai.txt";
+    ofstream fout(filename);
+
+    if (!fout.is_open()) {
+        cout << "Nepavyko sukurti failo" << filename << "irasymui.\n";
+    }
+    else {
+        cout << "Rasoma i faila...\n";
+
+        //sort(grupe.begin(), grupe.end());          //sutvarkyt sortinima
+
+        fout << left << setw(15) << "Vardas" << setw(20) << "Pavarde" 
+            << setw(18) << "Galutinis (Vid.) / " << setw(20) << "Galutinis (Med.)\n";
+
+        fout << string(70, '-') << "\n";                //kodel padeda taba pradzioj
+
+        for (const auto &temp : grupe) {
+            fout << left << setw(15) << temp.vardas << setw(21) << temp.pavarde 
+                << setw(19) << setprecision(3) << temp.galutinisVid 
+                << setw(20) << setprecision(3) << temp.galutinisMed << "\n";
+        }
+        fout.close();
+
+        cout << "Duomenys irasyti\n";
+    }
+}
+
+// bool palyginimas(const studentas& a, const studentas& b) {           //sutvarkyt sortinima
+//     if (a.vardas != b.vardas) {
+//         return a.vardas<b.vardas;
+//     }
+//     return a.pavarde<b.pavarde;
+// }
+
+void naudotojoIvestis(vector<studentas> &grupe) {
+    studentas laikinas;
+    
+    string outputPasirinkimas;
+    bool pildyti;
     int talpa = 16;
 
     grupe.reserve(talpa);
 
-    cout << "Skaiciuosime vidurki(1) ar mediana(0)?\n";
-    cin>>vidMed;
-    while(!cin) {
-        cin.clear();
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
-        cout << "Iveskite 1 arba 0:\n";
-        cin >> vidMed;
-    }
+    cout << "Skaiciuosime vidurki(v), mediana(m) ar abu(a)?\n";
+    outputPasirinkimas = getChoiceInput();
 
     cout << "Ar norite pildyti irasa? (1 - Taip, 0 - Ne)\n";
-    cin >> pildyti;
-    while(!cin) {
-        cin.clear();
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
-        cout << "Iveskite 1 arba 0:\n";
-        cin >> pildyti;
-    }
+    pildyti = getBoolInput();
 
     while(pildyti) {
-        while(!cin) {
-            cin.clear();
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            cout << "Iveskite 1 arba 0:\n";
-            cin >> pildyti;
-        }
-
         if(grupe.size() == grupe.capacity()) grupe.reserve(talpa*2);
 
         pild(laikinas);
         grupe.push_back(laikinas);
 
         cout << "Ar norite pildyti dar viena irasa? (1 - Taip, 0 - Ne)\n";
-        cin >> pildyti;
-        while(!cin) {
-            cin.clear();
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            cout << "Iveskite 1 arba 0:\n";
-            cin >> pildyti;
-        }
+        pildyti = getBoolInput();
     }
     grupe.shrink_to_fit();
 
     output_template();
-    for(int i=0; i<grupe.size(); i++) spausd(grupe[i], vidMed);
-
-    grupe.clear();
+    for(int i=0; i<grupe.size(); i++) spausd(grupe[i], outputPasirinkimas);
 }
-
-
 
 void pild(studentas &temp) {
     cout << "Iveskite varda:\n";
-    cin >> temp.vardas;
-    if(isNumber(temp.vardas)) {
-        cout << "Netinkama ivestis. Iveskite varda dar karta:\n";
-        cin >> temp.vardas;
-    }
+    temp.vardas = getStringInput();
 
     cout << "Iveskite pavarde:\n";
-    cin >> temp.pavarde;
-    if(isNumber(temp.pavarde)) {
-        cout << "Netinkama ivestis. Iveskite pavarde dar karta:\n";
-        cin >> temp.pavarde;
-    }
+    temp.pavarde = getStringInput();
 
-    bool rankinis;
     cout << "Rankinis pazymiu ivedimas(1) arba automatinis generavimas(0)?\n";
-    cin >> rankinis;
-    while(!cin) {
-        cin.clear();
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
-        cout << "Iveskite 1 arba 0:\n";
-        cin >> rankinis;
-    }
+    bool rankinis = getBoolInput();
 
     vector<int> nd_vec;
     int resSpace = 16;
     nd_vec.reserve(resSpace);
     int inputOrNum;
+    int egz;
 
     if(rankinis) {
         cout << "Iveskite pazymius. Tam kad sustabdyti ivedima parasykite 33:\n";
-
         do {
-            cin >> inputOrNum;
+            inputOrNum = gradeInput();
             if(inputOrNum == 33) break;
-            
-            while(!cin || inputOrNum<0 || inputOrNum>10) {
-                cin.clear();
-                cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-                cout << "Iveskite skaiciu 10-baleje sistemoje:\n";
-                cin >> inputOrNum;
-            }
 
             if(nd_vec.size() == nd_vec.capacity()) nd_vec.reserve(resSpace*2);
 
@@ -125,82 +176,33 @@ void pild(studentas &temp) {
 
         nd_vec.shrink_to_fit();
 
-        cout<<"Iveskite egzamino paz.:\n";
-        cin>>temp.egz;
+        cout << "Iveskite egzamino paz.:\n";
+        cin >> egz;
     }
 
     else {
         cout << "Iveskite pazymiu skaiciu (egzamino pazymys neieina i nurodyta skaiciu):\n";
-        cin >> inputOrNum;
-        while(!cin || inputOrNum<1) {
-            cin.clear();
-            cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-            cout << "Iveskite skaiciu 10-baleje sistemoje:\n";
-            cin >> inputOrNum;
-        }
-        int tempNum;
+        inputOrNum = autoGradeInput();
 
+        int tempNum;
         for(int i=0; i<inputOrNum; i++) {
             tempNum = randomSkaicius();
             nd_vec.push_back(tempNum); 
         }
-        temp.egz = randomSkaicius();
+        egz = randomSkaicius();
     }
 
-    temp.vid = skaicVid(nd_vec);
-    temp.med = skaicMed(nd_vec);
+    if (nd_vec.size() != 0) {
+        temp.galutinisVid = 0.4 * (skaicVid(nd_vec)) + 0.6 * egz;
+        temp.galutinisMed = 0.4 * (skaicMed(nd_vec)) + 0.6 * egz;
+    }
+    else {
+        temp.galutinisVid = 0.6 * egz;
+        temp.galutinisMed = 0.6 * egz;
+    }
 
     nd_vec.clear();
 
-    cout<<"---Duomenys irasyti---\n";
+    cout << "---Duomenys irasyti---\n";
 }
 
-void spausd(studentas &temp, bool vidMed) {
-    cout << setw(15) << left << temp.vardas << setw(20) << left << temp.pavarde;
-
-    if(vidMed)
-        cout << setw(4) << setprecision(3) << 0.6*temp.egz + 0.4*temp.vid << "\n";
-    else
-        cout << "                   " << setw(4) << setprecision(3) << 0.6*temp.egz + 0.4*temp.med << "\n";
-}
-
-double skaicVid(vector<int> &paz_vec) {
-    double sum = 0;
-    for(auto& i : paz_vec) sum += i;
-
-    return double(sum / paz_vec.size());
-}
-
-double skaicMed(vector<int> &paz_vec) {
-    sort(paz_vec.begin(), paz_vec.end());
-
-    size_t size = paz_vec.size();
-
-    if (size % 2 == 0) {
-      return double((paz_vec[size/2 - 1] + paz_vec[size/2]) / 2);
-    }
-    else {
-      return double(paz_vec[size / 2]);
-    }
-}
-
-bool isNumber(const string& str) {
-    for (char const& c : str) {
-        if (isdigit(c) == 0) return false;
-    }
-    return true;
-}
-
-int randomSkaicius() {
-    random_device rd;
-    mt19937_64 mt(static_cast<long unsigned int> (rd()));
-    uniform_int_distribution<int> dist(0, 10);
-
-    return int(dist(mt));
-}
-
-void output_template() {
-    cout << setw(15) << left << "\nVardas" << setw(20) << left << "Pavarde" <<
-    setw(24) << left << "Galutinis(Vid.) / Galutinis (Med.)\n";
-    cout << "--------------------------------------------------------------------\n";
-}
