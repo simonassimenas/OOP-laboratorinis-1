@@ -9,6 +9,7 @@
 #include <random>
 #include <chrono>
 #include <sstream>
+#include <regex>
 
 using std::cout;
 using std::cin;
@@ -33,6 +34,10 @@ using std::uniform_int_distribution;
 using std::ifstream;
 using std::ofstream;
 using std::stringstream;
+using std::regex;
+using std::smatch;
+using std::regex_search;
+using std::stoi;
 
 struct studentas {
     string vardas = "", pavarde = "";

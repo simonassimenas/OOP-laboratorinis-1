@@ -6,6 +6,7 @@ void failoSkaitymas(vector<studentas> &grupe);
 void failoIrasymas(vector<studentas> &grupe);
 void naudotojoIvestis(vector<studentas> &grupe);
 void pild(studentas &temp);
+bool palyginimas(const studentas& a, const studentas& b);
 
 
 int main() {
@@ -15,18 +16,9 @@ int main() {
     bool skaitymas = getBoolInput();
 
     if(skaitymas) {
-        auto pradzia = std::chrono::high_resolution_clock::now();
         failoSkaitymas(grupe);
-        auto pabaigaSkait = std::chrono::high_resolution_clock::now();
 
         failoIrasymas(grupe);
-        auto pabaiga = std::chrono::high_resolution_clock::now();
-
-        std::chrono::duration<double> diffSkait = pabaigaSkait - pradzia;
-        std::chrono::duration<double> diff = pabaiga - pradzia;
-
-        cout << "\nSkaitymas truko " << diffSkait.count() << " s\n";
-        cout << "Viskas truko " << diff.count() << " s\n";
     }
     else {
         naudotojoIvestis(grupe);
@@ -35,14 +27,21 @@ int main() {
     grupe.clear();
 }
 
-void failoSkaitymas(vector<studentas> &grupe) {                //turi veikt greiciau
-    const string filename = "studentai1000000.txt";          //duoti failo ivedima ir path
+void failoSkaitymas(vector<studentas> &grupe) {
+    // system("dir");
+    // system("pause");
+    const string filename = "studentai1000000.txt";
+
+    // cout << "Iveskite failo pavadinima:\n";
+    // filename = getStringInput();
+
     ifstream fin(filename);
 
     if (!fin.is_open()) {
-        cout << "Nepavyko atverti failo" << filename << "skaitymui.\n";
+        cout << "Nepavyko atverti failo skaitymui.\n";
     }
     else {
+        auto pradzia = std::chrono::high_resolution_clock::now();
         cout << "Failas skaitomas...\n";
 
         int talpa = 1000000;
@@ -76,8 +75,12 @@ void failoSkaitymas(vector<studentas> &grupe) {                //turi veikt grei
         }
         grupe.shrink_to_fit();
         fin.close();
+        auto pabaigaSkait = std::chrono::high_resolution_clock::now();
 
         cout << "Duomenys nuskaityti\n";
+
+        std::chrono::duration<double> diffSkait = pabaigaSkait - pradzia;
+        cout << "\nSkaitymas truko " << diffSkait.count() << " sekundes.\n\n";
     }
 }
 
@@ -89,14 +92,15 @@ void failoIrasymas(vector<studentas> &grupe) {
         cout << "Nepavyko sukurti failo" << filename << "irasymui.\n";
     }
     else {
+        auto pradzia = std::chrono::high_resolution_clock::now();
         cout << "Rasoma i faila...\n";
 
-        //sort(grupe.begin(), grupe.end());          //sutvarkyt sortinima
+        //sort(grupe.begin(), grupe.end(), palyginimas);            //sutvarkyt sortinima
 
         fout << left << setw(15) << "Vardas" << setw(20) << "Pavarde" 
             << setw(18) << "Galutinis (Vid.) / " << setw(20) << "Galutinis (Med.)\n";
 
-        fout << string(70, '-') << "\n";                //kodel padeda taba pradzioj
+        fout << string(70, '-') << "\n";                            //kodel padeda taba pradzioj
 
         for (const auto &temp : grupe) {
             fout << left << setw(15) << temp.vardas << setw(21) << temp.pavarde 
@@ -104,16 +108,27 @@ void failoIrasymas(vector<studentas> &grupe) {
                 << setw(20) << setprecision(3) << temp.galutinisMed << "\n";
         }
         fout.close();
+        auto pabaiga = std::chrono::high_resolution_clock::now();
 
         cout << "Duomenys irasyti\n";
+
+        std::chrono::duration<double> diff = pabaiga - pradzia;
+        cout << "\nRasymas truko " << diff.count() << " sekundes.\n";
     }
 }
 
-// bool palyginimas(const studentas& a, const studentas& b) {           //sutvarkyt sortinima
-//     if (a.vardas != b.vardas) {
-//         return a.vardas<b.vardas;
+// bool palyginimas(const studentas& a, const studentas& b) {      //labai leta
+//     regex vardoStruktura("[^0-9]*([0-9]+)");
+//     smatch aMatch, bMatch;
+//     regex_search(a.vardas, aMatch, vardoStruktura);
+//     regex_search(b.vardas, bMatch, vardoStruktura);
+//     int aNumber = stoi(aMatch[1].str());
+//     int bNumber = stoi(bMatch[1].str());
+//     if (aNumber != bNumber) {
+//         return aNumber < bNumber;
+//     } else {
+//         return a.pavarde < b.pavarde;
 //     }
-//     return a.pavarde<b.pavarde;
 // }
 
 void naudotojoIvestis(vector<studentas> &grupe) {
