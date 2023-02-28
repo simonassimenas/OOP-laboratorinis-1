@@ -4,9 +4,12 @@
 
 void failoSkaitymas(vector<studentas> &grupe);
 void failoIrasymas(vector<studentas> &grupe);
+bool regexPalyginimas(const studentas& a, const studentas& b);
+bool palyginimas(const studentas &a, const studentas &b);
+double skaicVid(vector<int> &paz_vec);
+double skaicMed(vector<int> &paz_vec);
 void naudotojoIvestis(vector<studentas> &grupe);
 void pild(studentas &temp);
-bool palyginimas(const studentas& a, const studentas& b);
 
 
 int main() {
@@ -18,6 +21,15 @@ int main() {
     if(skaitymas) {
         failoSkaitymas(grupe);
 
+        auto pradzia = std::chrono::high_resolution_clock::now();
+
+        //sort(grupe.begin(), grupe.end(), regexPalyginimas); 
+        sort(grupe.begin(), grupe.end(), palyginimas); 
+        
+        auto pabaiga = std::chrono::high_resolution_clock::now();
+        std::chrono::duration<double> diffSort = pabaiga - pradzia;
+        cout << "Rusiavimas truko " << diffSort.count() << " sekundes.\n\n";
+
         failoIrasymas(grupe);
     }
     else {
@@ -28,17 +40,19 @@ int main() {
 }
 
 void failoSkaitymas(vector<studentas> &grupe) {
-    // system("dir");
-    // system("pause");
-    const string filename = "studentai1000000.txt";
+    cout << "Iveskite failo pavadinima:\n";
+    string filename = getStringInput();
 
-    // cout << "Iveskite failo pavadinima:\n";
-    // filename = getStringInput();
-
-    ifstream fin(filename);
+    int bufDydis = 1024;
+    vector<char> buferis;
+    buferis.resize(bufDydis);
+    ifstream fin;
+    fin.rdbuf()->pubsetbuf(&buferis[0], bufDydis);
+    fin.open(filename);
 
     if (!fin.is_open()) {
-        cout << "Nepavyko atverti failo skaitymui.\n";
+        cout << "Nepavyko atverti failo " << filename << " skaitymui.\n";
+        exit(1);
     }
     else {
         auto pradzia = std::chrono::high_resolution_clock::now();
@@ -52,9 +66,10 @@ void failoSkaitymas(vector<studentas> &grupe) {
         string line;
         getline(fin, line);
 
-        while (getline(fin, line)) {
+        while(fin.peek() != EOF) {
             if(grupe.size() == grupe.capacity()) grupe.reserve(talpa*2);
 
+            getline(fin, line);
             stringstream ss(line);
             ss >> laikinas.vardas >> laikinas.pavarde;
 
@@ -75,6 +90,7 @@ void failoSkaitymas(vector<studentas> &grupe) {
         }
         grupe.shrink_to_fit();
         fin.close();
+        buferis.clear();
         auto pabaigaSkait = std::chrono::high_resolution_clock::now();
 
         cout << "Duomenys nuskaityti\n";
@@ -90,17 +106,16 @@ void failoIrasymas(vector<studentas> &grupe) {
 
     if (!fout.is_open()) {
         cout << "Nepavyko sukurti failo" << filename << "irasymui.\n";
+        exit(1);
     }
     else {
         auto pradzia = std::chrono::high_resolution_clock::now();
         cout << "Rasoma i faila...\n";
 
-        //sort(grupe.begin(), grupe.end(), palyginimas);            //sutvarkyt sortinima
-
         fout << left << setw(15) << "Vardas" << setw(20) << "Pavarde" 
-            << setw(18) << "Galutinis (Vid.) / " << setw(20) << "Galutinis (Med.)\n";
+            << setw(18) << "Galutinis (Vid.) / " << setw(16) << "Galutinis (Med.)\n";
 
-        fout << string(70, '-') << "\n";                            //kodel padeda taba pradzioj
+        fout << string(70, '-') << "\n";
 
         for (const auto &temp : grupe) {
             fout << left << setw(15) << temp.vardas << setw(21) << temp.pavarde 
@@ -117,19 +132,46 @@ void failoIrasymas(vector<studentas> &grupe) {
     }
 }
 
-// bool palyginimas(const studentas& a, const studentas& b) {      //labai leta
-//     regex vardoStruktura("[^0-9]*([0-9]+)");
-//     smatch aMatch, bMatch;
-//     regex_search(a.vardas, aMatch, vardoStruktura);
-//     regex_search(b.vardas, bMatch, vardoStruktura);
-//     int aNumber = stoi(aMatch[1].str());
-//     int bNumber = stoi(bMatch[1].str());
-//     if (aNumber != bNumber) {
-//         return aNumber < bNumber;
-//     } else {
-//         return a.pavarde < b.pavarde;
-//     }
-// }
+// Grazus bet letas
+bool regexPalyginimas(const studentas& a, const studentas& b) {
+    regex vardoStruktura("[^0-9]*([0-9]+)");
+    smatch aMatch, bMatch;
+    regex_search(a.vardas, aMatch, vardoStruktura);
+    regex_search(b.vardas, bMatch, vardoStruktura);
+    int aNumber = stoi(aMatch[1].str());
+    int bNumber = stoi(bMatch[1].str());
+    if (aNumber != bNumber) {
+        return aNumber < bNumber;
+    } else {
+        return a.pavarde < b.pavarde;
+    }
+}
+
+// Greitas bet negrazus
+bool palyginimas(const studentas &a, const studentas &b) {
+    if (a.pavarde == b.pavarde)
+        return a.vardas < b.vardas;
+    else
+        return a.pavarde < b.pavarde;
+}
+
+double skaicVid(vector<int> &paz_vec) {
+    double sum = accumulate(paz_vec.begin(),paz_vec.end(), 0);
+    return double(sum / paz_vec.size());
+}
+
+double skaicMed(vector<int> &paz_vec) {
+    sort(paz_vec.begin(), paz_vec.end());
+
+    size_t size = paz_vec.size();
+
+    if (size % 2 == 0) {
+      return double((paz_vec[size/2 - 1] + paz_vec[size/2]) / 2);
+    }
+    else {
+      return double(paz_vec[size / 2]);
+    }
+}
 
 void naudotojoIvestis(vector<studentas> &grupe) {
     studentas laikinas;
@@ -220,4 +262,3 @@ void pild(studentas &temp) {
 
     cout << "---Duomenys irasyti---\n";
 }
-

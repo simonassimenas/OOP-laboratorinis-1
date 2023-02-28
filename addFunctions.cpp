@@ -2,24 +2,6 @@
 #include "addFunctions.h"
 
 
-double skaicVid(vector<int> &paz_vec) {
-    double sum = accumulate(paz_vec.begin(),paz_vec.end(), 0);
-    return double(sum / paz_vec.size());
-}
-
-double skaicMed(vector<int> &paz_vec) {
-    sort(paz_vec.begin(), paz_vec.end());
-
-    size_t size = paz_vec.size();
-
-    if (size % 2 == 0) {
-      return double((paz_vec[size/2 - 1] + paz_vec[size/2]) / 2);
-    }
-    else {
-      return double(paz_vec[size / 2]);
-    }
-}
-
 int randomSkaicius() {
     random_device rd;
     mt19937_64 mt(static_cast<long unsigned int> (rd()));

@@ -34,10 +34,12 @@ using std::uniform_int_distribution;
 using std::ifstream;
 using std::ofstream;
 using std::stringstream;
-using std::regex;
-using std::smatch;
-using std::regex_search;
 using std::stoi;
+using std::getline;
+using std::smatch;
+using std::regex;
+using std::regex_search;
+using std::exit;
 
 struct studentas {
     string vardas = "", pavarde = "";
