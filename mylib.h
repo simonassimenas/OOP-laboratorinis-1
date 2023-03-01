@@ -11,6 +11,8 @@
 #include <sstream>
 #include <regex>
 
+using namespace std::chrono;
+
 using std::cout;
 using std::cin;
 using std::endl;
@@ -40,7 +42,6 @@ using std::smatch;
 using std::regex;
 using std::regex_search;
 using std::exit;
-using namespace std::chrono;
 
 struct studentas {
     string vardas = "", pavarde = "";
