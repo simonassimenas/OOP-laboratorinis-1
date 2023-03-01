@@ -40,7 +40,8 @@ int main() {
 }
 
 void failoSkaitymas(vector<studentas> &grupe) {
-    cout << "Iveskite failo pavadinima:\n";
+    system("ls -la *.txt");
+    cout << "Iveskite failo pavadinima(is saraso):\n";
     string filename = getStringInput();
 
     int bufDydis = 1024;
@@ -58,7 +59,7 @@ void failoSkaitymas(vector<studentas> &grupe) {
         auto pradzia = high_resolution_clock::now();
         cout << "Failas skaitomas...\n";
 
-        int talpa = 1000000;
+        int talpa = 10000;
         grupe.reserve(talpa);
 
         studentas laikinas;
@@ -119,8 +120,8 @@ void failoIrasymas(vector<studentas> &grupe) {
 
         for (const auto &temp : grupe) {
             fout << left << setw(15) << temp.vardas << setw(21) << temp.pavarde 
-                << setw(19) << setprecision(3) << temp.galutinisVid 
-                << setw(20) << setprecision(3) << temp.galutinisMed << "\n";
+                << setw(19) << fixed << setprecision(2) << temp.galutinisVid 
+                << setw(20) << fixed << setprecision(2) << temp.galutinisMed << "\n";
         }
         fout.close();
         auto pabaiga = high_resolution_clock::now();

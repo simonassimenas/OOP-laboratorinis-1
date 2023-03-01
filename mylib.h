@@ -42,6 +42,7 @@ using std::smatch;
 using std::regex;
 using std::regex_search;
 using std::exit;
+using std::fixed;
 
 struct studentas {
     string vardas = "", pavarde = "";
