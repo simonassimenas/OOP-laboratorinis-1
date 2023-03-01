@@ -40,6 +40,7 @@ using std::smatch;
 using std::regex;
 using std::regex_search;
 using std::exit;
+using namespace std::chrono;
 
 struct studentas {
     string vardas = "", pavarde = "";

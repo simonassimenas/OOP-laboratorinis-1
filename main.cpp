@@ -21,13 +21,13 @@ int main() {
     if(skaitymas) {
         failoSkaitymas(grupe);
 
-        auto pradzia = std::chrono::high_resolution_clock::now();
+        auto pradzia = high_resolution_clock::now();
 
         //sort(grupe.begin(), grupe.end(), regexPalyginimas); 
         sort(grupe.begin(), grupe.end(), palyginimas); 
         
-        auto pabaiga = std::chrono::high_resolution_clock::now();
-        std::chrono::duration<double> diffSort = pabaiga - pradzia;
+        auto pabaiga = high_resolution_clock::now();
+        duration<double> diffSort = pabaiga - pradzia;
         cout << "Rusiavimas truko " << diffSort.count() << " sekundes.\n\n";
 
         failoIrasymas(grupe);
@@ -55,7 +55,7 @@ void failoSkaitymas(vector<studentas> &grupe) {
         exit(1);
     }
     else {
-        auto pradzia = std::chrono::high_resolution_clock::now();
+        auto pradzia = high_resolution_clock::now();
         cout << "Failas skaitomas...\n";
 
         int talpa = 1000000;
@@ -91,7 +91,7 @@ void failoSkaitymas(vector<studentas> &grupe) {
         grupe.shrink_to_fit();
         fin.close();
         buferis.clear();
-        auto pabaigaSkait = std::chrono::high_resolution_clock::now();
+        auto pabaigaSkait = high_resolution_clock::now();
 
         cout << "Duomenys nuskaityti\n";
 
@@ -109,7 +109,7 @@ void failoIrasymas(vector<studentas> &grupe) {
         exit(1);
     }
     else {
-        auto pradzia = std::chrono::high_resolution_clock::now();
+        auto pradzia = high_resolution_clock::now();
         cout << "Rasoma i faila...\n";
 
         fout << left << setw(15) << "Vardas" << setw(20) << "Pavarde" 
@@ -123,11 +123,11 @@ void failoIrasymas(vector<studentas> &grupe) {
                 << setw(20) << setprecision(3) << temp.galutinisMed << "\n";
         }
         fout.close();
-        auto pabaiga = std::chrono::high_resolution_clock::now();
+        auto pabaiga = high_resolution_clock::now();
 
         cout << "Duomenys irasyti\n";
 
-        std::chrono::duration<double> diff = pabaiga - pradzia;
+        duration<double> diff = pabaiga - pradzia;
         cout << "\nRasymas truko " << diff.count() << " sekundes.\n";
     }
 }
