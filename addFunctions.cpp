@@ -89,24 +89,47 @@ int gradeInput() {
     if(input == 33) {
         return input;
     }
-    while (!cin || input < 0 || input > 10) {
-        cin.clear();
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
-        cout << "Iveskite skaiciu 10-baleje sistemoje:\n";
-        cin >> input;
+    while (true) {
+        try {
+            if (cin.fail()) {
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                throw invalid_argument("Netinkama ivestis.");
+            }
+            if (input < 0 || input > 10) {
+                throw out_of_range("Iveskite skaiciu esanti 10-baleje sistemoje.");
+            }
+            break;
+        } 
+        catch (const exception& e) {
+            cout << e.what() << "\n";
+            cout << "Iveskite tinkama skaiciu:\n";
+            cin >> input;
+        }
     }
     return input;
 }
 
 int autoGradeInput() {
     int input;
-    cin >> input;
 
-    while(!cin || input<1) {
-        cin.clear();
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
-        cout << "Iveskite naturaluji skaiciu:\n";
-        cin >> input;
+    while(true) {
+        try {
+            cin >> input;
+            if (cin.fail()) {
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                throw invalid_argument("Netinkama ivestis.");
+            }
+            if (input < 1) {
+                throw out_of_range("Namu darbu skaicius turetu buti naturalusis.");
+            }
+            break;
+        }
+        catch (const exception& e) {
+            cout << e.what() << "\n";
+            cout << "Iveskite tinkama skaiciu:\n";
+        }
     }
     return input;
 }

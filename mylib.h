@@ -43,6 +43,10 @@ using std::regex;
 using std::regex_search;
 using std::exit;
 using std::fixed;
+using std::invalid_argument;
+using std::out_of_range;
+using std::exception;
+using std::runtime_error;
 
 struct studentas {
     string vardas = "", pavarde = "";

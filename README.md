@@ -1,5 +1,5 @@
 # OOP - Pirmas laboratorinis darbas
-## v0.2
+## v0.3
 
 
 ## Aprašymas
@@ -47,11 +47,12 @@ Apskaičiavus gautinius įvestų studentų balus, programa išveda duomenis į f
  > - Pasirinkus "Taip" grįžtama į 3 instrukcijos žingsnį.
 
 
-## Pakeitimai v0.1->v0.2
+## Pakeitimai v0.2->v0.3
 
- - Pridėtas makefile patogesniam programos valdymui.
- - Atskirtos nepagrindinės funkcijos į "addFunctions.cpp" failą bei jų prototipai į "addFunctions.h" failą.
- - Unifikuotos įvesties tikrinimo funkcijos.
- - Pridėtas duomenų skaitymas iš failo, duomenų rūšiavimas(2 variantai) ir apdorotų duomenų rašymas į "kursiokai.txt" failą.
- - Struktūra "studentas" į "mylib.h".
- - Skaitant failus išvedami skirtingų etapų vykdymo laikai.
+ - Pridėtas išimčių valdymas.
+ > main.cpp
+ > - Failų skaityme nepavykus atidaryti failo išmetamas runtime error, pagaunamos kitos išimtys skaitant iš failo.
+ > - Failo rašyme nepavykus atidaryti sukurto failo išmetamas runtime error, pagaunamos kitos išimtys rašant į failą.
+ > addFunctions.cpp
+ > - Pažymių įvedime išmetamas invalid_argument esant netinkamai įvesčiai.
+ > - Pažymių įvedime išvedamas out_of_range įvestam elementui neatitinkant nurodytos skaičių aibės.

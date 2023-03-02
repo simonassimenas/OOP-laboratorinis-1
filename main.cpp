@@ -17,8 +17,8 @@ int main() {
 
     cout << "Skaitysite is failo(1) ar pildysite patys(0)?\n";
     bool skaitymas = getBoolInput();
-
-    if(skaitymas) {
+    
+    if (skaitymas) {
         failoSkaitymas(grupe);
 
         auto pradzia = high_resolution_clock::now();
@@ -51,53 +51,58 @@ void failoSkaitymas(vector<studentas> &grupe) {
     fin.rdbuf()->pubsetbuf(&buferis[0], bufDydis);
     fin.open(filename);
 
-    if (!fin.is_open()) {
-        cout << "Nepavyko atverti failo " << filename << " skaitymui.\n";
-        exit(1);
-    }
-    else {
-        auto pradzia = high_resolution_clock::now();
-        cout << "Failas skaitomas...\n";
-
-        int talpa = 10000;
-        grupe.reserve(talpa);
-
-        studentas laikinas;
-        int pazymys;
-        string line;
-        getline(fin, line);
-
-        while(fin.peek() != EOF) {
-            if(grupe.size() == grupe.capacity()) grupe.reserve(talpa*2);
-
-            getline(fin, line);
-            stringstream ss(line);
-            ss >> laikinas.vardas >> laikinas.pavarde;
-
-            vector<int> paz_vec;
-            while (ss >> pazymys) {
-                paz_vec.push_back(pazymys);
-            }
-
-            int egz = paz_vec.back();
-            paz_vec.pop_back();
-
-            laikinas.galutinisVid = 0.4 * skaicVid(paz_vec) + 0.6 * egz;
-            laikinas.galutinisMed = 0.4 * skaicMed(paz_vec) + 0.6 * egz;
-
-            paz_vec.clear();
-
-            grupe.push_back(laikinas);
+    try {
+        if (!fin.is_open()) {
+            throw runtime_error("Nepavyko atverti failo " + filename + " skaitymui.");
         }
-        grupe.shrink_to_fit();
-        fin.close();
-        buferis.clear();
-        auto pabaigaSkait = high_resolution_clock::now();
+        else {
+            auto pradzia = high_resolution_clock::now();
+            cout << "Failas skaitomas...\n";
 
-        cout << "Duomenys nuskaityti\n";
+            int talpa = 10000;
+            grupe.reserve(talpa);
 
-        std::chrono::duration<double> diffSkait = pabaigaSkait - pradzia;
-        cout << "\nSkaitymas truko " << diffSkait.count() << " sekundes.\n\n";
+            studentas laikinas;
+            int pazymys;
+            string line;
+            getline(fin, line);
+
+            while(fin.peek() != EOF) {
+                if(grupe.size() == grupe.capacity()) grupe.reserve(talpa*2);
+
+                getline(fin, line);
+                stringstream ss(line);
+                ss >> laikinas.vardas >> laikinas.pavarde;
+
+                vector<int> paz_vec;
+                while (ss >> pazymys) {
+                    paz_vec.push_back(pazymys);
+                }
+
+                int egz = paz_vec.back();
+                paz_vec.pop_back();
+
+                laikinas.galutinisVid = 0.4 * skaicVid(paz_vec) + 0.6 * egz;
+                laikinas.galutinisMed = 0.4 * skaicMed(paz_vec) + 0.6 * egz;
+
+                paz_vec.clear();
+
+                grupe.push_back(laikinas);
+            }
+            grupe.shrink_to_fit();
+            fin.close();
+            buferis.clear();
+            auto pabaigaSkait = high_resolution_clock::now();
+
+            cout << "Duomenys nuskaityti\n";
+
+            std::chrono::duration<double> diffSkait = pabaigaSkait - pradzia;
+            cout << "\nSkaitymas truko " << diffSkait.count() << " sekundes.\n\n";
+        }
+    }
+    catch (const exception &e) {
+        cout << "Klaida: " << e.what() << "\n";
+        return;
     }
 }
 
@@ -105,31 +110,35 @@ void failoIrasymas(vector<studentas> &grupe) {
     const string filename = "kursiokai.txt";
     ofstream fout(filename);
 
-    if (!fout.is_open()) {
-        cout << "Nepavyko sukurti failo" << filename << "irasymui.\n";
-        exit(1);
-    }
-    else {
-        auto pradzia = high_resolution_clock::now();
-        cout << "Rasoma i faila...\n";
-
-        fout << left << setw(15) << "Vardas" << setw(20) << "Pavarde" 
-            << setw(18) << "Galutinis (Vid.) / " << setw(16) << "Galutinis (Med.)\n";
-
-        fout << string(70, '-') << "\n";
-
-        for (const auto &temp : grupe) {
-            fout << left << setw(15) << temp.vardas << setw(21) << temp.pavarde 
-                << setw(19) << fixed << setprecision(2) << temp.galutinisVid 
-                << setw(20) << fixed << setprecision(2) << temp.galutinisMed << "\n";
+    try {
+        if (!fout.is_open()) {
+            throw runtime_error("Nepavyko sukurti failo " + filename + " irasymui.");
         }
-        fout.close();
-        auto pabaiga = high_resolution_clock::now();
+        else {
+            auto pradzia = high_resolution_clock::now();
+            cout << "Rasoma i faila...\n";
 
-        cout << "Duomenys irasyti\n";
+            fout << left << setw(15) << "Vardas" << setw(20) << "Pavarde" 
+                << setw(18) << "Galutinis (Vid.) / " << setw(16) << "Galutinis (Med.)\n";
 
-        duration<double> diff = pabaiga - pradzia;
-        cout << "\nRasymas truko " << diff.count() << " sekundes.\n";
+            fout << string(70, '-') << "\n";
+
+            for (const auto &temp : grupe) {
+                fout << left << setw(15) << temp.vardas << setw(21) << temp.pavarde 
+                    << setw(19) << fixed << setprecision(2) << temp.galutinisVid 
+                    << setw(20) << fixed << setprecision(2) << temp.galutinisMed << "\n";
+            }
+            fout.close();
+            auto pabaiga = high_resolution_clock::now();
+
+            cout << "Duomenys irasyti\n";
+
+            duration<double> diff = pabaiga - pradzia;
+            cout << "\nRasymas truko " << diff.count() << " sekundes.\n";
+        }
+    }
+    catch (const exception &e) {
+        cout << "Klaida: " << e.what() << "endl";
     }
 }
 
@@ -235,7 +244,7 @@ void pild(studentas &temp) {
         nd_vec.shrink_to_fit();
 
         cout << "Iveskite egzamino paz.:\n";
-        cin >> egz;
+        egz = gradeInput();
     }
 
     else {
