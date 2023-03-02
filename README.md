@@ -50,9 +50,7 @@ Apskaičiavus gautinius įvestų studentų balus, programa išveda duomenis į f
 ## Pakeitimai v0.2->v0.3
 
  - Pridėtas išimčių valdymas.
- > main.cpp
- > - Failų skaityme nepavykus atidaryti failo išmetamas runtime error, pagaunamos kitos išimtys skaitant iš failo.
- > - Failo rašyme nepavykus atidaryti sukurto failo išmetamas runtime error, pagaunamos kitos išimtys rašant į failą.
- > addFunctions.cpp
- > - Pažymių įvedime išmetamas invalid_argument esant netinkamai įvesčiai.
- > - Pažymių įvedime išvedamas out_of_range įvestam elementui neatitinkant nurodytos skaičių aibės.
+ > - Failų skaityme nepavykus atidaryti failo išmetamas runtime error, pagaunamos kitos išimtys skaitant iš failo (main.cpp).
+ > - Failo rašyme nepavykus atidaryti sukurto failo išmetamas runtime error, pagaunamos kitos išimtys rašant į failą (main.cpp).
+ > - Pažymių įvedime išmetamas invalid_argument esant netinkamai įvesčiai (addFunctions.cpp).
+ > - Pažymių įvedime išvedamas out_of_range įvestam elementui neatitinkant nurodytos skaičių aibės (addFunctions.cpp).
