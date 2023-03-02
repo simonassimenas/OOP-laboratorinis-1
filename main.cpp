@@ -19,18 +19,21 @@ int main() {
     bool skaitymas = getBoolInput();
     
     if (skaitymas) {
-        failoSkaitymas(grupe);
+        try {
+            failoSkaitymas(grupe);
 
-        auto pradzia = high_resolution_clock::now();
+            auto pradzia = high_resolution_clock::now();
 
-        //sort(grupe.begin(), grupe.end(), regexPalyginimas); 
-        sort(grupe.begin(), grupe.end(), palyginimas); 
-        
-        auto pabaiga = high_resolution_clock::now();
-        duration<double> diffSort = pabaiga - pradzia;
-        cout << "Rusiavimas truko " << diffSort.count() << " sekundes.\n\n";
+            //sort(grupe.begin(), grupe.end(), regexPalyginimas); 
+            sort(grupe.begin(), grupe.end(), palyginimas); 
+            
+            auto pabaiga = high_resolution_clock::now();
+            duration<double> diffSort = pabaiga - pradzia;
+            cout << "Rusiavimas truko " << diffSort.count() << " sekundes.\n\n";
 
-        failoIrasymas(grupe);
+            failoIrasymas(grupe);
+        }
+        catch (const exception &e) {}
     }
     else {
         naudotojoIvestis(grupe);
@@ -102,7 +105,7 @@ void failoSkaitymas(vector<studentas> &grupe) {
     }
     catch (const exception &e) {
         cout << "Klaida: " << e.what() << "\n";
-        return;
+        throw e;
     }
 }
 
@@ -138,7 +141,7 @@ void failoIrasymas(vector<studentas> &grupe) {
         }
     }
     catch (const exception &e) {
-        cout << "Klaida: " << e.what() << "endl";
+        cout << "Klaida: " << e.what() << "\n";
     }
 }
 
