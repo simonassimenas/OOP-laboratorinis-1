@@ -1,4 +1,3 @@
-#include "mylib.h"
 #include "addFunctions.h"
 
 
@@ -43,7 +42,7 @@ int main() {
 }
 
 void failoSkaitymas(vector<studentas> &grupe) {
-    system("ls -la *.txt");
+    system("ls *.txt");
     cout << "Iveskite failo pavadinima(is saraso):\n";
     string filename = getStringInput();
 
