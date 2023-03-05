@@ -3,8 +3,9 @@
 
 void failoSkaitymas(vector<studentas> &grupe);
 void failoIrasymas(vector<studentas> &grupe);
+void pazPalyginimas(vector<studentas> & grupe, bool rusiavimoPas);
 bool regexPalyginimas(const studentas& a, const studentas& b);
-bool palyginimas(const studentas &a, const studentas &b);
+bool varduPalyginimas(const studentas &a, const studentas &b);
 double skaicVid(vector<int> &paz_vec);
 double skaicMed(vector<int> &paz_vec);
 void naudotojoIvestis(vector<studentas> &grupe);
@@ -20,19 +21,14 @@ int main() {
     if (skaitymas) {
         try {
             failoSkaitymas(grupe);
-
-            auto pradzia = high_resolution_clock::now();
-
-            //sort(grupe.begin(), grupe.end(), regexPalyginimas); 
-            sort(grupe.begin(), grupe.end(), palyginimas); 
-            
-            auto pabaiga = high_resolution_clock::now();
-            duration<double> diffSort = pabaiga - pradzia;
-            cout << "Rusiavimas truko " << diffSort.count() << " sekundes.\n\n";
-
-            failoIrasymas(grupe);
         }
         catch (const exception &e) {}
+
+        cout << "Skirstysime pagal vidurki(1) ar mediana(0)\n";
+        bool rusiavimas = getBoolInput();
+        pazPalyginimas(grupe, rusiavimas);
+
+        failoIrasymas(grupe);
     }
     else {
         naudotojoIvestis(grupe);
@@ -144,6 +140,23 @@ void failoIrasymas(vector<studentas> &grupe) {
     }
 }
 
+void pazPalyginimas(vector<studentas> &grupe, bool rusiavimoPas) {
+    if (rusiavimoPas) {
+        auto pradzia = high_resolution_clock::now();
+        sort(grupe.begin(), grupe.end(), vidPalyginimas); 
+        auto pabaiga = high_resolution_clock::now();
+        duration<double> diffSort = pabaiga - pradzia;
+        cout << "Rusiavimas pagal vidurki truko " << diffSort.count() << " sekundes.\n\n";
+    }
+    else {
+        auto pradzia = high_resolution_clock::now();
+        sort(grupe.begin(), grupe.end(), medPalyginimas); 
+        auto pabaiga = high_resolution_clock::now();
+        duration<double> diffSort = pabaiga - pradzia;
+        cout << "Rusiavimas pagal mediana truko " << diffSort.count() << " sekundes.\n\n";
+    }
+}
+
 // Grazus bet letas
 bool regexPalyginimas(const studentas& a, const studentas& b) {
     regex vardoStruktura("[^0-9]*([0-9]+)");
@@ -160,11 +173,19 @@ bool regexPalyginimas(const studentas& a, const studentas& b) {
 }
 
 // Greitas bet negrazus
-bool palyginimas(const studentas &a, const studentas &b) {
+bool varduPalyginimas(const studentas &a, const studentas &b) {
     if (a.pavarde == b.pavarde)
         return a.vardas < b.vardas;
     else
         return a.pavarde < b.pavarde;
+}
+
+bool medPalyginimas(const studentas &a, const studentas &b) {
+    return a.galutinisMed > b.galutinisMed;
+}
+
+bool vidPalyginimas(const studentas &a, const studentas &b) {
+    return a.galutinisVid > b.galutinisVid;
 }
 
 double skaicVid(vector<int> &paz_vec) {
