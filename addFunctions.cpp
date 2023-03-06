@@ -1,15 +1,6 @@
 #include "mylib.h"
 #include "addFunctions.h"
 
-
-int randomSkaicius() {
-    random_device rd;
-    mt19937_64 mt(static_cast<long unsigned int> (rd()));
-    uniform_int_distribution<int> dist(0, 10);
-
-    return int(dist(mt));
-}
-
 void output_template() {
     cout << setw(15) << left << "\nVardas" << setw(20) << left << "Pavarde" <<
     setw(34) << left << "Galutinis(Vid.) / Galutinis (Med.)\n";

@@ -47,6 +47,9 @@ using std::invalid_argument;
 using std::out_of_range;
 using std::exception;
 using std::runtime_error;
+using std::to_string;
+using std::find_if;
+using std::distance;
 
 struct studentas {
     string vardas = "", pavarde = "";

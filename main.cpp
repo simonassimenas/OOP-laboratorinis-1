@@ -6,6 +6,7 @@ void failoIrasymas(vector<studentas> &grupe);
 void pazPalyginimas(vector<studentas> & grupe, bool rusiavimoPas);
 bool regexPalyginimas(const studentas& a, const studentas& b);
 bool varduPalyginimas(const studentas &a, const studentas &b);
+int randomSkaicius();
 double skaicVid(vector<int> &paz_vec);
 double skaicMed(vector<int> &paz_vec);
 void naudotojoIvestis(vector<studentas> &grupe);
@@ -25,8 +26,13 @@ int main() {
         catch (const exception &e) {}
 
         cout << "Skirstysime pagal vidurki(1) ar mediana(0)\n";
-        bool rusiavimas = getBoolInput();
-        pazPalyginimas(grupe, rusiavimas);
+        bool rusiavimasChoice = getBoolInput();
+
+        //timeint
+        pazPalyginimas(grupe, rusiavimasChoice);
+        //end timinimo
+
+
 
         failoIrasymas(grupe);
     }
@@ -36,6 +42,25 @@ int main() {
 
     grupe.clear();
 }
+
+void failoGeneravimas(int studSk, int ndSk) {
+    ofstream fout;
+    int studCount = 0;
+    int ndCount = 0;
+    
+    //pradiniu 2 eiluciu ir visur sudet kiek space reserved
+
+    while (studCount > studSk) {
+        fout << "Vardas" + to_string(studCount);
+        fout << "Pavarde" + to_string(studCount);
+
+        while (ndCount > (ndSk + 1)) {
+            fout << randomSkaicius();
+        }
+    }
+}
+
+
 
 void failoSkaitymas(vector<studentas> &grupe) {
     system("ls *.txt");
@@ -140,6 +165,20 @@ void failoIrasymas(vector<studentas> &grupe) {
     }
 }
 
+// gal geriau rusiavimui ir atskyrimui naudot partition?
+int atskyrimas(vector<studentas>& grupe, bool rusiavimasChoice) {
+    auto it = grupe.end();
+
+    if (rusiavimasChoice) {
+        it = find_if(grupe.begin(), grupe.end(), [](const studentas& s) { return s.galutinisVid >= 5; });
+    }
+    else {
+        it = find_if(grupe.begin(), grupe.end(), [](const studentas& s) { return s.galutinisMed >= 5; });
+    }
+
+    return int(distance(grupe.begin(), it));
+}
+
 void pazPalyginimas(vector<studentas> &grupe, bool rusiavimoPas) {
     if (rusiavimoPas) {
         auto pradzia = high_resolution_clock::now();
@@ -186,6 +225,14 @@ bool medPalyginimas(const studentas &a, const studentas &b) {
 
 bool vidPalyginimas(const studentas &a, const studentas &b) {
     return a.galutinisVid > b.galutinisVid;
+}
+
+int randomSkaicius() {
+    random_device rd;
+    mt19937_64 mt(static_cast<long unsigned int> (rd()));
+    uniform_int_distribution<int> dist(0, 10);
+
+    return int(dist(mt));
 }
 
 double skaicVid(vector<int> &paz_vec) {

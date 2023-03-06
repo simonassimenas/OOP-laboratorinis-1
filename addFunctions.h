@@ -1,7 +1,6 @@
 #pragma once
 #include "mylib.h"
 
-int randomSkaicius();
 void output_template();
 void spausd(studentas &temp, string outputPasirinkimas);
 
