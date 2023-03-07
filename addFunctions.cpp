@@ -22,6 +22,21 @@ void spausd(studentas &temp, string outputPasirinkimas) {
 }
 
 
+bool regexPalyginimas(const studentas& a, const studentas& b) {
+    regex vardoStruktura("[^0-9]*([0-9]+)");
+    smatch aMatch, bMatch;
+    regex_search(a.vardas, aMatch, vardoStruktura);
+    regex_search(b.vardas, bMatch, vardoStruktura);
+    int aNumber = stoi(aMatch[1].str());
+    int bNumber = stoi(bMatch[1].str());
+    if (aNumber != bNumber) {
+        return aNumber < bNumber;
+    } else {
+        return a.pavarde < b.pavarde;
+    }
+}
+
+
 bool getBoolInput() {
     bool input;
 

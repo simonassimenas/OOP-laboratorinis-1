@@ -10,6 +10,7 @@
 #include <chrono>
 #include <sstream>
 #include <regex>
+#include <omp.h>
 
 using namespace std::chrono;
 
@@ -50,6 +51,7 @@ using std::runtime_error;
 using std::to_string;
 using std::find_if;
 using std::distance;
+using std::partition;
 
 struct studentas {
     string vardas = "", pavarde = "";

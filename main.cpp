@@ -1,9 +1,11 @@
 #include "addFunctions.h"
 
 
+void failoGeneravimas();
 void failoSkaitymas(vector<studentas> &grupe);
-void failoIrasymas(vector<studentas> &grupe);
-void pazPalyginimas(vector<studentas> & grupe, bool rusiavimoPas);
+void failoIrasymas(vector<studentas> &grupe, int partPoint);
+int partitionIrSort(vector<studentas> &grupe, bool rusiavimasChoice);
+void pazPalyginimas(vector<studentas> &grupe, bool rusiavimoPas);
 bool regexPalyginimas(const studentas& a, const studentas& b);
 bool varduPalyginimas(const studentas &a, const studentas &b);
 int randomSkaicius();
@@ -20,21 +22,20 @@ int main() {
     bool skaitymas = getBoolInput();
     
     if (skaitymas) {
+        failoGeneravimas();
+
+        cout << "Skirstysime pagal vidurki(1) ar mediana(0)\n";
+        bool rusiavimasChoice = getBoolInput();
+
         try {
             failoSkaitymas(grupe);
         }
         catch (const exception &e) {}
 
-        cout << "Skirstysime pagal vidurki(1) ar mediana(0)\n";
-        bool rusiavimasChoice = getBoolInput();
+        cout << "Rusiuojaama...\n";
+        int partPoint = partitionIrSort(grupe, rusiavimasChoice);
 
-        //timeint
-        pazPalyginimas(grupe, rusiavimasChoice);
-        //end timinimo
-
-
-
-        failoIrasymas(grupe);
+        failoIrasymas(grupe, partPoint);
     }
     else {
         naudotojoIvestis(grupe);
@@ -43,31 +44,71 @@ int main() {
     grupe.clear();
 }
 
-void failoGeneravimas(int studSk, int ndSk) {
-    ofstream fout;
-    int studCount = 0;
-    int ndCount = 0;
-    
-    //pradiniu 2 eiluciu ir visur sudet kiek space reserved
+void failoGeneravimas() {
+    bool generuoti;
+    cout << "Ar norite generuoti faila? (1 - Taip, 0 - Ne)\n";
+    generuoti = getBoolInput();
 
-    while (studCount > studSk) {
-        fout << "Vardas" + to_string(studCount);
-        fout << "Pavarde" + to_string(studCount);
+    while (generuoti) {
+        cout << "Kiek studentu irasu turetu buti faile?\n";
+        int studSk = autoGradeInput();
+        cout << "Kiek namu darbu pazymiu turi kiekvienas studentas?\n";
+        int ndSk = autoGradeInput();
 
-        while (ndCount > (ndSk + 1)) {
-            fout << randomSkaicius();
+        auto pradzia = high_resolution_clock::now();
+
+        string filename = "studentai" + to_string(studSk) + ".txt";
+
+        // ############# REIKIA TRY CATCH ###################
+
+        const int bufDydis = 1024 * 1024 * 100;
+        vector<char> buferis(bufDydis);
+        ofstream fout;
+        fout.rdbuf()->pubsetbuf(&buferis[0], bufDydis);
+        fout.open(filename);
+
+        random_device rd;
+        mt19937_64 gen(rd());
+        uniform_int_distribution<int> dis(1, 10);
+
+        fout << left << setw(20) << "Vardas" << setw(20) << "Pavarde";
+        for (int i = 1; i <= ndSk; i++) {
+            fout << setw(10) << "ND" + to_string(i);
         }
+        fout << setw(10) << "Egz.";
+
+        stringstream ss;
+        #pragma omp parallel for
+        for (int i = 1; i <= studSk; i++) {
+            ss << left << setw(20) << "\nVardas" + to_string(i)
+               << setw(20) << "Pavarde" + to_string(i);
+
+            for (int j = 0; j < ndSk; j++) {
+                int ndGrade = dis(gen);
+                ss << setw(10) << ndGrade;
+            }
+        }
+        #pragma omp critical
+        fout << ss.str();
+        
+        fout.close();
+        buferis.clear();
+
+        auto pabaiga = high_resolution_clock::now();
+        duration<double> diff = pabaiga - pradzia;
+        cout << "Rasymas i failus truko " << diff.count() << " sekundes.\n";
+
+        cout << "Ar norite generuoti dar viena faila? (1 - Taip, 0 - Ne)\n";
+        generuoti = getBoolInput();
     }
 }
-
-
 
 void failoSkaitymas(vector<studentas> &grupe) {
     system("ls *.txt");
     cout << "Iveskite failo pavadinima(is saraso):\n";
     string filename = getStringInput();
 
-    int bufDydis = 1024;
+    const int bufDydis = 1024 * 1024 * 100;
     vector<char> buferis;
     buferis.resize(bufDydis);
     ifstream fin;
@@ -80,9 +121,9 @@ void failoSkaitymas(vector<studentas> &grupe) {
         }
         else {
             auto pradzia = high_resolution_clock::now();
-            cout << "Failas skaitomas...\n";
+            cout << "\nFailas skaitomas...\n";
 
-            int talpa = 10000;
+            int talpa = 100000;
             grupe.reserve(talpa);
 
             studentas laikinas;
@@ -91,7 +132,7 @@ void failoSkaitymas(vector<studentas> &grupe) {
             getline(fin, line);
 
             while(fin.peek() != EOF) {
-                if(grupe.size() == grupe.capacity()) grupe.reserve(talpa*2);
+                if(grupe.size() == grupe.capacity()) grupe.reserve(talpa*10);
 
                 getline(fin, line);
                 stringstream ss(line);
@@ -129,35 +170,52 @@ void failoSkaitymas(vector<studentas> &grupe) {
     }
 }
 
-void failoIrasymas(vector<studentas> &grupe) {
-    const string filename = "kursiokai.txt";
-    ofstream fout(filename);
+void failoIrasymas(vector<studentas> &grupe, int partPoint) {
+    const string filename_v = "vargsai.txt";
+    const string filename_s = "saunuoliai.txt";
+    ofstream fout_v(filename_v);
+    ofstream fout_s(filename_s);
 
     try {
-        if (!fout.is_open()) {
-            throw runtime_error("Nepavyko sukurti failo " + filename + " irasymui.");
+        if (!fout_v.is_open()) {
+            throw runtime_error("Nepavyko sukurti failo " + filename_v + " irasymui.");
+        }
+        if (!fout_s.is_open()) {
+            throw runtime_error("Nepavyko sukurti failo " + filename_s + " irasymui.");
         }
         else {
+            cout << "\nRasoma i failus...\n";
             auto pradzia = high_resolution_clock::now();
-            cout << "Rasoma i faila...\n";
 
-            fout << left << setw(15) << "Vardas" << setw(20) << "Pavarde" 
+            fout_v << left << setw(15) << "Vardas" << setw(20) << "Pavarde" 
                 << setw(18) << "Galutinis (Vid.) / " << setw(16) << "Galutinis (Med.)\n";
 
-            fout << string(70, '-') << "\n";
+            fout_v << string(70, '-') << "\n";
+            fout_s << left << setw(15) << "Vardas" << setw(20) << "Pavarde" 
+                << setw(18) << "Galutinis (Vid.) / " << setw(16) << "Galutinis (Med.)\n";
 
-            for (const auto &temp : grupe) {
-                fout << left << setw(15) << temp.vardas << setw(21) << temp.pavarde 
+            fout_s << string(70, '-') << "\n";
+
+            for (int i = 0; i < partPoint; i++) {
+                const auto& temp = grupe[i];
+                fout_v << left << setw(15) << temp.vardas << setw(21) << temp.pavarde 
                     << setw(19) << fixed << setprecision(2) << temp.galutinisVid 
                     << setw(20) << fixed << setprecision(2) << temp.galutinisMed << "\n";
             }
-            fout.close();
+            for (int i = partPoint; i < grupe.size(); i++) {
+                const auto& temp = grupe[i];
+                fout_s << left << setw(15) << temp.vardas << setw(21) << temp.pavarde 
+                    << setw(19) << fixed << setprecision(2) << temp.galutinisVid 
+                    << setw(20) << fixed << setprecision(2) << temp.galutinisMed << "\n";
+            }
+
+            fout_v.close();
+            fout_s.close();
+
             auto pabaiga = high_resolution_clock::now();
 
-            cout << "Duomenys irasyti\n";
-
             duration<double> diff = pabaiga - pradzia;
-            cout << "\nRasymas truko " << diff.count() << " sekundes.\n";
+            cout << "Rasymas i failus truko " << diff.count() << " sekundes.\n";
         }
     }
     catch (const exception &e) {
@@ -165,53 +223,62 @@ void failoIrasymas(vector<studentas> &grupe) {
     }
 }
 
-// gal geriau rusiavimui ir atskyrimui naudot partition?
-int atskyrimas(vector<studentas>& grupe, bool rusiavimasChoice) {
-    auto it = grupe.end();
+int partitionIrSort(vector<studentas> &grupe, bool rusiavimasChoice) {
+    auto it = grupe.begin();
 
+    auto pradzia_part = high_resolution_clock::now();
     if (rusiavimasChoice) {
-        it = find_if(grupe.begin(), grupe.end(), [](const studentas& s) { return s.galutinisVid >= 5; });
+        it = partition(grupe.begin(), grupe.end(), [](const studentas& s) { return s.galutinisVid < 5; });
     }
     else {
-        it = find_if(grupe.begin(), grupe.end(), [](const studentas& s) { return s.galutinisMed >= 5; });
+        it = partition(grupe.begin(), grupe.end(), [](const studentas& s) { return s.galutinisMed < 5; });
     }
+    auto pabaiga_part = high_resolution_clock::now();
 
-    return int(distance(grupe.begin(), it));
+    auto pradzia_sort = high_resolution_clock::now();
+    sort(grupe.begin(), it, varduPalyginimas);
+    sort(it, grupe.end(), varduPalyginimas);
+    auto pabaiga_sort = high_resolution_clock::now();
+
+    duration<double> diff_part = pabaiga_part - pradzia_part;
+    duration<double> diff_sort = pabaiga_sort - pradzia_sort;
+    cout << "\nAtskyrimas truko " << diff_part.count() << " sekundes.\n";
+    cout << "Rusiavimas truko " << diff_sort.count() << " sekundes.\n";
+
+    return static_cast<int>(it - grupe.begin());
 }
 
-void pazPalyginimas(vector<studentas> &grupe, bool rusiavimoPas) {
-    if (rusiavimoPas) {
-        auto pradzia = high_resolution_clock::now();
-        sort(grupe.begin(), grupe.end(), vidPalyginimas); 
-        auto pabaiga = high_resolution_clock::now();
-        duration<double> diffSort = pabaiga - pradzia;
-        cout << "Rusiavimas pagal vidurki truko " << diffSort.count() << " sekundes.\n\n";
-    }
-    else {
-        auto pradzia = high_resolution_clock::now();
-        sort(grupe.begin(), grupe.end(), medPalyginimas); 
-        auto pabaiga = high_resolution_clock::now();
-        duration<double> diffSort = pabaiga - pradzia;
-        cout << "Rusiavimas pagal mediana truko " << diffSort.count() << " sekundes.\n\n";
-    }
-}
+// gal geriau rusiavimui ir atskyrimui naudot partition?
+// int atskyrimas(vector<studentas> &grupe, bool rusiavimasChoice) {
+//     auto it = grupe.end();
 
-// Grazus bet letas
-bool regexPalyginimas(const studentas& a, const studentas& b) {
-    regex vardoStruktura("[^0-9]*([0-9]+)");
-    smatch aMatch, bMatch;
-    regex_search(a.vardas, aMatch, vardoStruktura);
-    regex_search(b.vardas, bMatch, vardoStruktura);
-    int aNumber = stoi(aMatch[1].str());
-    int bNumber = stoi(bMatch[1].str());
-    if (aNumber != bNumber) {
-        return aNumber < bNumber;
-    } else {
-        return a.pavarde < b.pavarde;
-    }
-}
+//     if (rusiavimasChoice) {
+//         it = find_if(grupe.begin(), grupe.end(), [](const studentas& s) { return s.galutinisVid >= 5; });
+//     }
+//     else {
+//         it = find_if(grupe.begin(), grupe.end(), [](const studentas& s) { return s.galutinisMed >= 5; });
+//     }
 
-// Greitas bet negrazus
+//     return int(distance(grupe.begin(), it));
+// }
+
+// void pazPalyginimas(vector<studentas> &grupe, bool rusiavimoPas) {
+//     if (rusiavimoPas) {
+//         auto pradzia = high_resolution_clock::now();
+//         sort(grupe.begin(), grupe.end(), vidPalyginimas); 
+//         auto pabaiga = high_resolution_clock::now();
+//         duration<double> diffSort = pabaiga - pradzia;
+//         cout << "Rusiavimas pagal vidurki truko " << diffSort.count() << " sekundes.\n\n";
+//     }
+//     else {
+//         auto pradzia = high_resolution_clock::now();
+//         sort(grupe.begin(), grupe.end(), medPalyginimas); 
+//         auto pabaiga = high_resolution_clock::now();
+//         duration<double> diffSort = pabaiga - pradzia;
+//         cout << "Rusiavimas pagal mediana truko " << diffSort.count() << " sekundes.\n\n";
+//     }
+// }
+
 bool varduPalyginimas(const studentas &a, const studentas &b) {
     if (a.pavarde == b.pavarde)
         return a.vardas < b.vardas;

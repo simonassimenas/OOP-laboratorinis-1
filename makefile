@@ -3,4 +3,4 @@ main: addFunctions.o
 addFunctions:
 	g++ -c addFunctions.cpp
 clean:
-	rm *.o main kursiokai.txt
+	rm *.o main vargsai.txt saunuoliai.txt
