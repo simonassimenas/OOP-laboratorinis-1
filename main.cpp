@@ -32,7 +32,7 @@ int main() {
         }
         catch (const exception &e) {}
 
-        cout << "Rusiuojaama...\n";
+        cout << "Rusiuojama...\n";
         int partPoint = partitionIrSort(grupe, rusiavimasChoice);
 
         failoIrasymas(grupe, partPoint);
@@ -59,47 +59,57 @@ void failoGeneravimas() {
 
         string filename = "studentai" + to_string(studSk) + ".txt";
 
-        // ############# REIKIA TRY CATCH ###################
 
         const int bufDydis = 1024 * 1024 * 100;
-        vector<char> buferis(bufDydis);
+        char* buferis = new char[bufDydis];
         ofstream fout;
-        fout.rdbuf()->pubsetbuf(&buferis[0], bufDydis);
+        fout.rdbuf()->pubsetbuf(buferis, bufDydis);
         fout.open(filename);
 
         random_device rd;
         mt19937_64 gen(rd());
         uniform_int_distribution<int> dis(1, 10);
 
-        fout << left << setw(20) << "Vardas" << setw(20) << "Pavarde";
-        for (int i = 1; i <= ndSk; i++) {
-            fout << setw(10) << "ND" + to_string(i);
+        try {
+        if (!fout.is_open()) {
+            throw runtime_error("Nepavyko sukurti failo " + filename + " irasymui.");
         }
-        fout << setw(10) << "Egz.";
+        else {
+            fout << left << setw(20) << "Vardas" << setw(20) << "Pavarde";
+            for (int i = 1; i <= ndSk; i++) {
+                fout << setw(10) << "ND" + to_string(i);
+            }
+            fout << setw(10) << "Egz.";
 
-        stringstream ss;
-        #pragma omp parallel for
-        for (int i = 1; i <= studSk; i++) {
-            ss << left << setw(20) << "\nVardas" + to_string(i)
-               << setw(20) << "Pavarde" + to_string(i);
+            stringstream ss;
+            #pragma omp parallel for
+            for (int i = 1; i <= studSk; i++) {
+                ss << left << setw(20) << "\nVardas" + to_string(i)
+                << setw(20) << "Pavarde" + to_string(i);
 
-            for (int j = 0; j < ndSk; j++) {
-                int ndGrade = dis(gen);
-                ss << setw(10) << ndGrade;
+                for (int j = 0; j < ndSk; j++) {
+                    int ndGrade = dis(gen);
+                    ss << setw(10) << ndGrade;
+                }
+            }
+            #pragma omp critical
+            fout << ss.str();
+            
+            fout.close();
+            delete [] buferis;
+
+            auto pabaiga = high_resolution_clock::now();
+            duration<double> diff = pabaiga - pradzia;
+            cout << "Rasymas i failus truko " << diff.count() << " sekundes.\n";
+
+            cout << "Ar norite generuoti dar viena faila? (1 - Taip, 0 - Ne)\n";
+            generuoti = getBoolInput();
             }
         }
-        #pragma omp critical
-        fout << ss.str();
-        
-        fout.close();
-        buferis.clear();
-
-        auto pabaiga = high_resolution_clock::now();
-        duration<double> diff = pabaiga - pradzia;
-        cout << "Rasymas i failus truko " << diff.count() << " sekundes.\n";
-
-        cout << "Ar norite generuoti dar viena faila? (1 - Taip, 0 - Ne)\n";
-        generuoti = getBoolInput();
+        catch (const exception &e) {
+        cout << "Klaida: " << e.what() << "\n";
+        throw e;
+        }
     }
 }
 
@@ -109,10 +119,9 @@ void failoSkaitymas(vector<studentas> &grupe) {
     string filename = getStringInput();
 
     const int bufDydis = 1024 * 1024 * 100;
-    vector<char> buferis;
-    buferis.resize(bufDydis);
+    char* buferis = new char[bufDydis];
     ifstream fin;
-    fin.rdbuf()->pubsetbuf(&buferis[0], bufDydis);
+    fin.rdbuf()->pubsetbuf(buferis, bufDydis);
     fin.open(filename);
 
     try {
@@ -155,7 +164,7 @@ void failoSkaitymas(vector<studentas> &grupe) {
             }
             grupe.shrink_to_fit();
             fin.close();
-            buferis.clear();
+            delete [] buferis;
             auto pabaigaSkait = high_resolution_clock::now();
 
             cout << "Duomenys nuskaityti\n";
