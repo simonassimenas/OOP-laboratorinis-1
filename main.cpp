@@ -245,8 +245,8 @@ int partitionIrSort(vector<studentas> &grupe, bool rusiavimasChoice) {
     auto pabaiga_part = high_resolution_clock::now();
 
     auto pradzia_sort = high_resolution_clock::now();
-    sort(grupe.begin(), it, varduPalyginimas);
-    sort(it, grupe.end(), varduPalyginimas);
+    stable_sort(grupe.begin(), it, varduPalyginimas);
+    stable_sort(it, grupe.end(), varduPalyginimas);
     auto pabaiga_sort = high_resolution_clock::now();
 
     duration<double> diff_part = pabaiga_part - pradzia_part;
