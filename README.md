@@ -66,7 +66,6 @@ Apskaičiavus gautinius įvestų studentų balus, programa išveda duomenis į f
 
  ### Programos veikimo greitis
 
-  |---------------------------------------------------------------------------------|
   | Įrašų kiekis 	| Etapas                                           	| Trukmė (s) 	|
   |--------------	|--------------------------------------------------	|------------	|
   | 1000         	| Failo nuskaitymas                                	| 0.007856   	|
@@ -98,12 +97,11 @@ Apskaičiavus gautinius įvestų studentų balus, programa išveda duomenis į f
   |              	| Rūšiavimas (dvi grupės - vardais)                	| 4.590920   	|
   |              	| Rašymas į failus                                 	| 7.691110   	|
   |              	| Bendras laikas                                   	| 51.98248   	|
-  |---------------------------------------------------------------------------------|
 
 
  ### Failu generavimo laikas
 
- 
+
 
 
 ## Pakeitimai v0.3->v0.4
