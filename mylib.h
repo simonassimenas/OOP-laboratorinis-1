@@ -54,7 +54,9 @@ using std::distance;
 using std::partition;
 using std::stable_sort;
 
+
 struct studentas {
     string vardas = "", pavarde = "";
     double galutinisVid = 0, galutinisMed = 0;
+    vector<int> paz_vec;
 };

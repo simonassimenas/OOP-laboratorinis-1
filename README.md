@@ -1,5 +1,5 @@
 # OOP - Pirmas laboratorinis darbas
-## v0.3
+## v0.4
 
 
 ## Aprašymas
@@ -32,9 +32,14 @@ Apskaičiavus gautinius įvestų studentų balus, programa išveda duomenis į f
 
 1. Paleista programa paklausia naudotojo ar norima skaityti failą(a) ar įvesti duomenis(b).
 
-2.a. Naudotojas įveda failo pavadinimą ir paspaudžia "enter" klavišą.
-3.a. Programa išveda kiekvieno etapo laiką bei išveda kada duomenys buvo perskaityti, surūšiuoti ir įrašyti.
-> - Nepavykus atidaryti failo programa stabdoma ir į ekraną išvedama, jog nepavyko atidaryti failo.
+2.a. Naudotojas pasirenka ar nori generuoti failą.
+ > - Pasirinkus "Ne" programa toliau pereina į 4 instrukcijos žingsnį.
+ > - Pasirinkus "Taip" programa toliau pereina į 3 instrukcijos žingsnį.
+3.a. Naudotojas įveda norimų sugeneruoti studentų skaičių ir paspaudžia "enter" klavišą.
+ > - Programa paklausia ar naudotojas nori sugeneruoti dar vieną failą, jei taip grįžtama į 3 instrukcijos žingsnį.
+4.a. Naudotojas įveda failo pavadinimą ir paspaudžia "enter" klavišą.
+5.a. Programa išveda kiekvieno etapo laiką bei išveda kada duomenys buvo perskaityti, surūšiuoti ir įrašyti.
+ > - Nepavykus atidaryti failo programa stabdoma ir į ekraną išvedama, jog nepavyko atidaryti failo.
 
 2.b. Paleista programa paklausia naudotojo ar bus skaičiuojamas vidurkis, ar mediana.
 3.b. Naudotojas pasirenka ar nori pildyti įrašą. Pasirinkus nepradėti programa sustabdoma.
@@ -47,10 +52,19 @@ Apskaičiavus gautinius įvestų studentų balus, programa išveda duomenis į f
  > - Pasirinkus "Taip" grįžtama į 3 instrukcijos žingsnį.
 
 
-## Pakeitimai v0.2->v0.3
+## Makefile
 
- - Pridėtas išimčių valdymas.
- > - Failų skaityme nepavykus atidaryti failo išmetamas runtime error, pagaunamos kitos išimtys skaitant iš failo (main.cpp).
- > - Failo rašyme nepavykus atidaryti sukurto failo išmetamas runtime error, pagaunamos kitos išimtys rašant į failą (main.cpp).
- > - Pažymių įvedime išmetamas invalid_argument esant netinkamai įvesčiai (addFunctions.cpp).
- > - Pažymių įvedime išvedamas out_of_range įvestam elementui neatitinkant nurodytos skaičių aibės (addFunctions.cpp).
+ - "make main" - paruošia programos vykdomąjį failą.
+ - "make addFunctions" - sukompiliuoja pridėtinių funkcijų failą.
+ - "make clean" - išvalo "make main" ir "make addFunctions" sukurtus failus bei "vargasi.txt" ir "saunuoliai.txt".
+ - "make txt" - išvalo visus .txt failus.
+
+
+## Pakeitimai v0.3->v0.4
+
+ - Sugeneruojami studentų įrašų failai pasirenkant studentų kiekį.
+ - Studentai padalinami į dvi kategorijas (du failus):
+    - Galutinis balas < 5.0 - varšai ("vagsai.txt")
+    - Galutinis balas >= 5.0 - šaunuoliai ("saunuoliai.txt")
+ - Greičiau veikiantis failų skaitymas.
+ - Pažymių vektorius perkeltas į struktūrą dėl greitesnio failo skaitymo.

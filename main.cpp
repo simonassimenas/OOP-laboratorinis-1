@@ -135,6 +135,9 @@ void failoSkaitymas(vector<studentas> &grupe) {
             int talpa = 100000;
             grupe.reserve(talpa);
 
+            fin.readsome(buferis, bufDydis);
+            int bytesRead = fin.gcount();
+
             studentas laikinas;
             int pazymys;
             string line;
@@ -147,18 +150,17 @@ void failoSkaitymas(vector<studentas> &grupe) {
                 stringstream ss(line);
                 ss >> laikinas.vardas >> laikinas.pavarde;
 
-                vector<int> paz_vec;
                 while (ss >> pazymys) {
-                    paz_vec.push_back(pazymys);
+                    laikinas.paz_vec.push_back(pazymys);
                 }
 
-                int egz = paz_vec.back();
-                paz_vec.pop_back();
+                int egz = laikinas.paz_vec.back();
+                laikinas.paz_vec.pop_back();
 
-                laikinas.galutinisVid = 0.4 * skaicVid(paz_vec) + 0.6 * egz;
-                laikinas.galutinisMed = 0.4 * skaicMed(paz_vec) + 0.6 * egz;
+                laikinas.galutinisVid = 0.4 * skaicVid(laikinas.paz_vec) + 0.6 * egz;
+                laikinas.galutinisMed = 0.4 * skaicMed(laikinas.paz_vec) + 0.6 * egz;
 
-                paz_vec.clear();
+                laikinas.paz_vec.clear();
 
                 grupe.push_back(laikinas);
             }

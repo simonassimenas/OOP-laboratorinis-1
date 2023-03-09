@@ -4,3 +4,5 @@ addFunctions:
 	g++ -c addFunctions.cpp
 clean:
 	rm *.o main vargsai.txt saunuoliai.txt
+txt:
+	rm *.txt
