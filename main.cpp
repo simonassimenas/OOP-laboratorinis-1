@@ -100,7 +100,7 @@ void failoGeneravimas() {
 
             auto pabaiga = high_resolution_clock::now();
             duration<double> diff = pabaiga - pradzia;
-            cout << "Rasymas i failus truko " << diff.count() << " sekundes.\n";
+            cout << "Failo sukūrimas truko " << diff.count() << " sekundes.\n";
 
             cout << "Ar norite generuoti dar viena faila? (1 - Taip, 0 - Ne)\n";
             generuoti = getBoolInput();
