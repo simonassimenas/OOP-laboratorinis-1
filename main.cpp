@@ -104,7 +104,7 @@ void failoGeneravimas() {
 
             cout << "Ar norite generuoti dar viena faila? (1 - Taip, 0 - Ne)\n";
             generuoti = getBoolInput();
-            }
+            } 
         }
         catch (const exception &e) {
         cout << "Klaida: " << e.what() << "\n";

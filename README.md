@@ -60,6 +60,52 @@ Apskaičiavus gautinius įvestų studentų balus, programa išveda duomenis į f
  - "make txt" - išvalo visus .txt failus.
 
 
+## Veikimo greitis
+
+ - Bandymams naudotas namų darbų skaicius - 10.
+
+ ### Programos veikimo greitis
+
+  |---------------------------------------------------------------------------------|
+  | Įrašų kiekis 	| Etapas                                           	| Trukmė (s) 	|
+  |--------------	|--------------------------------------------------	|------------	|
+  | 1000         	| Failo nuskaitymas                                	| 0.007856   	|
+  |              	| Atskyrimas ir rūšiavimas (pagal galutinį pažymį) 	| 0.000013   	|
+  |              	| Rūšiavimas (dvi grupės - vardais)                	| 0.000369   	|
+  |              	| Rašymas į failus                                 	| 0.001619   	|
+  |              	| Bendras laikas                                   	| 0.009857   	|
+  |              	|                                                  	|            	|
+  | 10000        	| Failo nuskaitymas                                	| 0.052215   	|
+  |              	| Atskyrimas ir rūšiavimas (pagal galutinį pažymį) 	| 0.000198   	|
+  |              	| Rūšiavimas (dvi grupės - vardais)                	| 0.002544   	|
+  |              	| Rašymas į failus                                 	| 0.009154   	|
+  |              	| Bendras laikas                                   	| 0.064111   	|
+  |              	|                                                  	|            	|
+  | 100000       	| Failo nuskaitymas                                	| 0.399489   	|
+  |              	| Atskyrimas ir rūšiavimas (pagal galutinį pažymį) 	| 0.001401   	|
+  |              	| Rūšiavimas (dvi grupės - vardais)                	| 0.036410   	|
+  |              	| Rašymas į failus                                 	| 0.091424   	|
+  |              	| Bendras laikas                                   	| 0.528724   	|
+  |              	|                                                  	|            	|
+  | 1000000      	| Failo nuskaitymas                                	| 3.807240   	|
+  |              	| Atskyrimas ir rūšiavimas (pagal galutinį pažymį) 	| 0.013938   	|
+  |              	| Rūšiavimas (dvi grupės - vardais)                	| 0.368861   	|
+  |              	| Rašymas į failus                                 	| 0.857484   	|
+  |              	| Bendras laikas                                   	| 5.047523   	|
+  |              	|                                                  	|            	|
+  | 10000000     	| Failo nuskaitymas                                	| 39.56331   	|
+  |              	| Atskyrimas ir rūšiavimas (pagal galutinį pažymį) 	| 0.137143   	|
+  |              	| Rūšiavimas (dvi grupės - vardais)                	| 4.590920   	|
+  |              	| Rašymas į failus                                 	| 7.691110   	|
+  |              	| Bendras laikas                                   	| 51.98248   	|
+  |---------------------------------------------------------------------------------|
+
+
+ ### Failu generavimo laikas
+
+ 
+
+
 ## Pakeitimai v0.3->v0.4
 
  - Sugeneruojami studentų įrašų failai pasirenkant studentų kiekį.
