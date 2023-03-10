@@ -259,37 +259,6 @@ int partitionIrSort(vector<studentas> &grupe, bool rusiavimasChoice) {
     return static_cast<int>(it - grupe.begin());
 }
 
-// gal geriau rusiavimui ir atskyrimui naudot partition?
-// int atskyrimas(vector<studentas> &grupe, bool rusiavimasChoice) {
-//     auto it = grupe.end();
-
-//     if (rusiavimasChoice) {
-//         it = find_if(grupe.begin(), grupe.end(), [](const studentas& s) { return s.galutinisVid >= 5; });
-//     }
-//     else {
-//         it = find_if(grupe.begin(), grupe.end(), [](const studentas& s) { return s.galutinisMed >= 5; });
-//     }
-
-//     return int(distance(grupe.begin(), it));
-// }
-
-// void pazPalyginimas(vector<studentas> &grupe, bool rusiavimoPas) {
-//     if (rusiavimoPas) {
-//         auto pradzia = high_resolution_clock::now();
-//         sort(grupe.begin(), grupe.end(), vidPalyginimas); 
-//         auto pabaiga = high_resolution_clock::now();
-//         duration<double> diffSort = pabaiga - pradzia;
-//         cout << "Rusiavimas pagal vidurki truko " << diffSort.count() << " sekundes.\n\n";
-//     }
-//     else {
-//         auto pradzia = high_resolution_clock::now();
-//         sort(grupe.begin(), grupe.end(), medPalyginimas); 
-//         auto pabaiga = high_resolution_clock::now();
-//         duration<double> diffSort = pabaiga - pradzia;
-//         cout << "Rusiavimas pagal mediana truko " << diffSort.count() << " sekundes.\n\n";
-//     }
-// }
-
 bool varduPalyginimas(const studentas &a, const studentas &b) {
     if (a.pavarde == b.pavarde)
         return a.vardas < b.vardas;

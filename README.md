@@ -64,7 +64,7 @@ Apskaičiavus gautinius įvestų studentų balus, programa išveda duomenis į f
 
  - Bandymams naudotas namų darbų skaicius - 10.
 
- ### Programos veikimo greitis
+  ### Programos veikimo greitis
 
   | Įrašų kiekis 	| Etapas                                           	| Trukmė (s) 	|
   |--------------	|--------------------------------------------------	|------------	|
@@ -98,10 +98,19 @@ Apskaičiavus gautinius įvestų studentų balus, programa išveda duomenis į f
   |              	| Rašymas į failus                                 	| 7.691110   	|
   |              	| Bendras laikas                                   	| 51.98248   	|
 
+  ### Failu generavimo laikas
 
- ### Failu generavimo laikas
-
-
+  | Įrašų kiekis 	| Etapas            	| Trukmė (s) 	|
+  |--------------	|-------------------	|------------	|
+  | 1000         	| Failo generavimas 	| 0.005660   	|
+  |              	|                   	|            	|
+  | 10000        	| Failo generavimas 	| 0.033800   	|
+  |              	|                   	|            	|
+  | 100000       	| Failo generavimas 	| 0.263591   	|
+  |              	|                   	|            	|
+  | 1000000      	| Failo generavimas 	| 2.229450   	|
+  |              	|                   	|            	|
+  | 10000000     	| Failo generavimas 	| 21.74790   	|
 
 
 ## Pakeitimai v0.3->v0.4

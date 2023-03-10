@@ -11,6 +11,7 @@
 #include <sstream>
 #include <regex>
 #include <omp.h>
+#include <execution>
 
 using namespace std::chrono;
 
