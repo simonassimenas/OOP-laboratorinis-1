@@ -53,7 +53,7 @@ using std::to_string;
 using std::find_if;
 using std::distance;
 using std::partition;
-using std::stable_sort;
+using std::sort;
 
 
 struct studentas {

@@ -75,7 +75,7 @@ void failoGeneravimas() {
             throw runtime_error("Nepavyko sukurti failo " + filename + " irasymui.");
         }
         else {
-            fout << left << setw(20) << "Vardas" << setw(20) << "Pavarde";
+            fout << left << setw(19) << "Vardas" << setw(20) << "Pavarde";
             for (int i = 1; i <= ndSk; i++) {
                 fout << setw(10) << "ND" + to_string(i);
             }
@@ -87,7 +87,7 @@ void failoGeneravimas() {
                 ss << left << setw(20) << "\nVardas" + to_string(i)
                 << setw(20) << "Pavarde" + to_string(i);
 
-                for (int j = 0; j < ndSk; j++) {
+                for (int j = 0; j <= ndSk; j++) {
                     int ndGrade = dis(gen);
                     ss << setw(10) << ndGrade;
                 }
