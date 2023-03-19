@@ -12,6 +12,8 @@
 #include <regex>
 #include <omp.h>
 #include <execution>
+#include <list>
+#include <deque>
 
 using namespace std::chrono;
 
