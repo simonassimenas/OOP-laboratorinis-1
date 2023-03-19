@@ -133,7 +133,7 @@ void failoSkaitymas(deque<studentas> &grupe) {
             cout << "\nFailas skaitomas...\n";
 
             int talpa = 100000;
-            grupe.reserve(talpa);
+            //grupe.reserve(talpa);
 
             fin.readsome(buferis, bufDydis);
             int bytesRead = fin.gcount();
@@ -144,7 +144,7 @@ void failoSkaitymas(deque<studentas> &grupe) {
             getline(fin, line);
 
             while(fin.peek() != EOF) {
-                if(grupe.size() == grupe.capacity()) grupe.reserve(talpa*10);
+                //if(grupe.size() == grupe.capacity()) grupe.reserve(talpa*10);
 
                 getline(fin, line);
                 stringstream ss(line);
@@ -307,7 +307,7 @@ void naudotojoIvestis(deque<studentas> &grupe) {
     bool pildyti;
     int talpa = 16;
 
-    grupe.reserve(talpa);
+    //grupe.reserve(talpa);
 
     cout << "Skaiciuosime vidurki(v), mediana(m) ar abu(a)?\n";
     outputPasirinkimas = getChoiceInput();
@@ -316,7 +316,7 @@ void naudotojoIvestis(deque<studentas> &grupe) {
     pildyti = getBoolInput();
 
     while(pildyti) {
-        if(grupe.size() == grupe.capacity()) grupe.reserve(talpa*2);
+        //if(grupe.size() == grupe.capacity()) grupe.reserve(talpa*2);
 
         pild(laikinas);
         grupe.push_back(laikinas);
@@ -342,7 +342,7 @@ void pild(studentas &temp) {
 
     deque<int> nd_vec;
     int resSpace = 16;
-    nd_vec.reserve(resSpace);
+    //nd_vec.reserve(resSpace);
     int inputOrNum;
     int egz;
 
@@ -352,7 +352,7 @@ void pild(studentas &temp) {
             inputOrNum = gradeInput();
             if(inputOrNum == 33) break;
 
-            if(nd_vec.size() == nd_vec.capacity()) nd_vec.reserve(resSpace*2);
+            //if(nd_vec.size() == nd_vec.capacity()) nd_vec.reserve(resSpace*2);
 
             nd_vec.push_back(inputOrNum);
 

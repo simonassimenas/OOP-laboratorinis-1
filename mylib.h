@@ -56,10 +56,18 @@ using std::find_if;
 using std::distance;
 using std::partition;
 using std::sort;
+using std::list;
+using std::deque;
+using std::next;
+using std::back_inserter;
+using std::move;
+using std::merge;
 
 
 struct studentas {
     string vardas = "", pavarde = "";
     double galutinisVid = 0, galutinisMed = 0;
-    vector<int> paz_vec;
+    // vector<int> paz_vec;
+    list<int> paz_vec;
+    // deque<int> paz_vec;
 };
