@@ -184,7 +184,6 @@ void failoSkaitymas(list<studentas> &grupe) {
 void failoIrasymas(list<studentas>& grupe, int partPoint) {
     const string filename_v = "vargsai.txt";
     const string filename_s = "saunuoliai.txt";
-
     ofstream fout_v(filename_v);
     ofstream fout_s(filename_s);
 
@@ -195,38 +194,40 @@ void failoIrasymas(list<studentas>& grupe, int partPoint) {
         if (!fout_s.is_open()) {
             throw runtime_error("Nepavyko sukurti failo " + filename_s + " irasymui.");
         }
+        else {
+            cout << "\nRasoma i failus...\n";
+            auto pradzia = high_resolution_clock::now();
 
-        auto pradzia = high_resolution_clock::now();
+            fout_v << left << setw(15) << "Vardas" << setw(20) << "Pavarde"
+                << setw(18) << "Galutinis (Vid.) / " << setw(16) << "Galutinis (Med.)\n";
 
-        fout_v << left << setw(15) << "Vardas" << setw(20) << "Pavarde"
-               << setw(18) << "Galutinis (Vid.) /" << setw(16) << "Galutinis (Med.)\n";
+            fout_v << string(70, '-') << "\n";
+            fout_s << left << setw(15) << "Vardas" << setw(20) << "Pavarde"
+                << setw(18) << "Galutinis (Vid.) / " << setw(16) << "Galutinis (Med.)\n";
 
-        fout_v << string(70, '-') << "\n";
-        fout_s << left << setw(15) << "Vardas" << setw(20) << "Pavarde"
-               << setw(18) << "Galutinis (Vid.) /" << setw(16) << "Galutinis (Med.)\n";
+            fout_s << string(70, '-') << "\n";
+            
+            for (auto it = grupe.begin(); it != next(grupe.begin(), partPoint); ++it) {
+                const auto& temp = *it;
+                fout_v << left << setw(15) << temp.vardas << setw(21) << temp.pavarde
+                    << setw(19) << fixed << setprecision(2) << temp.galutinisVid
+                    << setw(20) << fixed << setprecision(2) << temp.galutinisMed << "\n";
+            }
+            for (auto it = next(grupe.begin(), partPoint); it != grupe.end(); ++it) {
+                const auto& temp = *it;
+                fout_s << left << setw(15) << temp.vardas << setw(21) << temp.pavarde
+                    << setw(19) << fixed << setprecision(2) << temp.galutinisVid
+                    << setw(20) << fixed << setprecision(2) << temp.galutinisMed << "\n";
+            }
 
-        fout_s << string(70, '-') << "\n";
+            fout_v.close();
+            fout_s.close();
 
-        for (auto it = grupe.begin(); it != next(grupe.begin(), partPoint); ++it) {
-            const auto& temp = *it;
-            fout_v << left << setw(15) << temp.vardas << setw(21) << temp.pavarde 
-                << setw(19) << fixed << setprecision(2) << temp.galutinisVid 
-                << setw(20) << fixed << setprecision(2) << temp.galutinisMed << "\n";
+            auto pabaiga = high_resolution_clock::now();
+
+            duration<double> diff = pabaiga - pradzia;
+            cout << "Rasymas i failus truko " << diff.count() << " sekundes.\n";
         }
-        for (auto it = next(grupe.begin(), partPoint); it != grupe.end(); ++it) {
-            const auto& temp = *it;
-            fout_s << left << setw(15) << temp.vardas << setw(21) << temp.pavarde 
-                << setw(19) << fixed << setprecision(2) << temp.galutinisVid 
-                << setw(20) << fixed << setprecision(2) << temp.galutinisMed << "\n";
-        }
-
-        fout_v.close();
-        fout_s.close();
-
-        auto pabaiga = high_resolution_clock::now();
-
-        duration<double> diff = pabaiga - pradzia;
-        cout << "Rasymas i failus truko " << diff.count() << " sekundes.\n";
     }
     catch (const exception& e) {
         cout << "Klaida: " << e.what() << "\n";
