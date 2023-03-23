@@ -210,9 +210,9 @@ Apskaičiavus gautinius įvestų studentų balus, programa išveda duomenis į f
   * Pastaba: sąrašo(list) naudojimas labai stipriai sulėtina programos spausdinimą į failus, tačiau tai gali būti dėl blogo iteratorių cikluose pritaikymo.
 
   Pagal greitį:
-  1. Vector
-  2. Deque
-  3. List 
+   1. Vector
+   2. Deque
+   3. List 
 
 ## Pakeitimai v0.4->v0.5
 
