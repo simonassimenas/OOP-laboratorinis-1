@@ -1,5 +1,5 @@
 # OOP - Pirmas laboratorinis darbas
-## v0.4
+## v0.5
 
 
 ## Aprašymas
@@ -120,12 +120,101 @@ Apskaičiavus gautinius įvestų studentų balus, programa išveda duomenis į f
   |              	|                   	|            	|
   | 10000000     	| Failo generavimas 	| 21.74790   	|
 
+  ### Greičio testavimai - skirtingos duomenų struktūros
 
-## Pakeitimai v0.3->v0.4
+    #### Testavimo sistemos parametrai
 
- - Sugeneruojami studentų įrašų failai pasirenkant studentų kiekį.
- - Studentai padalinami į dvi kategorijas (du failus):
-    - Galutinis balas < 5.0 - varšai ("vagsai.txt")
-    - Galutinis balas >= 5.0 - šaunuoliai ("saunuoliai.txt")
- - Greičiau veikiantis failų skaitymas.
- - Pažymių vektorius perkeltas į struktūrą dėl greitesnio failo skaitymo.
+    - Ram: 16 GB (VSCode paskirta - 4GB), 2133 MHz DDR3
+    - Procesorius: 2,4 GHz Quad-Core Intel Core i5
+    - Diskas: SSD
+    
+
+    #### Vector
+
+    | Įrašų kiekis 	| Etapas                                           	| Trukmė (s) 	|
+    |--------------	|--------------------------------------------------	|------------	|
+    | 1000         	| Failo nuskaitymas                                	| 0.007856   	|
+    |              	| Atskyrimas ir rūšiavimas (pagal galutinį pažymį) 	| 0.000013   	|
+    |              	| Rūšiavimas (dvi grupės - vardais)                	| 0.000369   	|
+    |              	|                                                  	|            	|
+    | 10000        	| Failo nuskaitymas                                	| 0.052215   	|
+    |              	| Atskyrimas ir rūšiavimas (pagal galutinį pažymį) 	| 0.000198   	|
+    |              	| Rūšiavimas (dvi grupės - vardais)                	| 0.002544   	|
+    |              	|                                                  	|            	|
+    | 100000       	| Failo nuskaitymas                                	| 0.399489   	|
+    |              	| Atskyrimas ir rūšiavimas (pagal galutinį pažymį) 	| 0.001401   	|
+    |              	| Rūšiavimas (dvi grupės - vardais)                	| 0.036410   	|
+    |              	|                                                  	|            	|
+    | 1000000      	| Failo nuskaitymas                                	| 3.807240   	|
+    |              	| Atskyrimas ir rūšiavimas (pagal galutinį pažymį) 	| 0.013938   	|
+    |              	| Rūšiavimas (dvi grupės - vardais)                	| 0.368861   	|
+    |              	|                                                  	|            	|
+    | 10000000     	| Failo nuskaitymas                                	| 39.56331   	|
+    |              	| Atskyrimas ir rūšiavimas (pagal galutinį pažymį) 	| 0.137143   	|
+    |              	| Rūšiavimas (dvi grupės - vardais)                	| 4.590920   	|
+
+    #### Deque
+
+    | Įrašų kiekis 	| Etapas                                           	| Trukmė (s) 	|
+    |--------------	|--------------------------------------------------	|------------	|
+    | 1000         	| Failo nuskaitymas                                	| 0.008772   	|
+    |              	| Atskyrimas ir rūšiavimas (pagal galutinį pažymį) 	| 0.000020   	|
+    |              	| Rūšiavimas (dvi grupės - vardais)                	| 0.000390   	|
+    |              	|                                                  	|            	|
+    | 10000        	| Failo nuskaitymas                                	| 0.055995   	|
+    |              	| Atskyrimas ir rūšiavimas (pagal galutinį pažymį) 	| 0.000158   	|
+    |              	| Rūšiavimas (dvi grupės - vardais)                	| 0.003236   	|
+    |              	|                                                  	|            	|
+    | 100000       	| Failo nuskaitymas                                	| 0.413631   	|
+    |              	| Atskyrimas ir rūšiavimas (pagal galutinį pažymį) 	| 0.001855   	|
+    |              	| Rūšiavimas (dvi grupės - vardais)                	| 0.048346   	|
+    |              	|                                                  	|            	|
+    | 1000000      	| Failo nuskaitymas                                	| 4.084060   	|
+    |              	| Atskyrimas ir rūšiavimas (pagal galutinį pažymį) 	| 0.022699   	|
+    |              	| Rūšiavimas (dvi grupės - vardais)                	| 0 458764   	|
+    |              	|                                                  	|            	|
+    | 10000000     	| Failo nuskaitymas                                	| 40.5219   	|
+    |              	| Atskyrimas ir rūšiavimas (pagal galutinį pažymį) 	| 0.175214   	|
+    |              	| Rūšiavimas (dvi grupės - vardais)                	| 6.06296   	|
+  
+    #### List
+
+    | Įrašų kiekis 	| Etapas                                           	| Trukmė (s) 	|
+    |--------------	|--------------------------------------------------	|------------	|
+    | 1000         	| Failo nuskaitymas                                	| 0.006860   	|
+    |              	| Atskyrimas ir rūšiavimas (pagal galutinį pažymį) 	| 0.000090   	|
+    |              	| Rūšiavimas (dvi grupės - vardais)                	| 0.000308   	|
+    |              	|                                                  	|            	|
+    | 10000        	| Failo nuskaitymas                                	| 0.059444   	|
+    |              	| Atskyrimas ir rūšiavimas (pagal galutinį pažymį) 	| 0.001317   	|
+    |              	| Rūšiavimas (dvi grupės - vardais)                	| 0.003786   	|
+    |              	|                                                  	|            	|
+    | 100000       	| Failo nuskaitymas                                	| 0.582805   	|
+    |              	| Atskyrimas ir rūšiavimas (pagal galutinį pažymį) 	| 0.042608   	|
+    |              	| Rūšiavimas (dvi grupės - vardais)                	| 0.051172   	|
+    |              	|                                                  	|            	|
+    | 1000000      	| Failo nuskaitymas                                	| 5.678090   	|
+    |              	| Atskyrimas ir rūšiavimas (pagal galutinį pažymį) 	| 0.711688   	|
+    |              	| Rūšiavimas (dvi grupės - vardais)                	| 0.590938   	|
+    |              	|                                                  	|            	|
+    | 10000000     	| Failo nuskaitymas                                	| 57.23360   	|
+    |              	| Atskyrimas ir rūšiavimas (pagal galutinį pažymį) 	| 11.44320   	|
+    |              	| Rūšiavimas (dvi grupės - vardais)                	| 6.814410   	|
+
+    #### Testavimo rezultatai
+
+    Vektoriaus duomenų struktūra naudojimas šiai programai efektyviausias, kadangi testuojant atitinkamus šios programos etapus ji atliko darbą greičiausiai.
+
+    Verta paminėti, jog programos kodas pirma buvo rašytas nadojant **vektorius**, tad atitinkami metodai pritaikyti greitesniam vektoriaus veikimui.
+
+    * Pastaba: sąrašo(list) naudojimas labai stipriai sulėtina programos spausdinimą į failus, tačiau tai gali būti dėl blogo iteratorių cikluose pritaikymo.
+
+    Pagal greitį:
+    1. Vector
+    2. Deque
+    3. List 
+
+## Pakeitimai v0.4->v0.5
+
+ - Pridėti deque.cpp ir list.cpp failai.
+ - Palygintas greitis naudojant skirtingas duomenų struktūras: vector, deque ir list.
