@@ -198,27 +198,33 @@ void failoIrasymas(list<studentas>& grupe, int partPoint) {
             cout << "\nRasoma i failus...\n";
             auto pradzia = high_resolution_clock::now();
 
-            fout_v << left << setw(15) << "Vardas" << setw(20) << "Pavarde"
+            stringstream oss_v;
+            stringstream oss_s;
+
+            oss_v << left << setw(15) << "Vardas" << setw(20) << "Pavarde"
+                << setw(18) << "Galutinis (Vid.) / " << setw(16) << "Galutinis (Med.)\n";
+            oss_v << string(70, '-') << "\n";
+
+            oss_s << left << setw(15) << "Vardas" << setw(20) << "Pavarde"
                 << setw(18) << "Galutinis (Vid.) / " << setw(16) << "Galutinis (Med.)\n";
 
-            fout_v << string(70, '-') << "\n";
-            fout_s << left << setw(15) << "Vardas" << setw(20) << "Pavarde"
-                << setw(18) << "Galutinis (Vid.) / " << setw(16) << "Galutinis (Med.)\n";
-
-            fout_s << string(70, '-') << "\n";
+            oss_s << string(70, '-') << "\n";
             
             for (auto it = grupe.begin(); it != next(grupe.begin(), partPoint); ++it) {
                 const auto& temp = *it;
-                fout_v << left << setw(15) << temp.vardas << setw(21) << temp.pavarde
+                oss_v << left << setw(15) << temp.vardas << setw(21) << temp.pavarde
                     << setw(19) << fixed << setprecision(2) << temp.galutinisVid
                     << setw(20) << fixed << setprecision(2) << temp.galutinisMed << "\n";
             }
+            fout_v << oss_v.str();
+
             for (auto it = next(grupe.begin(), partPoint); it != grupe.end(); ++it) {
                 const auto& temp = *it;
-                fout_s << left << setw(15) << temp.vardas << setw(21) << temp.pavarde
+                oss_s << left << setw(15) << temp.vardas << setw(21) << temp.pavarde
                     << setw(19) << fixed << setprecision(2) << temp.galutinisVid
                     << setw(20) << fixed << setprecision(2) << temp.galutinisMed << "\n";
             }
+            fout_v << oss_v.str();
 
             fout_v.close();
             fout_s.close();
