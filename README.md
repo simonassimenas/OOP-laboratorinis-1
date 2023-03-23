@@ -203,7 +203,7 @@ Apskaičiavus gautinius įvestų studentų balus, programa išveda duomenis į f
 
   #### Testavimo rezultatai
 
-  Vektoriaus duomenų struktūra naudojimas šiai programai efektyviausias, kadangi testuojant atitinkamus šios programos etapus ji atliko darbą greičiausiai.
+  Vektoriaus duomenų struktūros naudojimas šiai programai efektyviausias, kadangi testuojant atitinkamus šios programos etapus ji atliko darbą greičiausiai.
 
   Verta paminėti, jog programos kodas pirma buvo rašytas nadojant **vektorius**, tad atitinkami metodai pritaikyti greitesniam vektoriaus veikimui.
 
