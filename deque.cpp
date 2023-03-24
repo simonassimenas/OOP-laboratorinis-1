@@ -237,6 +237,15 @@ void failoIrasymas(deque<studentas> &grupe, int partPoint) {
 int partitionIrSort(deque<studentas> &grupe, bool rusiavimasChoice) {
     auto it = grupe.begin();
 
+    auto pradzia_sort_sk = high_resolution_clock::now();
+    if (rusiavimasChoice) {
+        sort(grupe.begin(), it, vidPalyginimas);
+    }
+    else {
+        sort(grupe.begin(), it, medPalyginimas);
+    }
+    auto pabaiga_sort_sk = high_resolution_clock::now();
+
     auto pradzia_part = high_resolution_clock::now();
     if (rusiavimasChoice) {
         it = partition(grupe.begin(), grupe.end(), [](const studentas& s) { return s.galutinisVid < 5; });
@@ -251,10 +260,13 @@ int partitionIrSort(deque<studentas> &grupe, bool rusiavimasChoice) {
     stable_sort(it, grupe.end(), varduPalyginimas);
     auto pabaiga_sort = high_resolution_clock::now();
 
+    duration<double> diff_sort_sk = pabaiga_sort_sk - pradzia_sort_sk;
     duration<double> diff_part = pabaiga_part - pradzia_part;
     duration<double> diff_sort = pabaiga_sort - pradzia_sort;
+    
+    cout << "\nRusiavimas pagal galutini bala truko " << diff_sort_sk.count() << " sekundes.\n";
     cout << "\nAtskyrimas truko " << diff_part.count() << " sekundes.\n";
-    cout << "Rusiavimas truko " << diff_sort.count() << " sekundes.\n";
+    cout << "Rusiavimas pagal vardus truko " << diff_sort.count() << " sekundes.\n";
 
     return static_cast<int>(it - grupe.begin());
 }

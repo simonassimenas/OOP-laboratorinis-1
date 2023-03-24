@@ -243,13 +243,20 @@ void failoIrasymas(list<studentas>& grupe, int partPoint) {
 int partitionIrSort(list<studentas> &grupe, bool rusiavimasChoice) {
     auto it = grupe.begin();
 
-    auto pradzia_part = high_resolution_clock::now();
+    auto pradzia_sort_sk = high_resolution_clock::now();
     if (rusiavimasChoice) {
         grupe.sort(vidPalyginimas);
-        it = find_if(grupe.begin(), grupe.end(), [](const studentas& s) { return s.galutinisVid >= 5; });
     }
     else {
         grupe.sort(medPalyginimas);
+    }
+    auto pabaiga_sort_sk = high_resolution_clock::now();
+
+    auto pradzia_part = high_resolution_clock::now();
+    if (rusiavimasChoice) {
+        it = find_if(grupe.begin(), grupe.end(), [](const studentas& s) { return s.galutinisVid >= 5; });
+    }
+    else {
         it = find_if(grupe.begin(), grupe.end(), [](const studentas& s) { return s.galutinisMed >= 5; });
     }
     auto pabaiga_part = high_resolution_clock::now();
@@ -265,10 +272,13 @@ int partitionIrSort(list<studentas> &grupe, bool rusiavimasChoice) {
     grupe.splice(grupe.end(), saunuoliai);
     auto pabaiga_sort = high_resolution_clock::now();
 
+    duration<double> diff_sort_sk = pabaiga_sort_sk - pradzia_sort_sk;
     duration<double> diff_part = pabaiga_part - pradzia_part;
     duration<double> diff_sort = pabaiga_sort - pradzia_sort;
-    cout << "\nAtskyrimas truko " << diff_part.count() << " sekundes.\n";
-    cout << "Rusiavimas truko " << diff_sort.count() << " sekundes.\n";
+
+    cout << "\nRusiavimas pagal galutini bala truko " << diff_sort_sk.count() << " sekundes.\n";
+    cout << "Atskyrimas truko " << diff_part.count() << " sekundes.\n";
+    cout << "Rusiavimas pagal vardus truko " << diff_sort.count() << " sekundes.\n";
     
     return dist;
 }
