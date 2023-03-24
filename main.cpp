@@ -239,10 +239,10 @@ int partitionIrSort(vector<studentas> &grupe, bool rusiavimasChoice) {
 
     auto pradzia_sort_sk = high_resolution_clock::now();
     if (rusiavimasChoice) {
-        sort(grupe.begin(), it, vidPalyginimas);
+        stable_sort(grupe.begin(), grupe.end(), [](const studentas& a, const studentas &b){ return a.galutinisVid < b.galutinisVid; });
     }
     else {
-        sort(grupe.begin(), it, medPalyginimas);
+        stable_sort(grupe.begin(), grupe.end(), [](const studentas& a, const studentas &b){ return a.galutinisMed < b.galutinisMed; });
     }
     auto pabaiga_sort_sk = high_resolution_clock::now();
 
@@ -279,11 +279,11 @@ bool varduPalyginimas(const studentas &a, const studentas &b) {
 }
 
 bool medPalyginimas(const studentas &a, const studentas &b) {
-    return a.galutinisMed > b.galutinisMed;
+    return a.galutinisMed < b.galutinisMed;
 }
 
 bool vidPalyginimas(const studentas &a, const studentas &b) {
-    return a.galutinisVid > b.galutinisVid;
+    return a.galutinisVid < b.galutinisVid;
 }
 
 int randomSkaicius() {

@@ -62,12 +62,13 @@ using std::next;
 using std::back_inserter;
 using std::move;
 using std::merge;
+using std::stable_sort;
 
 
 struct studentas {
     string vardas = "", pavarde = "";
     double galutinisVid = 0, galutinisMed = 0;
-    // vector<int> paz_vec;
-    list<int> paz_vec;
+    vector<int> paz_vec;
+    // list<int> paz_vec;
     // deque<int> paz_vec;
 };
