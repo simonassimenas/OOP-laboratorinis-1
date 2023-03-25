@@ -73,7 +73,7 @@ Apskaičiavus gautinius įvestų studentų balus, programa išveda duomenis į f
 
 ## Veikimo greitis
 
- - Bandymams naudotas namų darbų skaicius - 10.
+  Bandymams naudotas namų darbų skaicius - 10.
 
   ### Programos veikimo greitis
 
@@ -131,7 +131,7 @@ Apskaičiavus gautinius įvestų studentų balus, programa išveda duomenis į f
   - Procesorius: 2,4 GHz Quad-Core Intel Core i5
   - Diskas: SSD
 
-  - Bandymams naudotas namų darbų skaicius - 10.
+  Bandymams naudotas namų darbų skaicius - 10.
 
   #### Duomenų nuskaitymas
 
