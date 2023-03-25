@@ -239,10 +239,10 @@ int partitionIrSort(deque<studentas> &grupe, bool rusiavimasChoice) {
 
     auto pradzia_sort_sk = high_resolution_clock::now();
     if (rusiavimasChoice) {
-        sort(grupe.begin(), it, vidPalyginimas);
+        sort(grupe.begin(), it, [](const studentas& a, const studentas &b){ return a.galutinisVid < b.galutinisVid; });
     }
     else {
-        sort(grupe.begin(), it, medPalyginimas);
+        sort(grupe.begin(), it, [](const studentas& a, const studentas &b){ return a.galutinisMed < b.galutinisMed; });
     }
     auto pabaiga_sort_sk = high_resolution_clock::now();
 

@@ -7,10 +7,8 @@ deque: addFunctions.o
 addFunctions:
 	g++ -c addFunctions.cpp
 clean:
-	rm *.o main vargsai.txt saunuoliai.txt
+	rm *.o main list deque vargsai.txt saunuoliai.txt
 cleanres:
 	rm vargsai.txt saunuoliai.txt
-cleanall:
-	rm *.o main list deque vargsai.txt saunuoliai.txt
 txt:
 	rm *.txt
