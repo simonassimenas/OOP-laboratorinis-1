@@ -62,9 +62,12 @@ Apskaičiavus gautinius įvestų studentų balus, programa išveda duomenis į f
 
 ## Makefile
 
- - "make main" - paruošia programos vykdomąjį failą.
+ - "make main" - paruošia programos vykdomąjį failą(su vector duomenų struktūra).
+ - "make deque" - paruošia programos vykdomąjį failą(su deque duomenų struktūra).
+ - "make list" - paruošia programos vykdomąjį failą(su list duomenų struktūra).
  - "make addFunctions" - sukompiliuoja pridėtinių funkcijų failą.
- - "make clean" - išvalo "make main" ir "make addFunctions" sukurtus failus bei "vargasi.txt" ir "saunuoliai.txt".
+ - "make clean" - išvalo "executable" failus ir "make addFunctions" sukurtus failus bei "vargasi.txt" ir "saunuoliai.txt".
+ - "make cleanres" - išvalo "vargasi.txt" ir "saunuoliai.txt" failus.
  - "make txt" - išvalo visus .txt failus.
 
 
@@ -128,90 +131,135 @@ Apskaičiavus gautinius įvestų studentų balus, programa išveda duomenis į f
   - Procesorius: 2,4 GHz Quad-Core Intel Core i5
   - Diskas: SSD
 
+  - Bandymams naudotas namų darbų skaicius - 10.
 
-  #### Vector
+  #### Duomenų nuskaitymas
 
-  | Įrašų kiekis 	| Etapas                                           	| Trukmė (s) 	|
-  |--------------	|--------------------------------------------------	|------------	|
-  | 1000         	| Failo nuskaitymas                                	| 0.007856   	|
-  |              	| Atskyrimas ir rūšiavimas (pagal galutinį pažymį) 	| 0.000013   	|
-  |              	| Rūšiavimas (dvi grupės - vardais)                	| 0.000369   	|
-  |              	|                                                  	|            	|
-  | 10000        	| Failo nuskaitymas                                	| 0.052215   	|
-  |              	| Atskyrimas ir rūšiavimas (pagal galutinį pažymį) 	| 0.000198   	|
-  |              	| Rūšiavimas (dvi grupės - vardais)                	| 0.002544   	|
-  |              	|                                                  	|            	|
-  | 100000       	| Failo nuskaitymas                                	| 0.399489   	|
-  |              	| Atskyrimas ir rūšiavimas (pagal galutinį pažymį) 	| 0.001401   	|
-  |              	| Rūšiavimas (dvi grupės - vardais)                	| 0.036410   	|
-  |              	|                                                  	|            	|
-  | 1000000      	| Failo nuskaitymas                                	| 3.807240   	|
-  |              	| Atskyrimas ir rūšiavimas (pagal galutinį pažymį) 	| 0.013938   	|
-  |              	| Rūšiavimas (dvi grupės - vardais)                	| 0.368861   	|
-  |              	|                                                  	|            	|
-  | 10000000     	| Failo nuskaitymas                                	| 39.56331   	|
-  |              	| Atskyrimas ir rūšiavimas (pagal galutinį pažymį) 	| 0.137143   	|
-  |              	| Rūšiavimas (dvi grupės - vardais)                	| 4.590920   	|
+  | Įrašų kiekis 	| Duomenų strukūra 	| Trukmė (s) 	|
+  |--------------	|------------------	|------------	|
+  | 1000         	| Vector           	| 0.0855624   |
+  |              	| Deque            	| 0.0088298  	|
+  |              	| List             	| 0.0124063  	|
+  |              	|                  	|            	|
+  | 10000        	| Vector           	| 0.0544154  	|
+  |              	| Deque            	| 0.0525761 	|
+  |              	| List             	| 0.0734453  	|
+  |              	|                  	|            	|
+  | 100000       	| Vector           	| 0.4189540 	|
+  |              	| Deque            	| 0.4517663 	|
+  |              	| List             	| 0.5696747  	|
+  |              	|                  	|            	|
+  | 1000000      	| Vector           	| 4.0794712  	|
+  |              	| Deque            	| 4.1688744  	|
+  |              	| List             	| 5.6560688  	|
+  |              	|                  	|            	|
+  | 10000000     	| Vector           	| 41.594612  	|
+  |              	| Deque            	| 40.667611  	|
+  |              	| List             	| 56.487245  	|
 
-  #### Deque
+  #### Rūšiavimas pagal galutinį pažymį
+  
+  | Įrašų kiekis 	| Duomenų strukūra 	| Trukmė (s) 	|
+  |--------------	|------------------	|------------	|
+  | 1000         	| Vector           	| 0.0001715  	|
+  |              	| Deque            	| 0.0000091  	|
+  |              	| List             	| 0.0001142  	|
+  |              	|                  	|            	|
+  | 10000        	| Vector           	| 0.0015108  	|
+  |              	| Deque            	| 0.0000059  	|
+  |              	| List             	| 0.0012156  	|
+  |              	|                  	|            	|
+  | 100000       	| Vector           	| 0.0203581  	|
+  |              	| Deque            	| 0.0000051  	|
+  |              	| List             	| 0.0302812  	|
+  |              	|                  	|            	|
+  | 1000000      	| Vector           	| 0.2557652  	|
+  |              	| Deque            	| 0.0000057  	|
+  |              	| List             	| 0.6673153  	|
+  |              	|                  	|            	|
+  | 10000000     	| Vector           	| 2.8297531  	|
+  |              	| Deque            	| 0.0000065  	|
+  |              	| List             	| 10.817841  	|
 
-  | Įrašų kiekis 	| Etapas                                           	| Trukmė (s) 	|
-  |--------------	|--------------------------------------------------	|------------	|
-  | 1000         	| Failo nuskaitymas                                	| 0.008772   	|
-  |              	| Atskyrimas ir rūšiavimas (pagal galutinį pažymį) 	| 0.000020   	|
-  |              	| Rūšiavimas (dvi grupės - vardais)                	| 0.000390   	|
-  |              	|                                                  	|            	|
-  | 10000        	| Failo nuskaitymas                                	| 0.055995   	|
-  |              	| Atskyrimas ir rūšiavimas (pagal galutinį pažymį) 	| 0.000158   	|
-  |              	| Rūšiavimas (dvi grupės - vardais)                	| 0.003236   	|
-  |              	|                                                  	|            	|
-  | 100000       	| Failo nuskaitymas                                	| 0.413631   	|
-  |              	| Atskyrimas ir rūšiavimas (pagal galutinį pažymį) 	| 0.001855   	|
-  |              	| Rūšiavimas (dvi grupės - vardais)                	| 0.048346   	|
-  |              	|                                                  	|            	|
-  | 1000000      	| Failo nuskaitymas                                	| 4.084060   	|
-  |              	| Atskyrimas ir rūšiavimas (pagal galutinį pažymį) 	| 0.022699   	|
-  |              	| Rūšiavimas (dvi grupės - vardais)                	| 0 458764   	|
-  |              	|                                                  	|            	|
-  | 10000000     	| Failo nuskaitymas                                	| 40.5219   	|
-  |              	| Atskyrimas ir rūšiavimas (pagal galutinį pažymį) 	| 0.175214   	|
-  |              	| Rūšiavimas (dvi grupės - vardais)                	| 6.06296   	|
+  #### Atskyrimas į dvi grupes
+  
+  | Įrašų kiekis 	| Duomenų strukūra 	| Trukmė (s) 	|
+  |--------------	|------------------	|------------	|
+  | 1000         	| Vector           	| 0.0000041 	|
+  |              	| Deque            	| 0.0000239  	|
+  |              	| List             	| 0.0000022  	|
+  |              	|                  	|            	|
+  | 10000        	| Vector           	| 0.0000175  	|
+  |              	| Deque            	| 0.0001534  	|
+  |              	| List             	| 0.0000519  	|
+  |              	|                  	|            	|
+  | 100000       	| Vector           	| 0.0003912  	|
+  |              	| Deque            	| 0.0016684 	|
+  |              	| List             	| 0.0032759  	|
+  |              	|                  	|            	|
+  | 1000000      	| Vector           	| 0.0055169  	|
+  |              	| Deque            	| 0.0171797  	|
+  |              	| List             	| 0.0516293  	|
+  |              	|                  	|            	|
+  | 10000000     	| Vector           	| 0.0580231  	|
+  |              	| Deque            	| 0.1571357  	|
+  |              	| List             	| 0.5227782  	|
 
-  #### List
-
-  | Įrašų kiekis 	| Etapas                                           	| Trukmė (s) 	|
-  |--------------	|--------------------------------------------------	|------------	|
-  | 1000         	| Failo nuskaitymas                                	| 0.006860   	|
-  |              	| Atskyrimas ir rūšiavimas (pagal galutinį pažymį) 	| 0.000090   	|
-  |              	| Rūšiavimas (dvi grupės - vardais)                	| 0.000308   	|
-  |              	|                                                  	|            	|
-  | 10000        	| Failo nuskaitymas                                	| 0.059444   	|
-  |              	| Atskyrimas ir rūšiavimas (pagal galutinį pažymį) 	| 0.001317   	|
-  |              	| Rūšiavimas (dvi grupės - vardais)                	| 0.003786   	|
-  |              	|                                                  	|            	|
-  | 100000       	| Failo nuskaitymas                                	| 0.582805   	|
-  |              	| Atskyrimas ir rūšiavimas (pagal galutinį pažymį) 	| 0.042608   	|
-  |              	| Rūšiavimas (dvi grupės - vardais)                	| 0.051172   	|
-  |              	|                                                  	|            	|
-  | 1000000      	| Failo nuskaitymas                                	| 5.678090   	|
-  |              	| Atskyrimas ir rūšiavimas (pagal galutinį pažymį) 	| 0.711688   	|
-  |              	| Rūšiavimas (dvi grupės - vardais)                	| 0.590938   	|
-  |              	|                                                  	|            	|
-  | 10000000     	| Failo nuskaitymas                                	| 57.23360   	|
-  |              	| Atskyrimas ir rūšiavimas (pagal galutinį pažymį) 	| 11.44320   	|
-  |              	| Rūšiavimas (dvi grupės - vardais)                	| 6.814410   	|
+  #### Rūšiavimas pagal vardą
+  
+  | Įrašų kiekis 	| Duomenų strukūra 	| Trukmė (s) 	|
+  |--------------	|------------------	|------------	|
+  | 1000         	| Vector           	| 0.0003411  	|
+  |              	| Deque            	| 0.0003939  	|
+  |              	| List             	| 0.0005543  	|
+  |              	|                  	|            	|
+  | 10000        	| Vector           	| 0.0030665  	|
+  |              	| Deque            	| 0.0034686  	|
+  |              	| List             	| 0.0034505  	|
+  |              	|                  	|            	|
+  | 100000       	| Vector           	| 0.0339563  	|
+  |              	| Deque            	| 0.0441855  	|
+  |              	| List             	| 0.0570711  	|
+  |              	|                  	|            	|
+  | 1000000      	| Vector           	| 0.4675653  	|
+  |              	| Deque            	| 0.4986289  	|
+  |              	| List             	| 0.5601956  	|
+  |              	|                  	|            	|
+  | 10000000     	| Vector           	| 4.7315312  	|
+  |              	| Deque            	| 6.2970149  	|
+  |              	| List             	| 6.5041133  	|
 
   #### Testavimo rezultatai
 
-  Vektoriaus duomenų struktūros naudojimas šiai programai efektyviausias, kadangi testuojant atitinkamus šios programos etapus ji atliko darbą greičiausiai.
+  Deque duomenų struktūros naudojimas šiai programai efektyviausias, kadangi testuojant atitinkamus šios programos etapus ji atliko darbą greičiausiai. Didžiulį pranašumą suteikė labai greitas studentų surūšiavimas pagal galutinį balą.
 
-  Verta paminėti, jog programos kodas pirma buvo rašytas nadojant **vektorius**, tad atitinkami metodai pritaikyti greitesniam vektoriaus veikimui.
+  Verta paminėti, jog programos kodas pirma buvo rašytas nadojant **vektorius**, tad atitinkami metodai pritaikyti greitesniam vektoriaus veikimui, tačiau **deque** veikė sparčiau, greičiausiai dėl pritaikymo prie kompiuterio architektūros.
 
-  * Pastaba: sąrašo(list) naudojimas labai stipriai sulėtina programos spausdinimą į failus, tačiau tai gali būti dėl blogo iteratorių cikluose pritaikymo.
+  * Pastaba: sąrašo(list) naudojimas labai stipriai sulėtina programos spausdinimą į failus nuo 100000 įrašų.
 
-  Pagal greitį:
+  **Duomenų nuskaitymas**:
+   1. Deque
+   2. Vector
+   3. List
+
+  **Rūšiavimas pagal galutinį pažymį**:
+   1. Deque
+   2. Vector
+   3. List
+
+  **Atskirimas į dvi grupes**:
    1. Vector
    2. Deque
+   3. List
+
+  **Rūšiaviams pagal vardą**:
+   1. Vector
+   2. Deque
+   3. List
+
+  **Pagal bendrą greitį**:
+   1. Deque
+   2. Vector
    3. List 
 
 ## Pakeitimai v0.4->v0.5
