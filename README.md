@@ -162,23 +162,23 @@ Apskaičiavus gautinius įvestų studentų balus, programa išveda duomenis į f
   | Įrašų kiekis 	| Duomenų strukūra 	| Trukmė (s) 	|
   |--------------	|------------------	|------------	|
   | 1000         	| Vector           	| 0.0001715  	|
-  |              	| Deque            	| 0.0000091  	|
+  |              	| Deque            	| 0.0001936  	|
   |              	| List             	| 0.0001142  	|
   |              	|                  	|            	|
   | 10000        	| Vector           	| 0.0015108  	|
-  |              	| Deque            	| 0.0000059  	|
+  |              	| Deque            	| 0.0013057  	|
   |              	| List             	| 0.0012156  	|
   |              	|                  	|            	|
   | 100000       	| Vector           	| 0.0203581  	|
-  |              	| Deque            	| 0.0000051  	|
+  |              	| Deque            	| 0.0143641  	|
   |              	| List             	| 0.0302812  	|
   |              	|                  	|            	|
   | 1000000      	| Vector           	| 0.2557652  	|
-  |              	| Deque            	| 0.0000057  	|
+  |              	| Deque            	| 0.1309522  	|
   |              	| List             	| 0.6673153  	|
   |              	|                  	|            	|
   | 10000000     	| Vector           	| 2.8297531  	|
-  |              	| Deque            	| 0.0000065  	|
+  |              	| Deque            	| 1.5065155  	|
   |              	| List             	| 10.817841  	|
 
   #### Atskyrimas į dvi grupes
@@ -186,23 +186,23 @@ Apskaičiavus gautinius įvestų studentų balus, programa išveda duomenis į f
   | Įrašų kiekis 	| Duomenų strukūra 	| Trukmė (s) 	|
   |--------------	|------------------	|------------	|
   | 1000         	| Vector           	| 0.0000041 	|
-  |              	| Deque            	| 0.0000239  	|
+  |              	| Deque            	| 0.0000038  	|
   |              	| List             	| 0.0000022  	|
   |              	|                  	|            	|
   | 10000        	| Vector           	| 0.0000175  	|
-  |              	| Deque            	| 0.0001534  	|
+  |              	| Deque            	| 0.0000287  	|
   |              	| List             	| 0.0000519  	|
   |              	|                  	|            	|
   | 100000       	| Vector           	| 0.0003912  	|
-  |              	| Deque            	| 0.0016684 	|
+  |              	| Deque            	| 0.0004935 	|
   |              	| List             	| 0.0032759  	|
   |              	|                  	|            	|
   | 1000000      	| Vector           	| 0.0055169  	|
-  |              	| Deque            	| 0.0171797  	|
+  |              	| Deque            	| 0.0050640  	|
   |              	| List             	| 0.0516293  	|
   |              	|                  	|            	|
   | 10000000     	| Vector           	| 0.0580231  	|
-  |              	| Deque            	| 0.1571357  	|
+  |              	| Deque            	| 0.0660971 	|
   |              	| List             	| 0.5227782  	|
 
   #### Rūšiavimas pagal vardą
@@ -210,30 +210,30 @@ Apskaičiavus gautinius įvestų studentų balus, programa išveda duomenis į f
   | Įrašų kiekis 	| Duomenų strukūra 	| Trukmė (s) 	|
   |--------------	|------------------	|------------	|
   | 1000         	| Vector           	| 0.0003411  	|
-  |              	| Deque            	| 0.0003939  	|
+  |              	| Deque            	| 0.0004943  	|
   |              	| List             	| 0.0005543  	|
   |              	|                  	|            	|
   | 10000        	| Vector           	| 0.0030665  	|
-  |              	| Deque            	| 0.0034686  	|
+  |              	| Deque            	| 0.0044410  	|
   |              	| List             	| 0.0034505  	|
   |              	|                  	|            	|
   | 100000       	| Vector           	| 0.0339563  	|
-  |              	| Deque            	| 0.0441855  	|
+  |              	| Deque            	| 0.0587231  	|
   |              	| List             	| 0.0570711  	|
   |              	|                  	|            	|
   | 1000000      	| Vector           	| 0.4675653  	|
-  |              	| Deque            	| 0.4986289  	|
+  |              	| Deque            	| 0.6451472  	|
   |              	| List             	| 0.5601956  	|
   |              	|                  	|            	|
   | 10000000     	| Vector           	| 4.7315312  	|
-  |              	| Deque            	| 6.2970149  	|
+  |              	| Deque            	| 8.1283533  	|
   |              	| List             	| 6.5041133  	|
 
   #### Testavimo rezultatai
 
   Deque duomenų struktūros naudojimas šiai programai efektyviausias, kadangi testuojant atitinkamus šios programos etapus ji atliko darbą greičiausiai. Didžiulį pranašumą suteikė labai greitas studentų surūšiavimas pagal galutinį balą.
 
-  Verta paminėti, jog programos kodas pirma buvo rašytas nadojant **vektorius**, tad atitinkami metodai pritaikyti greitesniam vektoriaus veikimui, tačiau **deque** veikė sparčiau, greičiausiai dėl pritaikymo prie kompiuterio architektūros.
+  Verta paminėti, jog programos kodas pirma buvo rašytas nadojant **vektorius**, tad atitinkami metodai pritaikyti greitesniam vektoriaus veikimui, taip pat tai greičiausiai lemia pritaikymas prie kompiuterio architektūros.
 
   * Pastaba: sąrašo(list) naudojimas labai stipriai sulėtina programos spausdinimą į failus nuo 100000 įrašų.
 
@@ -254,12 +254,12 @@ Apskaičiavus gautinius įvestų studentų balus, programa išveda duomenis į f
 
   **Rūšiaviams pagal vardą**:
    1. Vector
-   2. Deque
-   3. List
+   2. List
+   3. Deque
 
   **Pagal bendrą greitį**:
-   1. Deque
-   2. Vector
+   1. Vector
+   2. Deque
    3. List 
 
 ## Pakeitimai v0.4->v0.5
