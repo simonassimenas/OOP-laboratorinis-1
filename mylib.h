@@ -63,6 +63,8 @@ using std::back_inserter;
 using std::move;
 using std::merge;
 using std::stable_sort;
+using std::remove_if;
+using std::copy_if;
 
 
 struct studentas {

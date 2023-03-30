@@ -229,29 +229,17 @@ void failoIrasymas(vector<studentas> &grupe, vector<studentas> &vargsai) {
 }
 
 void singleIrSort(vector<studentas> &grupe, vector<studentas> &vargsai, bool rusiavimasChoice) {
-    auto it = grupe.begin();
-
     auto pradzia_part = high_resolution_clock::now();
 
     vargsai.reserve(grupe.size());
 
-    for (auto it = grupe.begin(); it != grupe.end(); ) {
-        if (rusiavimasChoice) {
-            if (it->galutinisVid < 5) {
-                vargsai.push_back(move(*it));
-                it = grupe.erase(it);
-            } else {
-                ++it;
-            }
-        }
-        else {
-            if (it->galutinisMed < 5) {
-                vargsai.push_back(move(*it));
-                it = grupe.erase(it);
-            } else {
-                ++it;
-            }
-        }
+    if (rusiavimasChoice) {
+        copy_if(grupe.begin(), grupe.end(), back_inserter(vargsai), [](const studentas& a) { return a.galutinisVid < 5; });
+        grupe.erase(remove_if(grupe.begin(), grupe.end(), [](const studentas& a) { return a.galutinisVid < 5; }), grupe.end());
+    }
+    else {
+        copy_if(grupe.begin(), grupe.end(), back_inserter(vargsai), [](const studentas& a) { return a.galutinisVid < 5; });
+        grupe.erase(remove_if(grupe.begin(), grupe.end(), [](const studentas& a) { return a.galutinisVid < 5; }), grupe.end());
     }
     vargsai.shrink_to_fit();
 

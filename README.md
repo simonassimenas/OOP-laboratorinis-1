@@ -22,49 +22,55 @@ Apskaičiavus gautinius įvestų studentų balus, programa išveda duomenis į f
 ## Failai
 
  - mylib.h - antraščių failas, kuriame saugomos naudojamos bibliotekos bei deklaruotos naudojamos funkcijos.
- - main.cpp - programos failas, kuriame saugomas programos kodas. Duomenų talpinimui naudojami **vektoriai**.
+ - main.cpp - programos failas, kurias skirtas skirtingų strategijų pasirinkimui ir failų paleidimui.
+ - partition.cpp - programos failas, kuriame naudojami **vektoriai** ir studentų atskirimui naudojamas **partition** metodas.
+ - single.cpp - programos failas, kuriame naudojami **vektoriai** ir studentai turintys žemesnį galutinį balą nei 5 perkeliami į kitą vektorių, o turintys aukštesnį arbą lygų 5 išlieka originaliame vektoriuje.
+ - split.cpp - programos failas, kuriame naudojami **vektoriai** ir studentai atskiriami į du naujus vektorius.
  - addFunctions.h - antraščių failas, kuriame saugomi naudojamų pridėtinių funkcijų prototipai.
- - addFunctions.cpp - programos failas, kuriame saugomos naudojamos pridėtinės funkcijos skirtos įvesties patikrinimui, random skaičių generavimui ir išvedimui.
+ - addFunctions.cpp - programos failas, kuriame saugomos naudojamos pridėtinės funkcijos skirtos įvesties patikrinimui, random skaičių generavimui, išvedimui, naudotojo duomenų pildymui ir duomenų generavimui.
  - makefile - aprašytos komandos naudojamos kompiliavimui ar failų valimui.
 
 
 ## Instrukcija
 
-1. Paleista programa paklausia naudotojo ar norima skaityti failą(a) ar įvesti duomenis(b).
+1. Paleista programa paklausia vartotojo, kurią strategiją norėtų išbandyti.
 
-2.a. Naudotojas pasirenka ar nori generuoti failą.
+2. Paleista programa paklausia naudotojo ar norima skaityti failą(a) ar įvesti duomenis(b).
+
+3.a. Naudotojas pasirenka ar nori generuoti failą.
  > - Pasirinkus "Ne" programa toliau pereina į 4 instrukcijos žingsnį.
  > - Pasirinkus "Taip" programa toliau pereina į 3 instrukcijos žingsnį.
  
-3.a. Naudotojas įveda norimų sugeneruoti studentų skaičių ir paspaudžia "enter" klavišą.
+4.a. Naudotojas įveda norimų sugeneruoti studentų skaičių ir paspaudžia "enter" klavišą.
  > - Programa paklausia ar naudotojas nori sugeneruoti dar vieną failą, jei taip grįžtama į 3 instrukcijos žingsnį.
  
-4.a. Naudotojas įveda failo pavadinimą ir paspaudžia "enter" klavišą.
+5.a. Naudotojas įveda failo pavadinimą ir paspaudžia "enter" klavišą.
 
-5.a. Programa išveda kiekvieno etapo laiką bei išveda kada duomenys buvo perskaityti, surūšiuoti ir įrašyti.
+6.a. Programa išveda kiekvieno etapo laiką bei išveda kada duomenys buvo perskaityti, surūšiuoti ir įrašyti.
  > - Nepavykus atidaryti failo programa stabdoma ir į ekraną išvedama, jog nepavyko atidaryti failo.
 
 
-2.b. Paleista programa paklausia naudotojo ar bus skaičiuojamas vidurkis, ar mediana.
+3.b. Paleista programa paklausia naudotojo ar bus skaičiuojamas vidurkis, ar mediana.
 
-3.b. Naudotojas pasirenka ar nori pildyti įrašą. Pasirinkus nepradėti programa sustabdoma.
+4.b. Naudotojas pasirenka ar nori pildyti įrašą. Pasirinkus nepradėti programa sustabdoma.
 
-4.b. Naudotojas įveda studento vardą ir pavardę.
+5.b. Naudotojas įveda studento vardą ir pavardę.
 
-5.b. Programa paklausia naudotojo ar jis norėtų studento pažymius įvesti ranka, ar sugeneruoti automatiškai. Leidžiami įvesti pažymiai turi būti intervale nuo 0 iki 10. "0" reiškia, jog darbas nebuvo atsiskaitytas.
+6.b. Programa paklausia naudotojo ar jis norėtų studento pažymius įvesti ranka, ar sugeneruoti automatiškai. Leidžiami įvesti pažymiai turi būti intervale nuo 0 iki 10. "0" reiškia, jog darbas nebuvo atsiskaitytas.
  > - Pasirinkus rankinį įvedimą naudotojas įvedą namų darbų pažymius. Kiekvienas įvedimas turi būti atskirtas klavišo "Enter" paspaudimu. Įvedimą užbaigti galima įvedus "33" ir paspaudus "Enter" klavišą. Baigus namų darbų įvedimą naudotojas įveda studento egzamino pažymį.
  > - Pasirinkus automatinį pažymių generavimą programa paprašo naudotojo įvesti pažymių skaičių(į šį skaičių neįeina egzamino pažymys).
  
-6.b. Programa išveda, jog duomenys buvo įrašyti irpaklausia naudotojo ar jis norėtų pildyti dar vieną įrašą.
+7.b. Programa išveda, jog duomenys buvo įrašyti irpaklausia naudotojo ar jis norėtų pildyti dar vieną įrašą.
  > - Pasirinkus "Ne" programa stabdoma ir išvedami įvesti įrašų duomenys.
  > - Pasirinkus "Taip" grįžtama į 3 instrukcijos žingsnį.
 
 
 ## Makefile
 
- - "make main" - paruošia programos vykdomąjį failą(su vector duomenų struktūra).
- - "make deque" - paruošia programos vykdomąjį failą(su deque duomenų struktūra).
- - "make list" - paruošia programos vykdomąjį failą(su list duomenų struktūra).
+ - "make main" - paruošia programos "main" vykdomąjį failą su kuriuo galima naudotis visa programa.
+ - "make partition" - paruošia programos "partition" vykdomąjį failą, kuriame naudojamas partition metodas.
+ - "make single" - paruošia programos "single" vykdomąjį failą, kuriame naudojamas originalus ir naujas vektorius.
+ - "make split" - paruošia programos "split" vykdomąjį failą, kuriame naudojami du nauji vektoriai.
  - "make addFunctions" - sukompiliuoja pridėtinių funkcijų failą.
  - "make clean" - išvalo "executable" failus ir "make addFunctions" sukurtus failus bei "vargasi.txt" ir "saunuoliai.txt".
  - "make cleanres" - išvalo "vargasi.txt" ir "saunuoliai.txt" failus.
@@ -260,9 +266,39 @@ Apskaičiavus gautinius įvestų studentų balus, programa išveda duomenis į f
   **Pagal bendrą greitį**:
    1. Vector
    2. Deque
-   3. List 
+   3. List
+  
+  ### Skirtingų atskirimo metodų palyginimas
 
-## Pakeitimai v0.4->v0.5
+  | Įrašų kiekis 	| Duomenų strukūra 	| Trukmė (s) 	|
+  |--------------	|------------------	|------------	|
+  | 1000         	| Partition        	| 0.0000196 	|
+  |              	| Single           	| 0.0001953  	|
+  |              	| Split            	| 0.0002674  	|
+  |              	|                  	|            	|
+  | 10000        	| Partition        	| 0.0000765 	|
+  |              	| Single           	| 0.0019678  	|
+  |              	| Split            	| 0.0019813  	|
+  |              	|                  	|            	|
+  | 100000       	| Partition        	| 0.0014179 	|
+  |              	| Single           	| 0.0105016  	|
+  |              	| Split            	| 0.0179358  	|
+  |              	|                  	|            	|
+  | 1000000     	| Partition        	| 0.0133609 	|
+  |              	| Single           	| 0.0911167  	|
+  |              	| Split            	| 0.1648474  	|
+  |              	|                  	|            	|
+  | 10000000     	| Partition        	| 0.1116033  	|
+  |              	| Single           	| 0.9240467 	|
+  |              	| Split            	| 1.7720802  	|
 
- - Pridėti deque.cpp ir list.cpp failai.
- - Palygintas greitis naudojant skirtingas duomenų struktūras: vector, deque ir list.
+  #### Testavimo rezultatai
+
+  **Partition** metodas buvo greičiausias atskiriant vektorius į dvi grupes, kadangi susiskirstymas buvo atliekamas originaliame vektoriuje, tad programa neužtruko laiko dirbdama su nauju vektoriumi.
+  **Originalus ir naujas konteineris** metodas buvo 9 kartus lėtesnis už **Partition**, kadangi buvo dirbama su vienu nauju vektoriumi į kurį buvo kopijuojami duomenys atitinkantys sąlygas ir trinami iš originalaus vektoriaus.
+  **Du nauji konteineraiai** metodas buvo 2 kartus lėtesnis už **Originalus ir naujas konteineris**, kadangi buvo dirbama su dviejais naujais vektoriais į kuriuos buvo perkeliami duomenys.
+
+  **Atskyrimo į dvi grupes greitis**:
+   1. Partition
+   2. Originalus ir naujas konteineris
+   3. Du nauji konteineraiai
