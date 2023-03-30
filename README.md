@@ -1,5 +1,5 @@
 # OOP - Pirmas laboratorinis darbas
-## v0.5
+## v1.0
 
 
 ## Aprašymas
