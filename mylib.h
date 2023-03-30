@@ -69,6 +69,4 @@ struct studentas {
     string vardas = "", pavarde = "";
     double galutinisVid = 0, galutinisMed = 0;
     vector<int> paz_vec;
-    // list<int> paz_vec;
-    // deque<int> paz_vec;
 };
