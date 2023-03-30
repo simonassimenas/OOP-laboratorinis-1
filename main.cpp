@@ -3,9 +3,9 @@
 int main() {
     int strategy;
     bool choice = true,
-    flag_part = false,
-    flag_single = false,
-    flag_split = false;
+    // flag_part = false,
+    // flag_single = false,
+    // flag_split = false;
 
     while (choice) {
         cout << "Pasirinkite strategija:\n" <<
@@ -17,20 +17,20 @@ int main() {
         switch (strategy) {
         case 1:
             cout << "\nPrograma uzkraunama...\n";
-            if (!flag_part)
-                system("make split");
+            // if (!flag_part)
+            //     system("make split");
             system("./split");
             break;
         case 2:
             cout << "\nPrograma uzkraunama...\n";
-            if (!flag_single)
-                system("make single");
+            // if (!flag_single)
+            //     system("make single");
             system("./single");
             break;
         case 3:
             cout << "\nPrograma uzkraunama...\n";
-            if (!flag_split)
-                system("make partition");
+            // if (!flag_split)
+            //     system("make partition");
             system("./partition");
             break;
         }
