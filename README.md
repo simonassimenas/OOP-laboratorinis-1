@@ -67,6 +67,8 @@ Apskaičiavus gautinius įvestų studentų balus, programa išveda duomenis į f
 
 ## Makefile
 
+ - "make install" - sukuria visus programos failus ir juos instaliuoja.
+ - "make cleanf" - išvalo visus "instaliuotus" failus.
  - "make main" - paruošia programos "main" vykdomąjį failą su kuriuo galima naudotis visa programa.
  - "make partition" - paruošia programos "partition" vykdomąjį failą, kuriame naudojamas partition metodas.
  - "make single" - paruošia programos "single" vykdomąjį failą, kuriame naudojamas originalus ir naujas vektorius.
