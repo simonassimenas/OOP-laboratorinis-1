@@ -2,10 +2,10 @@
 
 int main() {
     int strategy;
-    bool choice = true,
-    // flag_part = false,
-    // flag_single = false,
-    // flag_split = false;
+    bool choice = true;
+    // bool flag_part = false;
+    // bool flag_single = false;
+    // bool flag_split = false;
 
     while (choice) {
         cout << "Pasirinkite strategija:\n" <<
