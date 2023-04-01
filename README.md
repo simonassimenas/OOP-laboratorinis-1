@@ -22,10 +22,10 @@ Apskaičiavus gautinius įvestų studentų balus, programa išveda duomenis į f
 ## Failai
 
  - mylib.h - antraščių failas, kuriame saugomos naudojamos bibliotekos bei deklaruotos naudojamos funkcijos.
- - main.cpp - programos failas, kurias skirtas skirtingų strategijų pasirinkimui ir failų paleidimui.
- - partition.cpp - programos failas, kuriame naudojami **vektoriai** ir studentų atskirimui naudojamas **partition** metodas.
- - single.cpp - programos failas, kuriame naudojami **vektoriai** ir studentai turintys žemesnį galutinį balą nei 5 perkeliami į kitą vektorių, o turintys aukštesnį arbą lygų 5 išlieka originaliame vektoriuje.
- - split.cpp - programos failas, kuriame naudojami **vektoriai** ir studentai atskiriami į du naujus vektorius.
+ - main.cpp - programos failas, kurias skirtas skirtingų konteinerių tipų pasirinkimui ir failų paleidimui.
+ - vector.cpp - programos failas, kuriame naudojami **vektoriai**.
+ - deque.cpp - programos failas, kuriame naudojami **dekai**.
+ - list.cpp - programos failas, kuriame naudojami **listai**.
  - addFunctions.h - antraščių failas, kuriame saugomi naudojamų pridėtinių funkcijų prototipai.
  - addFunctions.cpp - programos failas, kuriame saugomos naudojamos pridėtinės funkcijos skirtos įvesties patikrinimui, random skaičių generavimui, išvedimui, naudotojo duomenų pildymui ir duomenų generavimui.
  - makefile - aprašytos komandos naudojamos kompiliavimui ar failų valimui.
@@ -33,34 +33,36 @@ Apskaičiavus gautinius įvestų studentų balus, programa išveda duomenis į f
 
 ## Instrukcija
 
-1. Paleista programa paklausia vartotojo, kurią strategiją norėtų išbandyti.
+1. Paleista programa paklausia naudotojo, kurį konteinerio tipą norėtų išbandyti.
 
-2. Paleista programa paklausia naudotojo ar norima skaityti failą(a) ar įvesti duomenis(b).
+2. Programa paklausia naudotojo, kurią strategiją norėtų išbandyti.
 
-3.a. Naudotojas pasirenka ar nori generuoti failą.
+3. Programa paklausia naudotojo ar norima skaityti failą(a) ar įvesti duomenis(b).
+
+4.a. Naudotojas pasirenka ar nori generuoti failą.
  > - Pasirinkus "Ne" programa toliau pereina į 4 instrukcijos žingsnį.
  > - Pasirinkus "Taip" programa toliau pereina į 3 instrukcijos žingsnį.
  
-4.a. Naudotojas įveda norimų sugeneruoti studentų skaičių ir paspaudžia "enter" klavišą.
+5.a. Naudotojas įveda norimų sugeneruoti studentų skaičių ir paspaudžia "enter" klavišą.
  > - Programa paklausia ar naudotojas nori sugeneruoti dar vieną failą, jei taip grįžtama į 3 instrukcijos žingsnį.
  
-5.a. Naudotojas įveda failo pavadinimą ir paspaudžia "enter" klavišą.
+6.a. Naudotojas įveda failo pavadinimą ir paspaudžia "enter" klavišą.
 
-6.a. Programa išveda kiekvieno etapo laiką bei išveda kada duomenys buvo perskaityti, surūšiuoti ir įrašyti.
+7.a. Programa išveda kiekvieno etapo laiką bei išveda kada duomenys buvo perskaityti, surūšiuoti ir įrašyti.
  > - Nepavykus atidaryti failo programa stabdoma ir į ekraną išvedama, jog nepavyko atidaryti failo.
 
 
-3.b. Paleista programa paklausia naudotojo ar bus skaičiuojamas vidurkis, ar mediana.
+4.b. Paleista programa paklausia naudotojo ar bus skaičiuojamas vidurkis, ar mediana.
 
-4.b. Naudotojas pasirenka ar nori pildyti įrašą. Pasirinkus nepradėti programa sustabdoma.
+5.b. Naudotojas pasirenka ar nori pildyti įrašą. Pasirinkus nepradėti programa sustabdoma.
 
-5.b. Naudotojas įveda studento vardą ir pavardę.
+6.b. Naudotojas įveda studento vardą ir pavardę.
 
-6.b. Programa paklausia naudotojo ar jis norėtų studento pažymius įvesti ranka, ar sugeneruoti automatiškai. Leidžiami įvesti pažymiai turi būti intervale nuo 0 iki 10. "0" reiškia, jog darbas nebuvo atsiskaitytas.
+7.b. Programa paklausia naudotojo ar jis norėtų studento pažymius įvesti ranka, ar sugeneruoti automatiškai. Leidžiami įvesti pažymiai turi būti intervale nuo 0 iki 10. "0" reiškia, jog darbas nebuvo atsiskaitytas.
  > - Pasirinkus rankinį įvedimą naudotojas įvedą namų darbų pažymius. Kiekvienas įvedimas turi būti atskirtas klavišo "Enter" paspaudimu. Įvedimą užbaigti galima įvedus "33" ir paspaudus "Enter" klavišą. Baigus namų darbų įvedimą naudotojas įveda studento egzamino pažymį.
  > - Pasirinkus automatinį pažymių generavimą programa paprašo naudotojo įvesti pažymių skaičių(į šį skaičių neįeina egzamino pažymys).
  
-7.b. Programa išveda, jog duomenys buvo įrašyti irpaklausia naudotojo ar jis norėtų pildyti dar vieną įrašą.
+8.b. Programa išveda, jog duomenys buvo įrašyti irpaklausia naudotojo ar jis norėtų pildyti dar vieną įrašą.
  > - Pasirinkus "Ne" programa stabdoma ir išvedami įvesti įrašų duomenys.
  > - Pasirinkus "Taip" grįžtama į 3 instrukcijos žingsnį.
 
@@ -68,13 +70,8 @@ Apskaičiavus gautinius įvestų studentų balus, programa išveda duomenis į f
 ## Makefile
 
  - "make install" - sukuria visus programos failus ir juos instaliuoja.
+ - "make clean" - išvalo visus "instaliuotus" failus bei "vargasi.txt" ir "saunuoliai.txt".
  - "make cleanf" - išvalo visus "instaliuotus" failus.
- - "make main" - paruošia programos "main" vykdomąjį failą su kuriuo galima naudotis visa programa.
- - "make partition" - paruošia programos "partition" vykdomąjį failą, kuriame naudojamas partition metodas.
- - "make single" - paruošia programos "single" vykdomąjį failą, kuriame naudojamas originalus ir naujas vektorius.
- - "make split" - paruošia programos "split" vykdomąjį failą, kuriame naudojami du nauji vektoriai.
- - "make addFunctions" - sukompiliuoja pridėtinių funkcijų failą.
- - "make clean" - išvalo "executable" failus ir "make addFunctions" sukurtus failus bei "vargasi.txt" ir "saunuoliai.txt".
  - "make cleanres" - išvalo "vargasi.txt" ir "saunuoliai.txt" failus.
  - "make txt" - išvalo visus .txt failus.
 
