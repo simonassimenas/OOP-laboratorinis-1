@@ -41,19 +41,20 @@ int main() {
             }
             catch (const exception &e) {}
 
-            switch (strategy) {
-                case 1:
-                    cout << "Rusiuojama...\n";
-                    splitIrSort(grupe, saunuoliai, vargsai, rusiavimasChoice);
-                    failoIrasymas_1(saunuoliai, vargsai);
-                case 2:
-                    cout << "Rusiuojama...\n";
-                    singleIrSort(grupe, vargsai, rusiavimasChoice);
-                    failoIrasymas_2(grupe, vargsai);
-                case 3:
-                    cout << "Rusiuojama...\n";
-                    int partPoint = partitionIrSort(grupe, rusiavimasChoice);
-                    failoIrasymas_3(grupe, partPoint);
+            if (strategy == 1) {
+                cout << "Rusiuojama...\n";
+                splitIrSort(grupe, saunuoliai, vargsai, rusiavimasChoice);
+                failoIrasymas_1(saunuoliai, vargsai);
+            }
+            else if (strategy == 2) {
+                cout << "Rusiuojama...\n";
+                singleIrSort(grupe, vargsai, rusiavimasChoice);
+                failoIrasymas_2(grupe, vargsai);
+            }
+            else {
+                cout << "Rusiuojama...\n";
+                int partPoint = partitionIrSort(grupe, rusiavimasChoice);
+                failoIrasymas_3(grupe, partPoint);
             }
         }
         else {
@@ -223,25 +224,31 @@ void failoIrasymas_1(vector<studentas_v> &saunuoliai, vector<studentas_v> &vargs
             cout << "\nRasoma i failus...\n";
             auto pradzia = high_resolution_clock::now();
 
-            fout_v << left << setw(15) << "Vardas" << setw(20) << "Pavarde" 
+            stringstream oss_v;
+            stringstream oss_s;
+
+            oss_v << left << setw(15) << "Vardas" << setw(20) << "Pavarde" 
+                << setw(18) << "Galutinis (Vid.) / " << setw(16) << "Galutinis (Med.)\n";
+            oss_v << string(70, '-') << "\n";
+
+            oss_s << left << setw(15) << "Vardas" << setw(20) << "Pavarde" 
                 << setw(18) << "Galutinis (Vid.) / " << setw(16) << "Galutinis (Med.)\n";
 
-            fout_v << string(70, '-') << "\n";
-            fout_s << left << setw(15) << "Vardas" << setw(20) << "Pavarde" 
-                << setw(18) << "Galutinis (Vid.) / " << setw(16) << "Galutinis (Med.)\n";
-
-            fout_s << string(70, '-') << "\n";
+            oss_s << string(70, '-') << "\n";
 
             for (auto &temp: vargsai) {
-                fout_v << left << setw(15) << temp.vardas << setw(21) << temp.pavarde 
+                oss_v << left << setw(15) << temp.vardas << setw(21) << temp.pavarde 
                     << setw(19) << fixed << setprecision(2) << temp.galutinisVid 
                     << setw(20) << fixed << setprecision(2) << temp.galutinisMed << "\n";
             }
+            fout_v << oss_v.str();
+
             for (auto &temp: saunuoliai) {
-                fout_s << left << setw(15) << temp.vardas << setw(21) << temp.pavarde 
+                oss_s << left << setw(15) << temp.vardas << setw(21) << temp.pavarde 
                     << setw(19) << fixed << setprecision(2) << temp.galutinisVid 
                     << setw(20) << fixed << setprecision(2) << temp.galutinisMed << "\n";
             }
+            fout_s << oss_s.str();
 
             fout_v.close();
             fout_s.close();
@@ -277,25 +284,31 @@ void failoIrasymas_2(vector<studentas_v> &grupe, vector<studentas_v> &vargsai) {
             cout << "\nRasoma i failus...\n";
             auto pradzia = high_resolution_clock::now();
 
-            fout_v << left << setw(15) << "Vardas" << setw(20) << "Pavarde" 
+            stringstream oss_v;
+            stringstream oss_s;
+
+            oss_v << left << setw(15) << "Vardas" << setw(20) << "Pavarde" 
+                << setw(18) << "Galutinis (Vid.) / " << setw(16) << "Galutinis (Med.)\n";
+            oss_v << string(70, '-') << "\n";
+
+            oss_s << left << setw(15) << "Vardas" << setw(20) << "Pavarde" 
                 << setw(18) << "Galutinis (Vid.) / " << setw(16) << "Galutinis (Med.)\n";
 
-            fout_v << string(70, '-') << "\n";
-            fout_s << left << setw(15) << "Vardas" << setw(20) << "Pavarde" 
-                << setw(18) << "Galutinis (Vid.) / " << setw(16) << "Galutinis (Med.)\n";
-
-            fout_s << string(70, '-') << "\n";
+            oss_s << string(70, '-') << "\n";
 
             for (auto &temp: vargsai) {
-                fout_v << left << setw(15) << temp.vardas << setw(21) << temp.pavarde 
+                oss_v << left << setw(15) << temp.vardas << setw(21) << temp.pavarde 
                     << setw(19) << fixed << setprecision(2) << temp.galutinisVid 
                     << setw(20) << fixed << setprecision(2) << temp.galutinisMed << "\n";
             }
+            fout_v << oss_v.str();
+
             for (auto &temp: grupe) {
-                fout_s << left << setw(15) << temp.vardas << setw(21) << temp.pavarde 
+                oss_s << left << setw(15) << temp.vardas << setw(21) << temp.pavarde 
                     << setw(19) << fixed << setprecision(2) << temp.galutinisVid 
                     << setw(20) << fixed << setprecision(2) << temp.galutinisMed << "\n";
             }
+            fout_s << oss_s.str();
 
             fout_v.close();
             fout_s.close();

@@ -10,6 +10,8 @@ list<studentas_l> &vargsai, bool rusiavimasChoice);
 void singleIrSort(list<studentas_l> &grupe, list<studentas_l> &vargsai, bool rusiavimasChoice);
 int findifIrSort(list<studentas_l> &grupe, bool rusiavimasChoice);
 bool varduPalyginimas(const studentas_l &a, const studentas_l &b);
+bool vidPalyginimas(const studentas_l &a, const studentas_l &b);
+bool medPalyginimas(const studentas_l &a, const studentas_l &b);
 
 
 int main() {
@@ -23,7 +25,7 @@ int main() {
         cout << "Pasirinkite strategija:\n" <<
         "   1 - Du nauji konteineraiai\n" <<
         "   2 - Originalus ir naujas konteineris\n" <<
-        "   3 - Findif metodas\n";
+        "   3 - Find if metodas\n";
         strategy = threeInput();
 
         cout << "Skaitysite is failo(1) ar pildysite patys(0)?\n";
@@ -40,19 +42,20 @@ int main() {
             }
             catch (const exception &e) {}
 
-            switch (strategy) {
-                case 1:
-                    cout << "Rusiuojama...\n";
-                    splitIrSort(grupe, saunuoliai, vargsai, rusiavimasChoice);
-                    failoIrasymas_1(saunuoliai, vargsai);
-                case 2:
-                    cout << "Rusiuojama...\n";
-                    singleIrSort(grupe, vargsai, rusiavimasChoice);
-                    failoIrasymas_2(grupe, vargsai);
-                case 3:
-                    cout << "Rusiuojama...\n";
-                    int partPoint = findifIrSort(grupe, rusiavimasChoice);
-                    failoIrasymas_3(grupe, partPoint);
+            if (strategy == 1) {
+                cout << "Rusiuojama...\n";
+                splitIrSort(grupe, saunuoliai, vargsai, rusiavimasChoice);
+                failoIrasymas_1(saunuoliai, vargsai);
+            }
+            else if (strategy == 2) {
+                cout << "Rusiuojama...\n";
+                singleIrSort(grupe, vargsai, rusiavimasChoice);
+                failoIrasymas_2(grupe, vargsai);
+            }
+            else {
+                cout << "Rusiuojama...\n";
+                int partPoint = findifIrSort(grupe, rusiavimasChoice);
+                failoIrasymas_3(grupe, partPoint);
             }
         }
         else {
@@ -217,25 +220,31 @@ void failoIrasymas_1(list<studentas_l> &saunuoliai, list<studentas_l> &vargsai) 
             cout << "\nRasoma i failus...\n";
             auto pradzia = high_resolution_clock::now();
 
-            fout_v << left << setw(15) << "Vardas" << setw(20) << "Pavarde" 
+            stringstream oss_v;
+            stringstream oss_s;
+
+            oss_v << left << setw(15) << "Vardas" << setw(20) << "Pavarde" 
+                << setw(18) << "Galutinis (Vid.) / " << setw(16) << "Galutinis (Med.)\n";
+            oss_v << string(70, '-') << "\n";
+
+            oss_s << left << setw(15) << "Vardas" << setw(20) << "Pavarde" 
                 << setw(18) << "Galutinis (Vid.) / " << setw(16) << "Galutinis (Med.)\n";
 
-            fout_v << string(70, '-') << "\n";
-            fout_s << left << setw(15) << "Vardas" << setw(20) << "Pavarde" 
-                << setw(18) << "Galutinis (Vid.) / " << setw(16) << "Galutinis (Med.)\n";
-
-            fout_s << string(70, '-') << "\n";
+            oss_s << string(70, '-') << "\n";
 
             for (auto &temp: vargsai) {
                 fout_v << left << setw(15) << temp.vardas << setw(21) << temp.pavarde 
                     << setw(19) << fixed << setprecision(2) << temp.galutinisVid 
                     << setw(20) << fixed << setprecision(2) << temp.galutinisMed << "\n";
             }
+            fout_v << oss_v.str();
+
             for (auto &temp: saunuoliai) {
                 fout_s << left << setw(15) << temp.vardas << setw(21) << temp.pavarde 
                     << setw(19) << fixed << setprecision(2) << temp.galutinisVid 
                     << setw(20) << fixed << setprecision(2) << temp.galutinisMed << "\n";
             }
+            fout_s << oss_s.str();
 
             fout_v.close();
             fout_s.close();
@@ -271,25 +280,31 @@ void failoIrasymas_2(list<studentas_l> &grupe, list<studentas_l> &vargsai) {
             cout << "\nRasoma i failus...\n";
             auto pradzia = high_resolution_clock::now();
 
-            fout_v << left << setw(15) << "Vardas" << setw(20) << "Pavarde" 
+            stringstream oss_v;
+            stringstream oss_s;
+
+            oss_v << left << setw(15) << "Vardas" << setw(20) << "Pavarde" 
+                << setw(18) << "Galutinis (Vid.) / " << setw(16) << "Galutinis (Med.)\n";
+            oss_v << string(70, '-') << "\n";
+
+            oss_s << left << setw(15) << "Vardas" << setw(20) << "Pavarde" 
                 << setw(18) << "Galutinis (Vid.) / " << setw(16) << "Galutinis (Med.)\n";
 
-            fout_v << string(70, '-') << "\n";
-            fout_s << left << setw(15) << "Vardas" << setw(20) << "Pavarde" 
-                << setw(18) << "Galutinis (Vid.) / " << setw(16) << "Galutinis (Med.)\n";
-
-            fout_s << string(70, '-') << "\n";
+            oss_s << string(70, '-') << "\n";
 
             for (auto &temp: vargsai) {
                 fout_v << left << setw(15) << temp.vardas << setw(21) << temp.pavarde 
                     << setw(19) << fixed << setprecision(2) << temp.galutinisVid 
                     << setw(20) << fixed << setprecision(2) << temp.galutinisMed << "\n";
             }
+            fout_v << oss_v.str();
+
             for (auto &temp: grupe) {
                 fout_s << left << setw(15) << temp.vardas << setw(21) << temp.pavarde 
                     << setw(19) << fixed << setprecision(2) << temp.galutinisVid 
                     << setw(20) << fixed << setprecision(2) << temp.galutinisMed << "\n";
             }
+            fout_s << oss_s.str();
 
             fout_v.close();
             fout_s.close();
@@ -351,7 +366,7 @@ void failoIrasymas_3(list<studentas_l>& grupe, int partPoint) {
                     << setw(19) << fixed << setprecision(2) << temp.galutinisVid
                     << setw(20) << fixed << setprecision(2) << temp.galutinisMed << "\n";
             }
-            fout_v << oss_v.str();
+            fout_s << oss_v.str();
 
             fout_v.close();
             fout_s.close();
@@ -408,12 +423,12 @@ void singleIrSort(list<studentas_l> &grupe, list<studentas_l> &vargsai, bool rus
     auto pradzia_part = high_resolution_clock::now();
 
     if (rusiavimasChoice) {
-        copy_if(grupe.begin(), grupe.end(), back_inserter(vargsai), [](const studentas_l& a) { return a.galutinisVid < 5; });
-        grupe.erase(remove_if(grupe.begin(), grupe.end(), [](const studentas_l& a) { return a.galutinisVid < 5; }), grupe.end());
+    copy_if(grupe.begin(), grupe.end(), back_inserter(vargsai), [](const studentas_l& a) { return a.galutinisVid < 5; });
+    grupe.remove_if([](const studentas_l& a) { return a.galutinisVid < 5; });
     }
     else {
         copy_if(grupe.begin(), grupe.end(), back_inserter(vargsai), [](const studentas_l& a) { return a.galutinisVid < 5; });
-        grupe.erase(remove_if(grupe.begin(), grupe.end(), [](const studentas_l& a) { return a.galutinisVid < 5; }), grupe.end());
+        grupe.remove_if([](const studentas_l& a) { return a.galutinisVid < 5; });
     }
 
     auto pabaiga_part = high_resolution_clock::now();
@@ -434,6 +449,13 @@ int findifIrSort(list<studentas_l> &grupe, bool rusiavimasChoice) {
     auto it = grupe.begin();
 
     auto pradzia_part = high_resolution_clock::now();
+    if (rusiavimasChoice) {
+        grupe.sort(vidPalyginimas);
+    }
+    else {
+        grupe.sort(medPalyginimas);
+    }
+
     if (rusiavimasChoice) {
         it = find_if(grupe.begin(), grupe.end(), [](const studentas_l& s) { return s.galutinisVid >= 5; });
     }
@@ -467,4 +489,12 @@ bool varduPalyginimas(const studentas_l &a, const studentas_l &b) {
         return a.vardas < b.vardas;
     else
         return a.pavarde < b.pavarde;
+}
+
+bool vidPalyginimas(const studentas_l &a, const studentas_l &b) {
+    return a.galutinisVid < b.galutinisVid;
+}
+
+bool medPalyginimas(const studentas_l &a, const studentas_l &b) {
+    return a.galutinisMed < b.galutinisMed;
 }

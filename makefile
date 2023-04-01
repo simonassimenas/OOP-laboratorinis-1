@@ -16,25 +16,17 @@ $(BIN_FILES): %: %.o addFunctions.o
 %.o: %.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-cleanf:
-	rm -f $(BIN_FILES) $(OBJ_FILES)
-
 install: all
 	install $(BIN_FILES) $(INSTALL_PATH)
 
-########################################
+clean:
+	rm -f $(BIN_FILES) $(OBJ_FILES) vargsai.txt saunuoliai.txt
 
-main: addFunctions.o
-	g++ -std=c++20 -march=native -O3 main.cpp -o main addFunctions.o
-addFunctions:
-	g++ -c addFunctions.cpp
-vector: addFunctions.o
-	g++ -std=c++20 -march=native -O3 vector.cpp -o vector addFunctions.o
-deque: addFunctions.o
-	g++ -std=c++20 -march=native -O3 deque.cpp -o deque addFunctions.o
-list: addFunctions.o
-	g++ -std=c++20 -march=native -O3 list.cpp -o list addFunctions.o
+cleanf:
+	rm -f $(BIN_FILES) $(OBJ_FILES)
+
 cleanres:
 	rm vargsai.txt saunuoliai.txt
+
 txt:
 	rm *.txt

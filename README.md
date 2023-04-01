@@ -272,35 +272,109 @@ Apskaičiavus gautinius įvestų studentų balus, programa išveda duomenis į f
   
   ### Skirtingų atskirimo metodų palyginimas
 
-  | Įrašų kiekis 	| Duomenų strukūra 	| Trukmė (s) 	|
-  |--------------	|------------------	|------------	|
-  | 1000         	| Partition        	| 0.0000196 	|
-  |              	| Single           	| 0.0001953  	|
-  |              	| Split            	| 0.0002674  	|
-  |              	|                  	|            	|
-  | 10000        	| Partition        	| 0.0000765 	|
-  |              	| Single           	| 0.0019678  	|
-  |              	| Split            	| 0.0019813  	|
-  |              	|                  	|            	|
-  | 100000       	| Partition        	| 0.0014179 	|
-  |              	| Single           	| 0.0105016  	|
-  |              	| Split            	| 0.0179358  	|
-  |              	|                  	|            	|
-  | 1000000     	| Partition        	| 0.0133609 	|
-  |              	| Single           	| 0.0911167  	|
-  |              	| Split            	| 0.1648474  	|
-  |              	|                  	|            	|
-  | 10000000     	| Partition        	| 0.1116033  	|
-  |              	| Single           	| 0.9240467 	|
-  |              	| Split            	| 1.7720802  	|
+    #### Vector
+
+    | Įrašų kiekis 	| Duomenų strukūra 	| Trukmė (s) 	|
+    |--------------	|------------------	|------------	|
+    | 1000         	| Partition        	| 0.0000196 	|
+    |              	| Single           	| 0.0001953  	|
+    |              	| Split            	| 0.0002674  	|
+    |              	|                  	|            	|
+    | 10000        	| Partition        	| 0.0000765 	|
+    |              	| Single           	| 0.0019678  	|
+    |              	| Split            	| 0.0019813  	|
+    |              	|                  	|            	|
+    | 100000       	| Partition        	| 0.0014179 	|
+    |              	| Single           	| 0.0105016  	|
+    |              	| Split            	| 0.0179358  	|
+    |              	|                  	|            	|
+    | 1000000     	| Partition        	| 0.0133609 	|
+    |              	| Single           	| 0.0911167  	|
+    |              	| Split            	| 0.1648474  	|
+    |              	|                  	|            	|
+    | 10000000     	| Partition        	| 0.1116033  	|
+    |              	| Single           	| 0.9240467 	|
+    |              	| Split            	| 1.7720802  	|
+
+    #### Deque
+
+    | Įrašų kiekis 	| Duomenų strukūra 	| Trukmė (s) 	|
+    |--------------	|------------------	|------------	|
+    | 1000         	| Partition        	| 0.0000283 	|
+    |              	| Single           	| 0.0000441 	|
+    |              	| Split            	| 0.0000981  	|
+    |              	|                  	|            	|
+    | 10000        	| Partition        	| 0.0002024 	|
+    |              	| Single           	| 0.0003569  	|
+    |              	| Split            	| 0.0008617  	|
+    |              	|                  	|            	|
+    | 100000       	| Partition        	| 0.0015194 	|
+    |              	| Single           	| 0.0060992  	|
+    |              	| Split            	| 0.0085026 	|
+    |              	|                  	|            	|
+    | 1000000     	| Partition        	| 0.0192062 	|
+    |              	| Single           	| 0.0724808  	|
+    |              	| Split            	| 0.0735761  	|
+    |              	|                  	|            	|
+    | 10000000     	| Partition        	| 0.1705511  	|
+    |              	| Single           	| 0.6913876 	|
+    |              	| Split            	| 0.7532513  	|
+
+    #### List
+
+    | Įrašų kiekis 	| Duomenų strukūra 	| Trukmė (s) 	|
+    |--------------	|------------------	|------------	|
+    | 1000         	| Find if         	| 0.0000196 	|
+    |              	| Single           	| 0.0001953  	|
+    |              	| Split            	| 0.0002674  	|
+    |              	|                  	|            	|
+    | 10000        	| Find if         	| 0.0000765 	|
+    |              	| Single           	| 0.0019678  	|
+    |              	| Split            	| 0.0019813  	|
+    |              	|                  	|            	|
+    | 100000       	| Find if         	| 0.0014179 	|
+    |              	| Single           	| 0.0105016  	|
+    |              	| Split            	| 0.0179358  	|
+    |              	|                  	|            	|
+    | 1000000     	| Find if         	| 0.0133609 	|
+    |              	| Single           	| 0.0911167  	|
+    |              	| Split            	| 0.1648474  	|
+    |              	|                  	|            	|
+    | 10000000     	| Find if         	| 0.1116033  	|
+    |              	| Single           	| 0.9240467 	|
+    |              	| Split            	| 1.7720802  	|
 
   #### Testavimo rezultatai
 
-  **Partition** metodas buvo greičiausias atskiriant vektorius į dvi grupes, kadangi susiskirstymas buvo atliekamas originaliame vektoriuje, tad programa neužtruko laiko dirbdama su nauju vektoriumi.
-  **Originalus ir naujas konteineris** metodas buvo 9 kartus lėtesnis už **Partition**, kadangi buvo dirbama su vienu nauju vektoriumi į kurį buvo kopijuojami duomenys atitinkantys sąlygas ir trinami iš originalaus vektoriaus.
-  **Du nauji konteineraiai** metodas buvo 2 kartus lėtesnis už **Originalus ir naujas konteineris**, kadangi buvo dirbama su dviejais naujais vektoriais į kuriuos buvo perkeliami duomenys.
+    #### Vector
 
-  **Atskyrimo į dvi grupes greitis**:
-   1. Partition
-   2. Originalus ir naujas konteineris
-   3. Du nauji konteineraiai
+    **Partition** metodas buvo greičiausias atskiriant vektorius į dvi grupes, kadangi susiskirstymas buvo atliekamas originaliame vektoriuje, tad programa neužtruko laiko dirbdama su nauju vektoriumi.
+    **Originalus ir naujas konteineris** metodas buvo 9 kartus lėtesnis už **Partition**, kadangi buvo dirbama su vienu nauju vektoriumi į kurį buvo kopijuojami duomenys atitinkantys sąlygas ir trinami iš originalaus vektoriaus.
+    **Du nauji konteineraiai** metodas buvo 2 kartus lėtesnis už **Originalus ir naujas konteineris**, kadangi buvo dirbama su dviejais naujais vektoriais į kuriuos buvo perkeliami duomenys.
+
+    **Atskyrimo į dvi grupes greitis**:
+    1. Partition metodas
+    2. Originalus ir naujas konteineris
+    3. Du nauji konteineraiai
+  
+    #### Deque
+
+    **Partition** metodas buvo greičiausias atskiriant vektorius į dvi grupes, kadangi susiskirstymas buvo atliekamas originaliame vektoriuje, tad programa neužtruko laiko dirbdama su nauju vektoriumi.
+    **Originalus ir naujas konteineris** metodas buvo 9 kartus lėtesnis už **Partition**, kadangi buvo dirbama su vienu nauju vektoriumi į kurį buvo kopijuojami duomenys atitinkantys sąlygas ir trinami iš originalaus vektoriaus.
+    **Du nauji konteineraiai** metodas buvo 2 kartus lėtesnis už **Originalus ir naujas konteineris**, kadangi buvo dirbama su dviejais naujais vektoriais į kuriuos buvo perkeliami duomenys.
+
+    **Atskyrimo į dvi grupes greitis**:
+    1. Partition metodas
+    2. Originalus ir naujas konteineris
+    3. Du nauji konteineraiai
+  
+    #### List
+
+    **Partition** metodas buvo greičiausias atskiriant vektorius į dvi grupes, kadangi susiskirstymas buvo atliekamas originaliame vektoriuje, tad programa neužtruko laiko dirbdama su nauju vektoriumi.
+    **Originalus ir naujas konteineris** metodas buvo 9 kartus lėtesnis už **Partition**, kadangi buvo dirbama su vienu nauju vektoriumi į kurį buvo kopijuojami duomenys atitinkantys sąlygas ir trinami iš originalaus vektoriaus.
+    **Du nauji konteineraiai** metodas buvo 2 kartus lėtesnis už **Originalus ir naujas konteineris**, kadangi buvo dirbama su dviejais naujais vektoriais į kuriuos buvo perkeliami duomenys.
+
+    **Atskyrimo į dvi grupes greitis**:
+    1. Find if metodas
+    2. Originalus ir naujas konteineris
+    3. Du nauji konteineraiai
