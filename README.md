@@ -272,6 +272,11 @@ Apskaičiavus gautinius įvestų studentų balus, programa išveda duomenis į f
   
   ### Skirtingų atskirimo metodų palyginimas
 
+    * Partition - metodas vector ir deque konteinerių tipams.
+    * Find if - metodas list konteinerių tipui.
+    * Single - originalus ir naujas konteineris.
+    * Split - du nauji konteineraiai.
+
     #### Vector
 
     | Įrašų kiekis 	| Duomenų strukūra 	| Trukmė (s) 	|
@@ -324,25 +329,25 @@ Apskaičiavus gautinius įvestų studentų balus, programa išveda duomenis į f
 
     | Įrašų kiekis 	| Duomenų strukūra 	| Trukmė (s) 	|
     |--------------	|------------------	|------------	|
-    | 1000         	| Find if         	| 0.0000196 	|
-    |              	| Single           	| 0.0001953  	|
-    |              	| Split            	| 0.0002674  	|
+    | 1000         	| Find if         	| 0.0002126 	|
+    |              	| Single           	| 0.0000829  	|
+    |              	| Split            	| 0.0000845  	|
     |              	|                  	|            	|
-    | 10000        	| Find if         	| 0.0000765 	|
-    |              	| Single           	| 0.0019678  	|
-    |              	| Split            	| 0.0019813  	|
+    | 10000        	| Find if         	| 0.0013825 	|
+    |              	| Single           	| 0.0008285  	|
+    |              	| Split            	| 0.0009435  	|
     |              	|                  	|            	|
-    | 100000       	| Find if         	| 0.0014179 	|
-    |              	| Single           	| 0.0105016  	|
-    |              	| Split            	| 0.0179358  	|
+    | 100000       	| Find if         	| 0.0333887 	|
+    |              	| Single           	| 0.0103249  	|
+    |              	| Split            	| 0.0113262  	|
     |              	|                  	|            	|
-    | 1000000     	| Find if         	| 0.0133609 	|
-    |              	| Single           	| 0.0911167  	|
-    |              	| Split            	| 0.1648474  	|
+    | 1000000     	| Find if         	| 0.7193911 	|
+    |              	| Single           	| 0.1099722  	|
+    |              	| Split            	| 0.1050686  	|
     |              	|                  	|            	|
-    | 10000000     	| Find if         	| 0.1116033  	|
-    |              	| Single           	| 0.9240467 	|
-    |              	| Split            	| 1.7720802  	|
+    | 10000000     	| Find if         	| 10.702866  	|
+    |              	| Single           	| 1.1143877 	|
+    |              	| Split            	| 1.0205761  	|
 
   #### Testavimo rezultatai
 
@@ -359,9 +364,9 @@ Apskaičiavus gautinius įvestų studentų balus, programa išveda duomenis į f
   
     #### Deque
 
-    **Partition** metodas buvo greičiausias atskiriant vektorius į dvi grupes, kadangi susiskirstymas buvo atliekamas originaliame vektoriuje, tad programa neužtruko laiko dirbdama su nauju vektoriumi.
-    **Originalus ir naujas konteineris** metodas buvo 9 kartus lėtesnis už **Partition**, kadangi buvo dirbama su vienu nauju vektoriumi į kurį buvo kopijuojami duomenys atitinkantys sąlygas ir trinami iš originalaus vektoriaus.
-    **Du nauji konteineraiai** metodas buvo 2 kartus lėtesnis už **Originalus ir naujas konteineris**, kadangi buvo dirbama su dviejais naujais vektoriais į kuriuos buvo perkeliami duomenys.
+    **Partition** metodas buvo greičiausias atskiriant dekais į dvi grupes, kadangi susiskirstymas buvo atliekamas originaliame vektoriuje, tad programa neužtruko laiko dirbdama su nauju vektoriumi.
+    **Originalus ir naujas konteineris** metodas buvo 5 kartus lėtesnis už **Partition**, kadangi buvo dirbama su vienu nauju deku į kurį buvo kopijuojami duomenys atitinkantys sąlygas ir trinami iš originalaus vektoriaus.
+    **Du nauji konteineraiai** metodas buvo beceik identiškas **Originalus ir naujas konteineris**, nors buvo dirbama su dviejais naujais dekais į kuriuos buvo perkeliami duomenys.
 
     **Atskyrimo į dvi grupes greitis**:
     1. Partition metodas
@@ -370,11 +375,11 @@ Apskaičiavus gautinius įvestų studentų balus, programa išveda duomenis į f
   
     #### List
 
-    **Partition** metodas buvo greičiausias atskiriant vektorius į dvi grupes, kadangi susiskirstymas buvo atliekamas originaliame vektoriuje, tad programa neužtruko laiko dirbdama su nauju vektoriumi.
-    **Originalus ir naujas konteineris** metodas buvo 9 kartus lėtesnis už **Partition**, kadangi buvo dirbama su vienu nauju vektoriumi į kurį buvo kopijuojami duomenys atitinkantys sąlygas ir trinami iš originalaus vektoriaus.
-    **Du nauji konteineraiai** metodas buvo 2 kartus lėtesnis už **Originalus ir naujas konteineris**, kadangi buvo dirbama su dviejais naujais vektoriais į kuriuos buvo perkeliami duomenys.
+    **Originalus ir naujas konteineris** metodas buvo greičiausias, kadangi buvo dirbama su vienu nauju listu į kurį buvo kopijuojami duomenys atitinkantys sąlygas ir trinami iš originalaus vektoriaus.
+    **Du nauji konteineraiai** metodas beveik identiškas **Originalus ir naujas konteineris**, nors buvo dirbama su dviejais naujais listais į kuriuos buvo perkeliami duomenys.
+    **Find if** metodas buvo 10 kartų lėtesnis už **Originalus ir naujas konteineris**, kadangi buvo atliekamas naudojant daug sudėtingų operacijų bei rūšiavimą, kurie sunaudojo daug laiko.
 
     **Atskyrimo į dvi grupes greitis**:
-    1. Find if metodas
-    2. Originalus ir naujas konteineris
-    3. Du nauji konteineraiai
+    1. Originalus ir naujas konteineris
+    2. Du nauji konteineraiai
+    3. Find if metodas

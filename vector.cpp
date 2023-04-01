@@ -20,18 +20,18 @@ int main() {
     int strategy;
     bool choice = true;
 
-    while (choice) {
-        cout << "Pasirinkite strategija:\n" <<
-        "   1 - Du nauji konteineraiai\n" <<
-        "   2 - Originalus ir naujas konteineris\n" <<
-        "   3 - Partition metodas\n";
-        strategy = threeInput();
-
-        cout << "Skaitysite is failo(1) ar pildysite patys(0)?\n";
-        bool skaitymas = getBoolInput();
+    cout << "Skaitysite is failo(1) ar pildysite patys(0)?\n";
+    bool skaitymas = getBoolInput();
     
-        if (skaitymas) {
-            failoGeneravimas();
+    if (skaitymas) {
+        failoGeneravimas();
+
+        while (choice) {
+            cout << "Pasirinkite strategija:\n" <<
+            "   1 - Du nauji konteineraiai\n" <<
+            "   2 - Originalus ir naujas konteineris\n" <<
+            "   3 - Partition metodas\n";
+            strategy = threeInput();
 
             cout << "Skirstysime pagal vidurki(1) ar mediana(0)\n";
             bool rusiavimasChoice = getBoolInput();
@@ -39,7 +39,7 @@ int main() {
             try {
                 failoSkaitymas(grupe);
             }
-            catch (const exception &e) {}
+            catch (const exception &e) { break; }
 
             if (strategy == 1) {
                 cout << "Rusiuojama...\n";
@@ -56,17 +56,16 @@ int main() {
                 int partPoint = partitionIrSort(grupe, rusiavimasChoice);
                 failoIrasymas_3(grupe, partPoint);
             }
+            cout << "\nAr norite isbandyti dar viena strategija? (1 - Taip, 0 - Ne)\n";
+            choice = getBoolInput();
+            if (choice) {
+                system("make cleanres");
+            }
         }
-        else {
-            naudotojoIvestis(grupe);
-            grupe.clear();
-        }
-
-        cout << "\nAr norite isbandyti dar viena strategija? (1 - Taip, 0 - Ne)\n";
-        choice = getBoolInput();
-        if (choice) {
-            system("make cleanres");
-        }
+    }
+    else {
+        naudotojoIvestis(grupe);
+        grupe.clear();
     }
 }
 
