@@ -1,21 +1,22 @@
 #include "addFunctions.h"
 
 void failoGeneravimas();
-void failoSkaitymas(deque<studentas_d> &grupe);
-void failoIrasymas_1(deque<studentas_d> &saunuoliai, deque<studentas_d> &vargsai);
-void failoIrasymas_2(deque<studentas_d> &grupe, deque<studentas_d> &vargsai);
-void failoIrasymas_3(deque<studentas_d> &grupe, int partPoint);
-void splitIrSort(deque<studentas_d> &grupe, deque<studentas_d> &saunuoliai, 
-deque<studentas_d> &vargsai, bool rusiavimasChoice);
-void singleIrSort(deque<studentas_d> &grupe, deque<studentas_d> &vargsai, bool rusiavimasChoice);
-int partitionIrSort(deque<studentas_d> &grupe, bool rusiavimasChoice);
-bool varduPalyginimas(const studentas_d &a, const studentas_d &b);
+void failoSkaitymas(vector<studentas_v> &grupe);
+void failoIrasymas_1(vector<studentas_v> &saunuoliai, vector<studentas_v> &vargsai);
+void failoIrasymas_2(vector<studentas_v> &grupe, vector<studentas_v> &vargsai);
+void failoIrasymas_3(vector<studentas_v> &grupe, int partPoint);
+void splitIrSort(vector<studentas_v> &grupe, vector<studentas_v> &saunuoliai, 
+vector<studentas_v> &vargsai, bool rusiavimasChoice);
+void singleIrSort(vector<studentas_v> &grupe, vector<studentas_v> &vargsai, bool rusiavimasChoice);
+int partitionIrSort(vector<studentas_v> &grupe, bool rusiavimasChoice);
+bool varduPalyginimas(const studentas_v &a, const studentas_v &b);
 
 
 int main() {
-    deque<studentas_d> grupe;
-    deque<studentas_d> saunuoliai;
-    deque<studentas_d> vargsai;
+    vector<studentas_v> grupe;
+    vector<studentas_v> saunuoliai;
+    vector<studentas_v> vargsai;
+    
     int strategy;
     bool choice = true;
 
@@ -137,7 +138,7 @@ void failoGeneravimas() {
     }
 }
 
-void failoSkaitymas(deque<studentas_d> &grupe) {
+void failoSkaitymas(vector<studentas_v> &grupe) {
     system("ls *.txt");
     cout << "Iveskite failo pavadinima(is saraso):\n";
     string filename = getStringInput();
@@ -156,15 +157,20 @@ void failoSkaitymas(deque<studentas_d> &grupe) {
             auto pradzia = high_resolution_clock::now();
             cout << "\nFailas skaitomas...\n";
 
+            int talpa = 100000;
+            grupe.reserve(talpa);
+
             fin.readsome(buferis, bufDydis);
             int bytesRead = fin.gcount();
 
-            studentas_d laikinas;
+            studentas_v laikinas;
             int pazymys;
             string line;
             getline(fin, line);
 
             while(fin.peek() != EOF) {
+                if(grupe.size() == grupe.capacity()) grupe.reserve(talpa*10);
+
                 getline(fin, line);
                 stringstream ss(line);
                 ss >> laikinas.vardas >> laikinas.pavarde;
@@ -200,7 +206,7 @@ void failoSkaitymas(deque<studentas_d> &grupe) {
     }
 }
 
-void failoIrasymas_1(deque<studentas_d> &saunuoliai, deque<studentas_d> &vargsai) {
+void failoIrasymas_1(vector<studentas_v> &saunuoliai, vector<studentas_v> &vargsai) {
     const string filename_v = "vargsai.txt";
     const string filename_s = "saunuoliai.txt";
     ofstream fout_v(filename_v);
@@ -254,7 +260,7 @@ void failoIrasymas_1(deque<studentas_d> &saunuoliai, deque<studentas_d> &vargsai
     }
 }
 
-void failoIrasymas_2(deque<studentas_d> &grupe, deque<studentas_d> &vargsai) {
+void failoIrasymas_2(vector<studentas_v> &grupe, vector<studentas_v> &vargsai) {
     const string filename_v = "vargsai.txt";
     const string filename_s = "saunuoliai.txt";
     ofstream fout_v(filename_v);
@@ -308,7 +314,7 @@ void failoIrasymas_2(deque<studentas_d> &grupe, deque<studentas_d> &vargsai) {
     }
 }
 
-void failoIrasymas_3(deque<studentas_d> &grupe, int partPoint) {
+void failoIrasymas_3(vector<studentas_v> &grupe, int partPoint) {
     const string filename_v = "vargsai.txt";
     const string filename_s = "saunuoliai.txt";
     ofstream fout_v(filename_v);
@@ -363,9 +369,12 @@ void failoIrasymas_3(deque<studentas_d> &grupe, int partPoint) {
     }
 }
 
-void splitIrSort(deque<studentas_d> &grupe, deque<studentas_d> &saunuoliai, 
-deque<studentas_d> &vargsai, bool rusiavimasChoice) {
+void splitIrSort(vector<studentas_v> &grupe, vector<studentas_v> &saunuoliai, 
+vector<studentas_v> &vargsai, bool rusiavimasChoice) {
     auto pradzia_part = high_resolution_clock::now();
+
+    vargsai.reserve(grupe.size());
+    saunuoliai.reserve(grupe.size());
 
     if (rusiavimasChoice) {
         for(auto &i: grupe) {
@@ -402,16 +411,18 @@ deque<studentas_d> &vargsai, bool rusiavimasChoice) {
     grupe.clear();
 }
 
-void singleIrSort(deque<studentas_d> &grupe, deque<studentas_d> &vargsai, bool rusiavimasChoice) {
+void singleIrSort(vector<studentas_v> &grupe, vector<studentas_v> &vargsai, bool rusiavimasChoice) {
     auto pradzia_part = high_resolution_clock::now();
 
+    vargsai.reserve(grupe.size());
+
     if (rusiavimasChoice) {
-        copy_if(grupe.begin(), grupe.end(), back_inserter(vargsai), [](const studentas_d& a) { return a.galutinisVid < 5; });
-        grupe.erase(remove_if(grupe.begin(), grupe.end(), [](const studentas_d& a) { return a.galutinisVid < 5; }), grupe.end());
+        copy_if(grupe.begin(), grupe.end(), back_inserter(vargsai), [](const studentas_v& a) { return a.galutinisVid < 5; });
+        grupe.erase(remove_if(grupe.begin(), grupe.end(), [](const studentas_v& a) { return a.galutinisVid < 5; }), grupe.end());
     }
     else {
-        copy_if(grupe.begin(), grupe.end(), back_inserter(vargsai), [](const studentas_d& a) { return a.galutinisVid < 5; });
-        grupe.erase(remove_if(grupe.begin(), grupe.end(), [](const studentas_d& a) { return a.galutinisVid < 5; }), grupe.end());
+        copy_if(grupe.begin(), grupe.end(), back_inserter(vargsai), [](const studentas_v& a) { return a.galutinisVid < 5; });
+        grupe.erase(remove_if(grupe.begin(), grupe.end(), [](const studentas_v& a) { return a.galutinisVid < 5; }), grupe.end());
     }
     vargsai.shrink_to_fit();
 
@@ -429,15 +440,15 @@ void singleIrSort(deque<studentas_d> &grupe, deque<studentas_d> &vargsai, bool r
     cout << "Rusiavimas pagal vardus truko " << diff_sort.count() << " sekundes.\n";
 }
 
-int partitionIrSort(deque<studentas_d> &grupe, bool rusiavimasChoice) {
+int partitionIrSort(vector<studentas_v> &grupe, bool rusiavimasChoice) {
     auto it = grupe.begin();
 
     auto pradzia_part = high_resolution_clock::now();
     if (rusiavimasChoice) {
-        it = partition(grupe.begin(), grupe.end(), [](const studentas_d& s) { return s.galutinisVid < 5; });
+        it = partition(grupe.begin(), grupe.end(), [](const studentas_v& s) { return s.galutinisVid < 5; });
     }
     else {
-        it = partition(grupe.begin(), grupe.end(), [](const studentas_d& s) { return s.galutinisMed < 5; });
+        it = partition(grupe.begin(), grupe.end(), [](const studentas_v& s) { return s.galutinisMed < 5; });
     }
     auto pabaiga_part = high_resolution_clock::now();
 
@@ -455,7 +466,7 @@ int partitionIrSort(deque<studentas_d> &grupe, bool rusiavimasChoice) {
     return static_cast<int>(it - grupe.begin());
 }
 
-bool varduPalyginimas(const studentas_d &a, const studentas_d &b) {
+bool varduPalyginimas(const studentas_v &a, const studentas_v &b) {
     if (a.pavarde == b.pavarde)
         return a.vardas < b.vardas;
     else

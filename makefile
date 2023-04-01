@@ -2,9 +2,9 @@ CXX = g++
 CXXFLAGS = -std=c++20 -march=native -O3
 INSTALL_PATH = "./"
 
-SRC_FILES = main.cpp addFunctions.cpp split.cpp single.cpp partition.cpp
+SRC_FILES = main.cpp addFunctions.cpp vector.cpp deque.cpp list.cpp
 OBJ_FILES = $(SRC_FILES:.cpp=.o)
-BIN_FILES = main split single partition
+BIN_FILES = main vector deque list
 
 .PHONY: all clean install
 
@@ -28,14 +28,12 @@ main: addFunctions.o
 	g++ -std=c++20 -march=native -O3 main.cpp -o main addFunctions.o
 addFunctions:
 	g++ -c addFunctions.cpp
-split: addFunctions.o
-	g++ -std=c++20 -march=native -O3 split.cpp -o split addFunctions.o
-single: addFunctions.o
-	g++ -std=c++20 -march=native -O3 single.cpp -o single addFunctions.o
-partition: addFunctions.o
-	g++ -std=c++20 -march=native -O3 partition.cpp -o partition addFunctions.o
-clean:
-	rm *.o main partition single split vargsai.txt saunuoliai.txt
+vector: addFunctions.o
+	g++ -std=c++20 -march=native -O3 vector.cpp -o vector addFunctions.o
+deque: addFunctions.o
+	g++ -std=c++20 -march=native -O3 deque.cpp -o deque addFunctions.o
+list: addFunctions.o
+	g++ -std=c++20 -march=native -O3 list.cpp -o list addFunctions.o
 cleanres:
 	rm vargsai.txt saunuoliai.txt
 txt:

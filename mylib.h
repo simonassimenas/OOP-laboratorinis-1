@@ -67,8 +67,18 @@ using std::remove_if;
 using std::copy_if;
 
 
-struct studentas {
+struct studentas_v {
     string vardas = "", pavarde = "";
     double galutinisVid = 0, galutinisMed = 0;
     vector<int> paz_vec;
+};
+struct studentas_d {
+    string vardas = "", pavarde = "";
+    double galutinisVid = 0, galutinisMed = 0;
+    deque<int> paz_vec;
+};
+struct studentas_l {
+    string vardas = "", pavarde = "";
+    double galutinisVid = 0, galutinisMed = 0;
+    list<int> paz_vec;
 };

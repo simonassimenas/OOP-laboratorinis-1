@@ -1,47 +1,71 @@
 #include "addFunctions.h"
 
-
 void failoGeneravimas();
-void failoSkaitymas(list<studentas> &grupe);
-void failoIrasymas(list<studentas> &grupe, int partPoint);
-int partitionIrSort(list<studentas> &grupe, bool rusiavimasChoice);
-bool regexPalyginimas(const studentas& a, const studentas& b);
-bool varduPalyginimas(const studentas &a, const studentas &b);
-bool vidPalyginimas(const studentas &a, const studentas &b);
-bool medPalyginimas(const studentas &a, const studentas &b);
-int randomSkaicius();
-double skaicVid(list<int> &paz_vec);
-double skaicMed(list<int> &paz_vec);
-void naudotojoIvestis(list<studentas> &grupe);
-void pild(studentas &temp);
+void failoSkaitymas(list<studentas_l> &grupe);
+void failoIrasymas_1(list<studentas_l> &saunuoliai, list<studentas_l> &vargsai);
+void failoIrasymas_2(list<studentas_l> &grupe, list<studentas_l> &vargsai);
+void failoIrasymas_3(list<studentas_l> &grupe, int partPoint);
+void splitIrSort(list<studentas_l> &grupe, list<studentas_l> &saunuoliai, 
+list<studentas_l> &vargsai, bool rusiavimasChoice);
+void singleIrSort(list<studentas_l> &grupe, list<studentas_l> &vargsai, bool rusiavimasChoice);
+int findifIrSort(list<studentas_l> &grupe, bool rusiavimasChoice);
+bool varduPalyginimas(const studentas_l &a, const studentas_l &b);
 
 
 int main() {
-    list<studentas> grupe;
+    list<studentas_l> grupe;
+    list<studentas_l> saunuoliai;
+    list<studentas_l> vargsai;
+    int strategy;
+    bool choice = true;
 
-    cout << "Skaitysite is failo(1) ar pildysite patys(0)?\n";
-    bool skaitymas = getBoolInput();
+    while (choice) {
+        cout << "Pasirinkite strategija:\n" <<
+        "   1 - Du nauji konteineraiai\n" <<
+        "   2 - Originalus ir naujas konteineris\n" <<
+        "   3 - Findif metodas\n";
+        strategy = threeInput();
+
+        cout << "Skaitysite is failo(1) ar pildysite patys(0)?\n";
+        bool skaitymas = getBoolInput();
     
-    if (skaitymas) {
-        failoGeneravimas();
+        if (skaitymas) {
+            failoGeneravimas();
 
-        cout << "Skirstysime pagal vidurki(1) ar mediana(0)\n";
-        bool rusiavimasChoice = getBoolInput();
+            cout << "Skirstysime pagal vidurki(1) ar mediana(0)\n";
+            bool rusiavimasChoice = getBoolInput();
 
-        try {
-            failoSkaitymas(grupe);
+            try {
+                failoSkaitymas(grupe);
+            }
+            catch (const exception &e) {}
+
+            switch (strategy) {
+                case 1:
+                    cout << "Rusiuojama...\n";
+                    splitIrSort(grupe, saunuoliai, vargsai, rusiavimasChoice);
+                    failoIrasymas_1(saunuoliai, vargsai);
+                case 2:
+                    cout << "Rusiuojama...\n";
+                    singleIrSort(grupe, vargsai, rusiavimasChoice);
+                    failoIrasymas_2(grupe, vargsai);
+                case 3:
+                    cout << "Rusiuojama...\n";
+                    int partPoint = findifIrSort(grupe, rusiavimasChoice);
+                    failoIrasymas_3(grupe, partPoint);
+            }
         }
-        catch (const exception &e) {}
+        else {
+            naudotojoIvestis(grupe);
+            grupe.clear();
+        }
 
-        cout << "Rusiuojama...\n";
-        int partPoint = partitionIrSort(grupe, rusiavimasChoice);
-        failoIrasymas(grupe, partPoint);
+        cout << "\nAr norite isbandyti dar viena strategija? (1 - Taip, 0 - Ne)\n";
+        choice = getBoolInput();
+        if (choice) {
+            system("make cleanres");
+        }
     }
-    else {
-        naudotojoIvestis(grupe);
-    }
-
-    grupe.clear();
 }
 
 void failoGeneravimas() {
@@ -113,7 +137,7 @@ void failoGeneravimas() {
     }
 }
 
-void failoSkaitymas(list<studentas> &grupe) {
+void failoSkaitymas(list<studentas_l> &grupe) {
     system("ls *.txt");
     cout << "Iveskite failo pavadinima(is saraso):\n";
     string filename = getStringInput();
@@ -132,20 +156,15 @@ void failoSkaitymas(list<studentas> &grupe) {
             auto pradzia = high_resolution_clock::now();
             cout << "\nFailas skaitomas...\n";
 
-            int talpa = 100000;
-            // grupe.reserve(talpa);
-
             fin.readsome(buferis, bufDydis);
             int bytesRead = fin.gcount();
 
-            studentas laikinas;
+            studentas_l laikinas;
             int pazymys;
             string line;
             getline(fin, line);
 
             while(fin.peek() != EOF) {
-                // if(grupe.size() == grupe.capacity()) grupe.reserve(talpa*10);
-
                 getline(fin, line);
                 stringstream ss(line);
                 ss >> laikinas.vardas >> laikinas.pavarde;
@@ -181,7 +200,115 @@ void failoSkaitymas(list<studentas> &grupe) {
     }
 }
 
-void failoIrasymas(list<studentas>& grupe, int partPoint) {
+void failoIrasymas_1(list<studentas_l> &saunuoliai, list<studentas_l> &vargsai) {
+    const string filename_v = "vargsai.txt";
+    const string filename_s = "saunuoliai.txt";
+    ofstream fout_v(filename_v);
+    ofstream fout_s(filename_s);
+
+    try {
+        if (!fout_v.is_open()) {
+            throw runtime_error("Nepavyko sukurti failo " + filename_v + " irasymui.");
+        }
+        if (!fout_s.is_open()) {
+            throw runtime_error("Nepavyko sukurti failo " + filename_s + " irasymui.");
+        }
+        else {
+            cout << "\nRasoma i failus...\n";
+            auto pradzia = high_resolution_clock::now();
+
+            fout_v << left << setw(15) << "Vardas" << setw(20) << "Pavarde" 
+                << setw(18) << "Galutinis (Vid.) / " << setw(16) << "Galutinis (Med.)\n";
+
+            fout_v << string(70, '-') << "\n";
+            fout_s << left << setw(15) << "Vardas" << setw(20) << "Pavarde" 
+                << setw(18) << "Galutinis (Vid.) / " << setw(16) << "Galutinis (Med.)\n";
+
+            fout_s << string(70, '-') << "\n";
+
+            for (auto &temp: vargsai) {
+                fout_v << left << setw(15) << temp.vardas << setw(21) << temp.pavarde 
+                    << setw(19) << fixed << setprecision(2) << temp.galutinisVid 
+                    << setw(20) << fixed << setprecision(2) << temp.galutinisMed << "\n";
+            }
+            for (auto &temp: saunuoliai) {
+                fout_s << left << setw(15) << temp.vardas << setw(21) << temp.pavarde 
+                    << setw(19) << fixed << setprecision(2) << temp.galutinisVid 
+                    << setw(20) << fixed << setprecision(2) << temp.galutinisMed << "\n";
+            }
+
+            fout_v.close();
+            fout_s.close();
+
+            auto pabaiga = high_resolution_clock::now();
+
+            duration<double> diff = pabaiga - pradzia;
+            cout << "Rasymas i failus truko " << diff.count() << " sekundes.\n";
+
+            saunuoliai.clear();
+            vargsai.clear();
+        }
+    }
+    catch (const exception &e) {
+        cout << "Klaida: " << e.what() << "\n";
+    }
+}
+
+void failoIrasymas_2(list<studentas_l> &grupe, list<studentas_l> &vargsai) {
+    const string filename_v = "vargsai.txt";
+    const string filename_s = "saunuoliai.txt";
+    ofstream fout_v(filename_v);
+    ofstream fout_s(filename_s);
+
+    try {
+        if (!fout_v.is_open()) {
+            throw runtime_error("Nepavyko sukurti failo " + filename_v + " irasymui.");
+        }
+        if (!fout_s.is_open()) {
+            throw runtime_error("Nepavyko sukurti failo " + filename_s + " irasymui.");
+        }
+        else {
+            cout << "\nRasoma i failus...\n";
+            auto pradzia = high_resolution_clock::now();
+
+            fout_v << left << setw(15) << "Vardas" << setw(20) << "Pavarde" 
+                << setw(18) << "Galutinis (Vid.) / " << setw(16) << "Galutinis (Med.)\n";
+
+            fout_v << string(70, '-') << "\n";
+            fout_s << left << setw(15) << "Vardas" << setw(20) << "Pavarde" 
+                << setw(18) << "Galutinis (Vid.) / " << setw(16) << "Galutinis (Med.)\n";
+
+            fout_s << string(70, '-') << "\n";
+
+            for (auto &temp: vargsai) {
+                fout_v << left << setw(15) << temp.vardas << setw(21) << temp.pavarde 
+                    << setw(19) << fixed << setprecision(2) << temp.galutinisVid 
+                    << setw(20) << fixed << setprecision(2) << temp.galutinisMed << "\n";
+            }
+            for (auto &temp: grupe) {
+                fout_s << left << setw(15) << temp.vardas << setw(21) << temp.pavarde 
+                    << setw(19) << fixed << setprecision(2) << temp.galutinisVid 
+                    << setw(20) << fixed << setprecision(2) << temp.galutinisMed << "\n";
+            }
+
+            fout_v.close();
+            fout_s.close();
+
+            auto pabaiga = high_resolution_clock::now();
+
+            duration<double> diff = pabaiga - pradzia;
+            cout << "Rasymas i failus truko " << diff.count() << " sekundes.\n";
+
+            grupe.clear();
+            vargsai.clear();
+        }
+    }
+    catch (const exception &e) {
+        cout << "Klaida: " << e.what() << "\n";
+    }
+}
+
+void failoIrasymas_3(list<studentas_l>& grupe, int partPoint) {
     const string filename_v = "vargsai.txt";
     const string filename_s = "saunuoliai.txt";
     ofstream fout_v(filename_v);
@@ -240,31 +367,85 @@ void failoIrasymas(list<studentas>& grupe, int partPoint) {
     }
 }
 
-int partitionIrSort(list<studentas> &grupe, bool rusiavimasChoice) {
-    auto it = grupe.begin();
+void splitIrSort(list<studentas_l> &grupe, list<studentas_l> &saunuoliai, 
+list<studentas_l> &vargsai, bool rusiavimasChoice) {
+    auto pradzia_part = high_resolution_clock::now();
 
-    auto pradzia_sort_sk = high_resolution_clock::now();
     if (rusiavimasChoice) {
-        grupe.sort(vidPalyginimas);
+        for(auto &i: grupe) {
+            if (i.galutinisVid < 5)
+                vargsai.push_back(i);
+            else
+                saunuoliai.push_back(i);
+        }
     }
     else {
-        grupe.sort(medPalyginimas);
+        for(auto &i: grupe) {
+            if (i.galutinisMed < 5)
+                vargsai.push_back(i);
+            else
+                saunuoliai.push_back(i);
+        }
     }
-    auto pabaiga_sort_sk = high_resolution_clock::now();
+
+    auto pabaiga_part = high_resolution_clock::now();
+
+    auto pradzia_sort = high_resolution_clock::now();
+    saunuoliai.sort(varduPalyginimas);
+    vargsai.sort(varduPalyginimas);
+    auto pabaiga_sort = high_resolution_clock::now();
+
+    duration<double> diff_part = pabaiga_part - pradzia_part;
+    duration<double> diff_sort = pabaiga_sort - pradzia_sort;
+    
+    cout << "\nAtskyrimas truko " << diff_part.count() << " sekundes.\n";
+    cout << "Rusiavimas pagal vardus truko " << diff_sort.count() << " sekundes.\n";
+
+    grupe.clear();
+}
+
+void singleIrSort(list<studentas_l> &grupe, list<studentas_l> &vargsai, bool rusiavimasChoice) {
+    auto pradzia_part = high_resolution_clock::now();
+
+    if (rusiavimasChoice) {
+        copy_if(grupe.begin(), grupe.end(), back_inserter(vargsai), [](const studentas_l& a) { return a.galutinisVid < 5; });
+        grupe.erase(remove_if(grupe.begin(), grupe.end(), [](const studentas_l& a) { return a.galutinisVid < 5; }), grupe.end());
+    }
+    else {
+        copy_if(grupe.begin(), grupe.end(), back_inserter(vargsai), [](const studentas_l& a) { return a.galutinisVid < 5; });
+        grupe.erase(remove_if(grupe.begin(), grupe.end(), [](const studentas_l& a) { return a.galutinisVid < 5; }), grupe.end());
+    }
+
+    auto pabaiga_part = high_resolution_clock::now();
+
+    auto pradzia_sort = high_resolution_clock::now();
+    grupe.sort(varduPalyginimas);
+    vargsai.sort(varduPalyginimas);
+    auto pabaiga_sort = high_resolution_clock::now();
+
+    duration<double> diff_part = pabaiga_part - pradzia_part;
+    duration<double> diff_sort = pabaiga_sort - pradzia_sort;
+    
+    cout << "\nAtskyrimas truko " << diff_part.count() << " sekundes.\n";
+    cout << "Rusiavimas pagal vardus truko " << diff_sort.count() << " sekundes.\n";
+}
+
+int findifIrSort(list<studentas_l> &grupe, bool rusiavimasChoice) {
+    auto it = grupe.begin();
 
     auto pradzia_part = high_resolution_clock::now();
     if (rusiavimasChoice) {
-        it = find_if(grupe.begin(), grupe.end(), [](const studentas& s) { return s.galutinisVid >= 5; });
+        it = find_if(grupe.begin(), grupe.end(), [](const studentas_l& s) { return s.galutinisVid >= 5; });
     }
     else {
-        it = find_if(grupe.begin(), grupe.end(), [](const studentas& s) { return s.galutinisMed >= 5; });
+        it = find_if(grupe.begin(), grupe.end(), [](const studentas_l& s) { return s.galutinisMed >= 5; });
     }
     auto pabaiga_part = high_resolution_clock::now();
 
     auto pradzia_sort = high_resolution_clock::now();
-    list<studentas> vargsai(grupe.begin(), it);
-    list<studentas> saunuoliai(it, grupe.end());
-    //grupe.clear();
+    list<studentas_l> vargsai(grupe.begin(), it);
+    list<studentas_l> saunuoliai(it, grupe.end());
+
     vargsai.sort(varduPalyginimas);
     saunuoliai.sort(varduPalyginimas);
     grupe.splice(grupe.begin(), vargsai);
@@ -272,146 +453,18 @@ int partitionIrSort(list<studentas> &grupe, bool rusiavimasChoice) {
     grupe.splice(grupe.end(), saunuoliai);
     auto pabaiga_sort = high_resolution_clock::now();
 
-    duration<double> diff_sort_sk = pabaiga_sort_sk - pradzia_sort_sk;
     duration<double> diff_part = pabaiga_part - pradzia_part;
     duration<double> diff_sort = pabaiga_sort - pradzia_sort;
 
-    cout << "\nRusiavimas pagal galutini bala truko " << diff_sort_sk.count() << " sekundes.\n";
     cout << "Atskyrimas truko " << diff_part.count() << " sekundes.\n";
     cout << "Rusiavimas pagal vardus truko " << diff_sort.count() << " sekundes.\n";
     
     return dist;
 }
 
-bool varduPalyginimas(const studentas &a, const studentas &b) {
+bool varduPalyginimas(const studentas_l &a, const studentas_l &b) {
     if (a.pavarde == b.pavarde)
         return a.vardas < b.vardas;
     else
         return a.pavarde < b.pavarde;
-}
-
-bool medPalyginimas(const studentas &a, const studentas &b) {
-    return a.galutinisMed < b.galutinisMed;
-}
-
-bool vidPalyginimas(const studentas &a, const studentas &b) {
-    return a.galutinisVid < b.galutinisVid;
-}
-
-int randomSkaicius() {
-    random_device rd;
-    mt19937_64 mt(static_cast<long unsigned int> (rd()));
-    uniform_int_distribution<int> dist(0, 10);
-
-    return int(dist(mt));
-}
-
-double skaicVid(list<int> &paz_vec) {
-    double sum = accumulate(paz_vec.begin(),paz_vec.end(), 0);
-    return double(sum / paz_vec.size());
-}
-
-double skaicMed(list<int>& paz_vec) {
-    paz_vec.sort();
-
-    size_t size = paz_vec.size();
-
-    if (size % 2 == 0) {
-      return double((*(next(paz_vec.begin(), size/2 - 1)) + *(next(paz_vec.begin(), size/2))) / 2);
-    }
-    else {
-      return double(*(next(paz_vec.begin(), size / 2)));
-    }
-}
-
-void naudotojoIvestis(list<studentas> &grupe) {
-    studentas laikinas;
-    
-    string outputPasirinkimas;
-    bool pildyti;
-    int talpa = 16;
-
-    // grupe.reserve(talpa);
-
-    cout << "Skaiciuosime vidurki(v), mediana(m) ar abu(a)?\n";
-    outputPasirinkimas = getChoiceInput();
-
-    cout << "Ar norite pildyti irasa? (1 - Taip, 0 - Ne)\n";
-    pildyti = getBoolInput();
-
-    while(pildyti) {
-        // if(grupe.size() == grupe.capacity()) grupe.reserve(talpa*2);
-
-        pild(laikinas);
-        grupe.push_back(laikinas);
-
-        cout << "Ar norite pildyti dar viena irasa? (1 - Taip, 0 - Ne)\n";
-        pildyti = getBoolInput();
-    }
-    // grupe.shrink_to_fit();
-
-    output_template();
-    for (auto it = grupe.begin(); it != grupe.end(); ++it) {
-    spausd(*it, outputPasirinkimas);
-}
-}
-
-void pild(studentas &temp) {
-    cout << "Iveskite varda:\n";
-    temp.vardas = getStringInput();
-
-    cout << "Iveskite pavarde:\n";
-    temp.pavarde = getStringInput();
-
-    cout << "Rankinis pazymiu ivedimas(1) arba automatinis generavimas(0)?\n";
-    bool rankinis = getBoolInput();
-
-    list<int> nd_vec;
-    int resSpace = 16;
-    // nd_vec.reserve(resSpace);
-    int inputOrNum;
-    int egz;
-
-    if(rankinis) {
-        cout << "Iveskite pazymius. Tam kad sustabdyti ivedima parasykite 33:\n";
-        do {
-            inputOrNum = gradeInput();
-            if(inputOrNum == 33) break;
-
-            // if(nd_vec.size() == nd_vec.capacity()) nd_vec.reserve(resSpace*2);
-
-            nd_vec.push_back(inputOrNum);
-
-        } while(cin.eofbit);
-
-        // nd_vec.shrink_to_fit();
-
-        cout << "Iveskite egzamino paz.:\n";
-        egz = gradeInput();
-    }
-
-    else {
-        cout << "Iveskite pazymiu skaiciu (egzamino pazymys neieina i nurodyta skaiciu):\n";
-        inputOrNum = autoGradeInput();
-
-        int tempNum;
-        for(int i=0; i<inputOrNum; i++) {
-            tempNum = randomSkaicius();
-            nd_vec.push_back(tempNum); 
-        }
-        egz = randomSkaicius();
-    }
-
-    if (nd_vec.size() != 0) {
-        temp.galutinisVid = 0.4 * (skaicVid(nd_vec)) + 0.6 * egz;
-        temp.galutinisMed = 0.4 * (skaicMed(nd_vec)) + 0.6 * egz;
-    }
-    else {
-        temp.galutinisVid = 0.6 * egz;
-        temp.galutinisMed = 0.6 * egz;
-    }
-
-    nd_vec.clear();
-
-    cout << "---Duomenys irasyti---\n";
 }

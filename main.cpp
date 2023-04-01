@@ -1,41 +1,32 @@
 #include "addFunctions.h"
 
 int main() {
-    int strategy;
+    int container;
     bool choice = true;
-    // bool flag_part = false;
-    // bool flag_single = false;
-    // bool flag_split = false;
 
     while (choice) {
-        cout << "Pasirinkite strategija:\n" <<
-        "   1 - Du nauji konteineraiai\n" <<
-        "   2 - Originalus ir naujas konteineris\n" <<
-        "   3 - Partition metodas\n";
-        strategy = strategyInput();
+        cout << "Pasirinkite konteinerio tipa:\n" <<
+        "   1 - Vector\n" <<
+        "   2 - Deque\n" <<
+        "   3 - List\n";
+        container = threeInput();
 
-        switch (strategy) {
+        switch (container) {
         case 1:
-            cout << "\nPrograma uzkraunama...\n";
-            // if (!flag_part)
-            //     system("make split");
-            system("./split");
+            cout << "\nPrograma paleidziama...\n";
+            system("./vector");
             break;
         case 2:
-            cout << "\nPrograma uzkraunama...\n";
-            // if (!flag_single)
-            //     system("make single");
-            system("./single");
+            cout << "\nPrograma paleidziama...\n";
+            system("./deque");
             break;
         case 3:
-            cout << "\nPrograma uzkraunama...\n";
-            // if (!flag_split)
-            //     system("make partition");
-            system("./partition");
+            cout << "\nPrograma paleidziama...\n";
+            system("./list");
             break;
         }
 
-        cout << "\nAr norite isbandyti dar viena strategija? (1 - Taip, 0 - Ne)\n";
+        cout << "\nAr norite isbandyti kita konteinerio tipa? (1 - Taip, 0 - Ne)\n";
         choice = getBoolInput();
         if (choice) {
             system("make cleanres");
